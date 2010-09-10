@@ -1,0 +1,14 @@
+{
+  "name": "Nakamashi RIL",
+  "version": "1.0",
+  "description": "Unnoficial Read It Later Extension for Google Chrome",
+  "background_page": "background.html",
+  "options_page": "options.html", 
+  "browser_action": {
+    "default_icon": "icon.png",
+     "default_popup": "popup.html"
+  },
+  "permissions": [
+    "https://readitlaterlist.com/"
+  ]
+}

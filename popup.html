@@ -1,0 +1,15 @@
+<!--api key= 158guBdkp52ePOcF54T3c16Qf2Akl517-->
+
+<html>
+	<script>
+		function load_mylist(){
+			var bgPage = chrome.extension.getBackgroundPage();
+			bgPage.get();
+
+		}	
+	</script>	
+	<body onload="load_mylist()">
+		<span onclick="add()">Add</span><br/>
+		<span onclick="my_list()">My List</span><br/>
+	</body>
+</html>

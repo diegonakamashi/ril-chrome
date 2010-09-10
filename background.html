@@ -1,0 +1,51 @@
+<html>
+	<script>
+		
+		function add(url){
+			var xhr = new XMLHttpRequest();		
+			var url = "https://readitlaterlist.com/v2/add?"+
+					"username="+localStorage["rilName"]+
+					"&password="+localStorage["rilPassword"]+
+					"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517"+
+					"&url=http://google.com&title=Google";
+			xhr.open("GET", url, false);
+			xhr.send(null);
+		}
+		
+
+		function get(){
+			var xhr = new XMLHttpRequest();
+			var url = "https://readitlaterlist.com/v2/get";
+			var params = 	"state=0"+
+					"&password="+localStorage["rilPassword"]+
+					"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517"+
+					"&state=0"+	
+					"&username="+localStorage["rilName"];
+			xhr.open("POST", url, false);			
+			xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhr.setRequestHeader("Content-length", params.length);
+			xhr.setRequestHeader("Connection", "close");			
+			xhr.send(params);	
+			//verificar o status da resposta
+			return parse_list(xhr.responseText);
+		}
+		
+		function parse_list(resp){
+			
+			//resp = resp.replace("\"list\":{", "\"list\":[");
+			//resp = resp.replace("},\"since\":", "],\"since\":");
+			var obj = JSON.parse(resp);  
+			var list = obj.list;
+			var list_s = JSON.stringify(list);
+			list_s;
+			list_s = list_s.replace("{", "{\"list\" : [");
+			list_s = list_s.replace("}}", "}]}");
+			
+			
+			var list_obj = JSON.parse(list_s);
+			
+			list_obj;
+			
+		}
+	</script>	
+</html>

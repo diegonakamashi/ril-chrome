@@ -1,0 +1,29 @@
+<html>
+	<script type="text/javascript" language="javascript" charset="utf-8">
+		function save_options(){
+			var name = document.getElementById("ril_name").value;
+			var password = document.getElementById("ril_password").value;
+			localStorage["rilName"] = name;
+			localStorage["rilPassword"] = password;			
+		}		
+		
+		function try_to_fill(){
+			if(localStorage["rilName"]){
+				document.getElementById("ril_name").value = localStorage["rilName"];
+			}
+			
+			if(localStorage["rilPassword"]){
+				password = document.getElementById("ril_password").value = localStorage["rilPassword"];
+			}
+		}
+		
+		try_to_fill();
+		
+	</script>
+	<body onload="try_to_fill();">
+		
+	<label>Username</label><input id="ril_name" type="text" size="15"><br/>
+	<label>Password</label><input id="ril_password" type="password" size="15"><br/>
+	<input type="button" value="Save" onclick="save_options();" id="opt_save_btn" class="btn"/>
+	</body>
+</html>
