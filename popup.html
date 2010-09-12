@@ -1,7 +1,32 @@
 <!--api key= 158guBdkp52ePOcF54T3c16Qf2Akl517-->
 
 <html>
+  <head>
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Molengo">
+  
+  <style>
+    body {
+        font-family: 'Molengo', serif;
+        font-size: 14px;
+      }
+  </style>
+  
 	<script>
+	  
+	  function show_options(){
+	    var html_content = "";
+		  html_content +=   "<div id=\"page_body\">"+
+		                        "<span onclick=\"add()\">Add</span><br>" + 
+		                        "<span onclick=\"load_mylist()\">Sync List</span><br>"+
+		                        "<span onclick=\"my_list()\">My List</span><br>"+
+		                        "<div id=\"list_div\">"+
+		                          localStorage["ril_mylist"];
+		                        "</div>"+		  
+		                      "</div>";  
+			
+			document.getElementById("page_body").innerHTML = html_content;
+	  }
+	
 		function load_mylist(){
 			var bgPage = chrome.extension.getBackgroundPage();
 			if(bgPage.is_authenticate()){
@@ -13,7 +38,7 @@
 			      list_content += "<a href=\""+ obj.url +"\" target=\"_blank\">"+ obj.title + "</a><br>";
 			    }
 			  }
-			
+			  localStorage["ril_mylist"] = list_content; 
 			  document.getElementById("list_div").innerHTML = list_content;
 			}
 			else{
@@ -22,12 +47,10 @@
 			
 		}	
 	</script>	
-	<body onload="load_mylist()">	  	  
+	</head>
+	<body onload="show_options()">	  	  
 	  <div id="page_body">
-		  <span onclick="add()">Add</span><br/>
-		  <span onclick="my_list()">My List</span><br/>
-		  <div id="list_div">
-		  </div>		  
+		  
 		</div>
 	</body>
 </html>
