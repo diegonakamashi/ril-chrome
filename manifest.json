@@ -9,6 +9,7 @@
      "default_popup": "popup.html"
   },
   "permissions": [
-    "https://readitlaterlist.com/"
+    "https://readitlaterlist.com/", 
+    "tabs"
   ]
 }

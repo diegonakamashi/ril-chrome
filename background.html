@@ -21,15 +21,23 @@
 	    
 	  }
 		
-		function add(url){
+		function add(addurl, title){
 			var xhr = new XMLHttpRequest();		
-			var url = "https://readitlaterlist.com/v2/add?"+
-					"username="+localStorage["rilName"]+
-					"&password="+localStorage["rilPassword"]+
-					"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517"+
-					"&url=http://google.com&title=Google";
-			xhr.open("GET", url, false);
-			xhr.send(null);
+			var url = "https://readitlaterlist.com/v2/add";
+			var params = 	"username="+localStorage["rilName"]+
+					  "&password="+localStorage["rilPassword"]+
+					  "&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517"+
+					  "&url="+addurl+
+					  "&title="+title;
+			xhr.open("POST", url, false);
+			xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhr.setRequestHeader("Content-length", params.length);
+			xhr.setRequestHeader("Connection", "close");			
+			xhr.send(params);	
+			if(xhr.responseText){
+	      return xhr.responseText == "200 OK" ? true: false;             
+	    }
+	    return false;
 		}
 		
 
@@ -64,6 +72,7 @@
 			var list_obj = JSON.parse(list_s);
 			
 			return list_obj;			
-		}
+		}	
+		
 	</script>	
 </html>

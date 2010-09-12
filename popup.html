@@ -10,27 +10,47 @@
         font-size: 14px;
         width: 300px;
       }
-   
+     
+     #add_button{
+        cursor:pointer;
+     } 
+     
+     #sync_button{
+        cursor:pointer;
+     }
   </style>
   
 	<script>
 	  
 	  function show_options(){
 	    var html_content = "";
-		  html_content +=   "<div id=\"page_body\">"+
-		                        "<span onclick=\"add()\">Add</span><br>" + 
-		                        "<span onclick=\"load_mylist()\">Sync List</span><br>"+
-		                        "<span onclick=\"my_list()\">My List</span><br>"+
-		                        "<div id=\"list_div\">"+
-		                          localStorage["ril_mylist"];
-		                        "</div>"+		  
-		                      "</div>";  
+		  html_content +=      "<span id=\"add_button\"  onclick=\"add()\">Add</span><br>" + 
+		                        "<span id=\"sync_button\" onclick=\"load_mylist()\">Sync List</span><br>"+
+		                        "<span onclick=\"my_list()\">My List</span><br>"+		                        
+		                        "<div id=\"list_div\">"+		                        
+		                          localStorage["ril_mylist"]+		                          
+		                        "</div>";
 			
 			document.getElementById("page_body").innerHTML = html_content;
 	  }
+	  
+	  function add(){
+	    chrome.tabs.getSelected(null, function(tab) {
+        var url = tab.url;
+        var title = tab.title;
+        _add(url,title);
+        
+      });      
+	  }
+	  
+	  function _add(url, title){
+	    var bgPage = chrome.extension.getBackgroundPage();	
+	    bgPage.add(url, title);
+	    load_mylist();
+	  }
 	
 		function load_mylist(){
-			var bgPage = chrome.extension.getBackgroundPage();
+			var bgPage = chrome.extension.getBackgroundPage();			
 			if(bgPage.is_authenticate()){
 			  var list = bgPage.get();
 			  var list_content = "";
@@ -47,11 +67,13 @@
 			else{
 			  document.getElementById("page_body").innerHTML = "You are not logged yet!!";
 			}
-			
-		}	
+			change_cursor("page_body", "default");
+		}
+		
+		
 	</script>	
 	</head>
-	<body onload="show_options()">	  	  
+	<body onload="show_options()">	  
 	  <div id="page_body">
 		  
 		</div>
