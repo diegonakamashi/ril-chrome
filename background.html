@@ -36,10 +36,9 @@
 		function get(){
 			var xhr = new XMLHttpRequest();
 			var url = "https://readitlaterlist.com/v2/get";
-			var params = 	"state=0"+
+			var params = 	"state=\"0\""+
 					"&password="+localStorage["rilPassword"]+
 					"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517"+
-					"&state=0"+	
 					"&username="+localStorage["rilName"];
 			xhr.open("POST", url, false);			
 			xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
