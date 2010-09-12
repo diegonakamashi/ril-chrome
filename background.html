@@ -32,20 +32,19 @@
 		
 		function parse_list(resp){
 			
-			//resp = resp.replace("\"list\":{", "\"list\":[");
-			//resp = resp.replace("},\"since\":", "],\"since\":");
 			var obj = JSON.parse(resp);  
 			var list = obj.list;
 			var list_s = JSON.stringify(list);
 			list_s;
-			list_s = list_s.replace("{", "{\"list\" : [");
-			list_s = list_s.replace("}}", "}]}");
+			list_s = list_s.replace("{", "[");
+			list_s = list_s.replace("}}", "}]");
 			
+			while(list_s.match(/\"[0-9]+\":/) != null)			
+			  list_s = list_s.replace(/\"[0-9]+\":/,"");			
 			
 			var list_obj = JSON.parse(list_s);
 			
-			list_obj;
-			
+			return list_obj;			
 		}
 	</script>	
 </html>
