@@ -8,7 +8,9 @@
     body {
         font-family: 'Molengo', serif;
         font-size: 14px;
+        width: 300px;
       }
+   
   </style>
   
 	<script>
@@ -35,9 +37,10 @@
 			  for(var i = 0; i < list.length; i++){
 			    var obj = list[i];
 			    if(obj.state == "0"){
-			      list_content += "<a href=\""+ obj.url +"\" target=\"_blank\">"+ obj.title + "</a><br>";
+			      list_content += "<li><a href=\""+ obj.url +"\" target=\"_blank\">"+ obj.title + "</a><br></li>";
 			    }
 			  }
+			  list_content = "<ul>" + list_content + "</ul>";
 			  localStorage["ril_mylist"] = list_content; 
 			  document.getElementById("list_div").innerHTML = list_content;
 			}
