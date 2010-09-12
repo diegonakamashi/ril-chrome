@@ -1,5 +1,25 @@
 <html>
 	<script>
+	
+	  function is_authenticate(){
+	    var xhr = new XMLHttpRequest();
+	    var url = "https://readitlaterlist.com/v2/auth";
+	    var params = "username="+localStorage["rilName"]+
+					          "&password="+localStorage["rilPassword"]+
+	                  "&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517";
+	                
+      xhr.open("POST", url, false);   
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhr.setRequestHeader("Content-length", params.length);
+			xhr.setRequestHeader("Connection", "close");			
+			xhr.send(params);	
+	                  
+	    if(xhr.responseText){
+	      return xhr.responseText == "200 OK" ? true: false;             
+	    }
+	    return false;
+	    
+	  }
 		
 		function add(url){
 			var xhr = new XMLHttpRequest();		

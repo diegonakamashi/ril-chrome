@@ -4,24 +4,30 @@
 	<script>
 		function load_mylist(){
 			var bgPage = chrome.extension.getBackgroundPage();
-			var list = bgPage.get();
-			var list_content = "";
-			for(var i = 0; i < list.length; i++){
-			  var obj = list[i];
-			  if(obj.state == "0"){
-			    list_content += "<a href=\""+ obj.url +"\" target=\"_blank\">"+ obj.title + "</a><br/>";
+			if(bgPage.is_authenticate()){
+			  var list = bgPage.get();
+			  var list_content = "";
+			  for(var i = 0; i < list.length; i++){
+			    var obj = list[i];
+			    if(obj.state == "0"){
+			      list_content += "<a href=\""+ obj.url +"\" target=\"_blank\">"+ obj.title + "</a><br>";
+			    }
 			  }
-			}
 			
-			document.getElementById("list_div").innerHTML = list_content;
+			  document.getElementById("list_div").innerHTML = list_content;
+			}
+			else{
+			  document.getElementById("page_body").innerHTML = "You are not logged yet!!";
+			}
 			
 		}	
 	</script>	
-	<body onload="load_mylist()">
-		<span onclick="add()">Add</span><br/>
-		<span onclick="my_list()">My List</span><br/>
-		<div id="list_div">
-		  
+	<body onload="load_mylist()">	  	  
+	  <div id="page_body">
+		  <span onclick="add()">Add</span><br/>
+		  <span onclick="my_list()">My List</span><br/>
+		  <div id="list_div">
+		  </div>		  
 		</div>
 	</body>
 </html>
