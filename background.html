@@ -57,6 +57,40 @@
 			return parse_list(xhr.responseText);
 		}
 		
+		function send(read_list){
+		  var xhr = new XMLHttpRequest();
+			var url = "https://readitlaterlist.com/v2/send";
+			var params = 	"username="+localStorage["rilName"]+
+			    "&password="+localStorage["rilPassword"]+
+					"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517";
+					
+			params += make_send_param(read_list);		
+					
+			xhr.open("POST", url, false);			
+			xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhr.setRequestHeader("Content-length", params.length);
+			xhr.setRequestHeader("Connection", "close");
+			xhr.send(params);
+			if(xhr.responseText){
+	      return xhr.responseText == "200 OK" ? true: false;             
+	    }
+	    return false;
+		}
+		
+		function make_send_param(list){
+		  var params = "";
+		  for(var i = 0; i < list.length; i++){
+		    params = params +  "\""+ i + "\":{" + "\"url\":\""+ list[i] + "\"" + "},"; 
+		               
+		  }
+		  
+		  if(params.length > 0){
+		    params = params.substr(0, params.length - 1);
+		    params = "&read={"+params+"}";
+		  }
+		  return params;
+		}
+		
 		function parse_list(resp){
 			
 			var obj = JSON.parse(resp);  

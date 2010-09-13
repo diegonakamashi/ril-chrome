@@ -18,6 +18,10 @@
      #sync_button{
         cursor:pointer;
      }
+     
+     .list_span{
+        cursor:pointer;
+     }
   </style>
   
 	<script>
@@ -49,6 +53,14 @@
 	    load_mylist();
 	  }
 	
+	  function mark_as_read(url){
+	    var array = new Array();
+	    array[0] = url;
+      var bgPage = chrome.extension.getBackgroundPage();	
+	    bgPage.send(array);
+	    load_mylist();
+	  }
+	
 		function load_mylist(){
 			var bgPage = chrome.extension.getBackgroundPage();			
 			if(bgPage.is_authenticate()){
@@ -57,7 +69,7 @@
 			  for(var i = 0; i < list.length; i++){
 			    var obj = list[i];
 			    if(obj.state == "0"){
-			      list_content += "<li><a href=\""+ obj.url +"\" target=\"_blank\">"+ obj.title + "</a><br></li>";
+			      list_content += "<li><span class=\"list_span\" onclick=\"mark_as_read('"+obj.url+"')\"><img src='unread.png'></span><a href=\""+ obj.url +"\" target=\"_blank\">"+ obj.title + "</a></li>";
 			    }
 			  }
 			  list_content = "<ul>" + list_content + "</ul>";
