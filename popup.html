@@ -1,7 +1,6 @@
 <!--api key= 158guBdkp52ePOcF54T3c16Qf2Akl517-->
-
 <html>
-  <head>
+<head>
   <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Molengo">
   
   <style>
@@ -58,12 +57,18 @@
 	  }
 	
 	  function mark_as_read(url){
-	    var array = new Array();
-	    array[0] = url;
-      var bgPage = chrome.extension.getBackgroundPage();	
-	    bgPage.send(array);
-	    load_mylist();
+		change_list_elem_style();
+		setTimeout("_mark_as_read('"+url+"')", 500);
 	  }
+	function change_list_elem_style(){
+		
+	}
+	  
+	function _mark_as_read(url){
+		var bgPage = chrome.extension.getBackgroundPage();	
+	    bgPage.send(url);
+	    load_mylist();
+	}
 	
 		function load_mylist(){
 			var bgPage = chrome.extension.getBackgroundPage();			
