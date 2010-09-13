@@ -22,6 +22,10 @@
      .list_span{
         cursor:pointer;
      }
+     
+     td{
+      font-size:12px;
+     }
   </style>
   
 	<script>
@@ -69,10 +73,10 @@
 			  for(var i = 0; i < list.length; i++){
 			    var obj = list[i];
 			    if(obj.state == "0"){
-			      list_content += "<li><span class=\"list_span\" onclick=\"mark_as_read('"+obj.url+"')\"><img src='unread.png'></span><a href=\""+ obj.url +"\" target=\"_blank\">"+ obj.title + "</a></li>";
+			      list_content += "<tr><td><span class=\"list_span\" onclick=\"mark_as_read('"+obj.url+"')\"><img src='unread.png'></span></td><td><a href=\""+ obj.url +"\" target=\"_blank\">"+ obj.title + "</a></li></td></tr>";
 			    }
 			  }
-			  list_content = "<ul>" + list_content + "</ul>";
+			  list_content = "<table>" + list_content + "</table>";
 			  localStorage["ril_mylist"] = list_content; 
 			  document.getElementById("list_div").innerHTML = list_content;
 			}
