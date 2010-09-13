@@ -41,7 +41,8 @@
 		var params =	"state=\"0\""+
 				"&password="+localStorage["rilPassword"]+
 				"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517"+
-				"&username="+localStorage["rilName"];
+				"&username="+localStorage["rilName"]+
+				"&since=0";
 		var resp = post(url, params);
 		//verificar o status da resposta
 		return parse_list(resp);
