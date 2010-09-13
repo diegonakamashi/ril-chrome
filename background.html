@@ -1,92 +1,90 @@
 <html>
 	<script>
 	
-	  function post(url, params){
-	    var xhr = new XMLHttpRequest();
-	    xhr.open("POST", url, false);   
-      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			xhr.setRequestHeader("Content-length", params.length);
-			xhr.setRequestHeader("Connection", "close");			
-			xhr.send(params);	
-			if(xhr.responseText)
-			  return xhr.responseText;
-			return  "";
-	  }
+	function post(url, params){
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", url, false);   
+		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhr.setRequestHeader("Content-length", params.length);
+		xhr.setRequestHeader("Connection", "close");			
+		xhr.send(params);	
+		if(xhr.responseText)
+			return xhr.responseText;
+		return  "";
+	}
 	
-	  function is_authenticate(){
-	    var url = "https://readitlaterlist.com/v2/auth";
-	    var params = "username="+localStorage["rilName"]+
-					          "&password="+localStorage["rilPassword"]+
-	                  "&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517";
+	function is_authenticate(){
+		var url = "https://readitlaterlist.com/v2/auth";
+		var params = 	"username="+localStorage["rilName"]+
+				"&password="+localStorage["rilPassword"]+
+				"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517";
 	                
-      var resp = post(url, params);	                  
-      return resp == "200 OK" ? true: false;
-	    
-	  }
+		var resp = post(url, params);	                  
+		return resp == "200 OK" ? true: false;	    
+	}
 		
-		function add(addurl, title){
-			var url = "https://readitlaterlist.com/v2/add";
-			var params = 	"username="+localStorage["rilName"]+
-					  "&password="+localStorage["rilPassword"]+
-					  "&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517"+
-					  "&url="+addurl+
-					  "&title="+title;
+	function add(addurl, title){
+		var url = "https://readitlaterlist.com/v2/add";
+		var params =	"username="+localStorage["rilName"]+
+				"&password="+localStorage["rilPassword"]+
+				"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517"+
+				"&url="+addurl+
+				"&title="+title;
 					  
-			var resp = post(url, params);	                  
-      return resp == "200 OK" ? true: false;
-		}
+		var resp = post(url, params);	                  
+		return resp == "200 OK" ? true: false;
+	}
 		
 
-		function get(){
-			var url = "https://readitlaterlist.com/v2/get";
-			var params = 	"state=\"0\""+
-					"&password="+localStorage["rilPassword"]+
-					"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517"+
-					"&username="+localStorage["rilName"];
-			var resp = post(url, params);
-			//verificar o status da resposta
-			return parse_list(resp);
-		}
+	function get(){
+		var url = "https://readitlaterlist.com/v2/get";
+		var params =	"state=\"0\""+
+				"&password="+localStorage["rilPassword"]+
+				"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517"+
+				"&username="+localStorage["rilName"];
+		var resp = post(url, params);
+		//verificar o status da resposta
+		return parse_list(resp);
+	}
 		
-		function send(read_list){
-			var url = "https://readitlaterlist.com/v2/send";
-			var params = 	"username="+localStorage["rilName"]+
-			    "&password="+localStorage["rilPassword"]+
-					"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517";
+	function send(read_list){
+		var url = "https://readitlaterlist.com/v2/send";
+		var params = 	"username="+localStorage["rilName"]+
+			    	"&password="+localStorage["rilPassword"]+
+				"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517";
 					
-			params += make_send_param(read_list);		
-			var resp = post(url, params);	                  
-      return resp == "200 OK" ? true: false;
-		}
+		params += make_send_param(read_list);		
+		var resp = post(url, params);	                  
+		return resp == "200 OK" ? true: false;
+	}
 		
-		function make_send_param(list){
-		  var params = "";
-		  for(var i = 0; i < list.length; i++){
-		    params = params +  "\""+ i + "\":{" + "\"url\":\""+ list[i] + "\"" + "},"; 		               
-		  }
+	function make_send_param(list){
+		var params = "";
+		for(var i = 0; i < list.length; i++){
+			params = params +  "\""+ i + "\":{" + "\"url\":\""+ list[i] + "\"" + "},"; 		               
+		}
 		  
-		  if(params.length > 0){
-		    params = params.substr(0, params.length - 1);
-		    params = "&read={"+params+"}";
-		  }
-		  return params;
+		if(params.length > 0){
+			params = params.substr(0, params.length - 1);
+			params = "&read={"+params+"}";
 		}
+		return params;
+	}
 		
-		function parse_list(resp){			
-			var obj = JSON.parse(resp);  
-			var list = obj.list;
-			var list_s = JSON.stringify(list);
-			list_s;
-			list_s = list_s.replace("{", "[");
-			list_s = list_s.replace("}}", "}]");
+	function parse_list(resp){			
+		var obj = JSON.parse(resp);  
+		var list = obj.list;
+		var list_s = JSON.stringify(list);
+		list_s = list_s.replace("{", "[");
+		list_s = list_s.replace("}}", "}]");
 			
-			while(list_s.match(/\"[0-9]+\":/) != null)			
-			  list_s = list_s.replace(/\"[0-9]+\":/,"");			
+		while(list_s.match(/\"[0-9]+\":/) != null)			
+			list_s = list_s.replace(/\"[0-9]+\":/,"");			
 			
-			var list_obj = JSON.parse(list_s);
+		var list_obj = JSON.parse(list_s);
 			
-			return list_obj;
-		}	
+		return list_obj;
+	}	
 		
 	</script>	
 </html>

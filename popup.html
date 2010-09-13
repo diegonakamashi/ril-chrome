@@ -1,102 +1,104 @@
 <!--api key= 158guBdkp52ePOcF54T3c16Qf2Akl517-->
 <html>
 <head>
-  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Molengo">
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Molengo">
   
-  <style>
-    body {
-        font-family: 'Molengo', serif;
-        font-size: 14px;
-        width: 300px;
-      }
+	<style>
+		body {
+			font-family: 'Molengo', serif;
+			font-size: 14px;
+			width: 300px;
+		}
      
-     #add_button{
-        cursor:pointer;
-     } 
+		#add_button{
+			cursor:pointer;
+		} 
      
-     #sync_button{
-        cursor:pointer;
-     }
+		#sync_button{
+			cursor:pointer;
+		}
      
-     .list_span{
-        cursor:pointer;
-     }
+		.list_span{
+			cursor:pointer;
+		}
      
-     td{
-      font-size:12px;
-     }
-  </style>
+		td{
+			font-size:12px;
+		}
+	</style>
   
 	<script>
 	  
-	  function show_options(){
-	    var html_content = "";
-		  html_content +=      "<span id=\"add_button\"  onclick=\"add()\">Add</span><br>" + 
-		                        "<span id=\"sync_button\" onclick=\"load_mylist()\">Sync List</span><br>"+
-		                        "<span onclick=\"my_list()\">My List</span><br>"+		                        
-		                        "<div id=\"list_div\">"+		                        
-		                          localStorage["ril_mylist"]+		                          
-		                        "</div>";
+		function show_options(){
+			var html_content = "";
+			html_content +=	"<span id=\"add_button\"  onclick=\"add()\">Add</span><br>" + 
+					"<span id=\"sync_button\" onclick=\"load_mylist()\">Sync List</span><br>"+
+					"<span onclick=\"my_list()\">My List</span><br>"+		                        
+					"<div id=\"list_div\">"+		                        
+					localStorage["ril_mylist"]+		                          
+					"</div>";
 			
 			document.getElementById("page_body").innerHTML = html_content;
-	  }
+		}
 	  
-	  function add(){
-	    chrome.tabs.getSelected(null, function(tab) {
-        var url = tab.url;
-        var title = tab.title;
-        _add(url,title);
-        
-      });      
-	  }
+		function add(){
+			chrome.tabs.getSelected(null, function(tab) {
+			var url = tab.url;
+			var title = tab.title;
+			_add(url,title);        
+			});      
+		}
 	  
-	  function _add(url, title){
-	    var bgPage = chrome.extension.getBackgroundPage();	
-	    bgPage.add(url, title);
-	    load_mylist();
-	  }
+		function _add(url, title){
+			var bgPage = chrome.extension.getBackgroundPage();	
+			bgPage.add(url, title);
+			load_mylist();
+		}
 	
-	  function mark_as_read(url){
-		change_list_elem_style();
-		setTimeout("_mark_as_read('"+url+"')", 500);
-	  }
-	function change_list_elem_style(){
+		function mark_as_read(url){
+			change_list_elem_style();
+			setTimeout("_mark_as_read('"+url+"')", 500);
+		}
 		
-	}
+		function change_list_elem_style(){		
+		
+		}
 	  
-	function _mark_as_read(url){
-		var bgPage = chrome.extension.getBackgroundPage();	
-	    bgPage.send(url);
-	    load_mylist();
-	}
+		function _mark_as_read(url){
+			var bgPage = chrome.extension.getBackgroundPage();	
+			bgPage.send(url);
+			load_mylist();
+		}
 	
 		function load_mylist(){
 			var bgPage = chrome.extension.getBackgroundPage();			
 			if(bgPage.is_authenticate()){
-			  var list = bgPage.get();
-			  var list_content = "";
-			  for(var i = 0; i < list.length; i++){
-			    var obj = list[i];
-			    if(obj.state == "0"){
-			      list_content += "<tr><td><span class=\"list_span\" onclick=\"mark_as_read('"+obj.url+"')\"><img src='unread.png'></span></td><td><a href=\""+ obj.url +"\" target=\"_blank\">"+ obj.title + "</a></li></td></tr>";
-			    }
-			  }
-			  list_content = "<table>" + list_content + "</table>";
-			  localStorage["ril_mylist"] = list_content; 
-			  document.getElementById("list_div").innerHTML = list_content;
+				var list = bgPage.get();
+				var list_content = "";
+				for(var i = 0; i < list.length; i++){
+					var obj = list[i];
+					if(obj.state == "0"){
+						list_content += "<tr><td><span class=\"list_span\" onclick=\"mark_as_read('"+obj.url+"')\">"+
+								"<img src='unread.png'></span></td><td><a href=\""+ obj.url +
+								"\" target=\"_blank\">"+ obj.title + "</a></li></td></tr>";
+					}
+				}
+				list_content = "<table>" + list_content + "</table>";
+				localStorage["ril_mylist"] = list_content; 
+				document.getElementById("list_div").innerHTML = list_content;
 			}
 			else{
-			  document.getElementById("page_body").innerHTML = "You are not logged yet!!";
+				document.getElementById("page_body").innerHTML = "You are not logged yet!!";
 			}
 			change_cursor("page_body", "default");
 		}
 		
 		
 	</script>	
-	</head>
-	<body onload="show_options()">	  
-	  <div id="page_body">
+</head>
+<body onload="show_options()">	  
+	<div id="page_body">
 		  
-		</div>
-	</body>
+	</div>
+</body>
 </html>
