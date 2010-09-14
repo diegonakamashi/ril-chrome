@@ -2,6 +2,7 @@
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Molengo">
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Reenie+Beanie">
   
 	<style>
 		body {
@@ -9,6 +10,7 @@
 			font-size: 14px;
 			width: 300px;
 			height: 300px;
+			background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#DDDDDD));
 		}
      
 		#add_button{
@@ -40,7 +42,41 @@
 		}
      
 		td{
-			font-size:12px;
+			font-size:14px;
+			border-top: navy solid thin;
+			border-color:  #CCCCCC;
+		}
+		a{
+		  color: black;
+		  text-decoration:none; 
+		}
+		
+
+		#sync_button{
+		  float: right;
+		}
+		
+		#ext_title{
+		  font-family: 'Reenie Beanie', serif;
+		  font-size: 40px;
+		}
+		
+		.url_domain{
+		  font-size: 12px;
+		  color: #CCCCCC;
+		}
+		
+		.favicon{
+		  height: 16px;
+		  width: 16px;
+		}
+		
+		table{
+      border-collapse: collapse;
+		}
+		
+		.no_border{
+		  border: none;
 		}
 	</style>
   
@@ -48,17 +84,29 @@
 	  
 		function show_options(){
 			var html_content = "";
-			html_content +=	"<span id=\"add_button\"  onclick=\"add()\">Add</span><br>" + 
-					"<span id=\"sync_button\" onclick=\"load_mylist()\">Sync List</span><br>"+
-					"<span onclick=\"my_list()\">My List</span><br>"+		                        
+			html_content +=	"<header><span id=\"add_button\"  onclick=\"add()\"><img id=\"add_img\" title=\"Add to Read It Later\" src=\"bookmark.png\"></img></span>" + 
+			    "<span id=\"ext_title\">IWILLRIL</span>"+
+					"<span id=\"sync_button\" onclick=\"load_mylist()\"><img id=\"refresh_img\" title=\"Synchronize List\" src=\"refresh.png\"></img></span>"+
+					"</header>"+		                        
 					"<div id=\"list_div\">"+		                        
 					localStorage["ril_mylist"]+		                          
 					"</div>";
 			
 			document.getElementById("page_body").innerHTML = html_content;
+			setTimeout("_show_options()", 10);
+
+		}
+		
+		function _show_options(){
+      if(localStorage["favicons"]){
+			  var favicons = localStorage["favicons"].split("||||");			  
+        insert_favicons(favicons);
+			}
+		  
 		}
 	  
 		function add(){
+		  document.getElementById("add_img").src = "bookmark_press.png";
 			show_load_screen();
 			setTimeout("_add_aux()", 10);
 			_add_aux();   
@@ -110,6 +158,7 @@
 		}
 		
 		function change_list_elem_style(id){					
+		  document.getElementById("img_line_"+id).src = "uncheck.png";
 			var elem = document.getElementById("line_"+id);
 			elem.style.opacity = 0.3;
 			elem.style.textDecoration = "line-through";
@@ -124,8 +173,17 @@
 		}
 	
 		function load_mylist(){
+		  document.getElementById("refresh_img").src = "refresh_press.png";
 			show_load_screen();
 			setTimeout("_load_mylist()", 10);
+		}
+		
+		function change_title_style(id, style){
+		  if(style == 'on'){		  
+		      document.getElementById('title_span_'+id).style.textDecoration = "underline";
+		  }else{
+		    document.getElementById('title_span_'+id).style.textDecoration = "none";
+		  }
 		}
 	
 		function _load_mylist(){			
@@ -139,32 +197,61 @@
 							return -1;
 						return 0;
 				});
+				
+				var favicons = new Array();
+				
 				var list_content = "";
 				for(var i = 0; i < list.length; i++){
 					var obj = list[i];
 					if(obj.state == "0"){
+					  favicons[i] = get_domain(obj.url)+"/favicon.ico";
+					  
+					  var title = obj.title;
+					  if(title.length > 38){
+					    title = title.substr(0, 38) + "...";
+					  }
+					  
 						list_content += ""+
-						"<tr id=\"line_"+i+"\" ><td>"+
-						"<span class=\"list_span\" id=\"list_img_"+i+"\" onclick=\"mark_as_read('"+obj.url+"', "+i+")\">"+
-							"<img src='unread.png'>"+
-						"</span>"+
-						"</td><td>"+
-						"<span>"+
-							"<a href=\""+obj.url+"\" target=\"_blank\">"+obj.title+"</a>"+
-						"</span>"+
-						"</td></tr>";
+						"<tr id=\"line_"+i+"\" >"+
+						  "<td class=\"no_border\">"+
+                "<span><img id=\"favicon_"+i+"\" class=\"favicon\"></img></span>"+
+						  "</td>"+
+						  "<td>"+
+						  "<span id=\"title_span_"+i+"\" onmouseout=\"change_title_style('"+i+"', 'off')\" onmouseover=\"change_title_style('"+i+"', 'on')\">"+
+							  "<a href=\""+obj.url+"\" target=\"_blank\" title=\""+obj.title+"\">"+title+"</a>"+
+							  "</span>"+
+							  "<br><label class=\"url_domain\">"+get_domain(obj.url)+"</label>"+
+						  "</td>"+
+						  "<td class=\"no_border\">"+
+						  "<span class=\"list_span\" id=\"list_img_"+i+"\" onclick=\"mark_as_read('"+obj.url+"', "+i+")\">"+
+							  "<img  title=\"Mark as Read\" id=\"img_line_"+i+"\" src='check.png'>"+
+						  "</span>"+
+						  "</td>"
+						"</tr>";
 					}
 				}
-				list_content = "<table>" + list_content + "</table>";
+				list_content = "<table cellpadding=\"5\" >" + list_content + "</table>";
 				localStorage["ril_mylist"] = list_content; 
+				
+				var local_storage_favicons = favicons.join("||||");				
+				localStorage["favicons"] = local_storage_favicons;
 				document.getElementById("list_div").innerHTML = list_content;
 			}
 			else{
 				document.getElementById("page_body").innerHTML = "You are not logged yet!!";
 			}
 			hide_load_screen();
+			insert_favicons(favicons);
+			document.getElementById("refresh_img").src = "refresh.png";
+			document.getElementById("add_img").src = "bookmark.png";
 		}
 		
+		
+		function insert_favicons(favicons){
+		  for(var i = 0; i < favicons.length; i++){
+		    document.getElementById("favicon_"+i).src = "\""+favicons[i]+"\"";
+		  }
+		}
 		
 		function get_domain(url){
 			url = url.replace(/https?/,"");
