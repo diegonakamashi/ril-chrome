@@ -21,7 +21,7 @@
 		
 		#page_body{
 			width: 300px;
-			height: 421px;
+			height: 381px;
 		}
      
 		#add_button{
@@ -79,14 +79,18 @@
 		}
 		
 		footer{			
-			position:absolute;			
-		  	top: 382px
+			left:9px;
+			position:absolute;
+			top:332px;
+			width:280px;
 		}
 		#footer_msg{
-			font-family: 'Josefin Sans Std Light', serif;
-			font-size: 15px;
-		  	position: absolute;
-		  	width: 300px;
+			font-family:'Josefin Sans Std Light',serif;
+			font-size:15px;
+			left:40px;
+			position:relative;
+			width:300px;
+			top: 10px;	
 		}
 		
 		.url_domain{
@@ -103,13 +107,25 @@
 			border-collapse: collapse;
 		}
 		
+		#pagination{
+			float:right;
+			position:relative;
+			text-align:right;
+			width:100%;
+		}
+		
 		.no_border{
 		  	border: none;
 		}
 		
+		#select_text{
+			font-family:'Josefin Sans Std Light',serif;
+			font-size:15px;
+		}
+		
 		fieldset{
 			 -webkit-border-radius: 15px;
-			height: 280px;
+			height: 240px;
 			position:absolute;
 			top: 84px;
 			margin: 0;
@@ -119,6 +135,16 @@
 			border-color:  #CCCCCC;
 			left: 9px;
 		}	
+		
+		#add_button{
+			left:10px;
+			position:relative;
+		}
+		
+		#sync_button{
+			left:190px;
+			position:relative;
+		}
 	</style>
   
 	<script>
@@ -133,16 +159,20 @@
 					;
 			
 			document.getElementById("page_body").innerHTML = html_content;			
-			setTimeout("complete_page()", 10);
+			setTimeout("complete_page()", 1);
 		}
 		
 		function _get_page_header(){
 			var header = 	"<header>" + 
 			    			"<span id=\"ext_title\">IWillRil</span><br>"+
-			    			"<span id=\"add_button\"  onclick=\"add()\"><img id=\"add_img\" title=\"Add to Read It Later\" src=\"bookmark.png\"></img></span>"+
-						"<span id=\"sync_button\" onclick=\"load_mylist()\"><img id=\"refresh_img\" title=\"Synchronize List\" src=\"refresh.png\"></img></span>"+
+			    			"<span id=\"add_button\"  onclick=\"add()\"><img onmouseover = \"change_img('add_img', 'bookmark_press.png')\" onmouseout = \"change_img('add_img', 'bookmark.png')\" id=\"add_img\" title=\"Add to Read It Later\" src=\"bookmark.png\"></img></span>"+
+						"<span id=\"sync_button\" onclick=\"load_mylist()\"><img onmouseover = \"change_img('refresh_img', 'refresh_press.png')\" onmouseout = \"change_img('refresh_img', 'refresh.png')\" id=\"refresh_img\" title=\"Synchronize List\" src=\"refresh.png\"></img></span>"+
 					"</header>";
 			return header;		
+		}
+		
+		function change_img(id, img){
+			document.getElementById(id).src = img;
 		}
 		
 		function _get_page_footer(){
@@ -170,7 +200,7 @@
 		function add(){
 		  	document.getElementById("add_img").src = "bookmark_press.png";
 			show_load_screen();
-			setTimeout("_add_aux()", 10);
+			setTimeout("_add_aux()", 1);
 			_add_aux();   
 		}
 		
@@ -185,12 +215,17 @@
 		function _add(url, title){
 			var bgPage = chrome.extension.getBackgroundPage();	
 			bgPage.add(url, title);
-			_load_mylist();
+			
+			_load_mylist(get_actual_page());
+		}
+		
+		function get_actual_page(){
+			return document.getElementById('page_slc').value;
 		}
 	
 		function mark_as_read(url, id){
 			change_list_elem_style(id);
-			setTimeout("_mark_as_read('"+url+"')", 10);
+			setTimeout("_mark_as_read('"+url+"')", 1);
 		}
 		
 		function _mark_as_read(url){
@@ -198,7 +233,7 @@
 			var array = new Array();
 			array[0] = url;
 			bgPage.send(array);
-			_load_mylist();
+			_load_mylist(get_actual_page());
 		}
 		
 		function show_load_screen(){
@@ -219,7 +254,7 @@
 		function load_mylist(){
 		  document.getElementById("refresh_img").src = "refresh_press.png";
 			show_load_screen();
-			setTimeout("_load_mylist()", 10);
+			setTimeout("_load_mylist(1)", 1);
 		}
 		
 		function change_title_style(id, style){
@@ -230,11 +265,11 @@
 		  }
 		}			
 	
-		function _load_mylist(){			
+		function _load_mylist(page){			
 			var bgPage = chrome.extension.getBackgroundPage();			
 			//if(bgPage.is_authenticate()){							
 			if(true){
-				var list = bgPage.get();
+				var list = bgPage.get(page);
 				list.sort(function(a, b){			
 						if(a.time_updated > b.time_updated)
 							return 1;
@@ -276,12 +311,13 @@
 					}
 				}
 				list_content = "<table cellpadding=\"5\" >" + list_content + "</table>";
-				localStorage["ril_mylist"] = list_content; 
+				if(page == 1)
+					localStorage["ril_mylist"] = list_content; 				
 				
 				var local_storage_favicons = favicons.join("||||");				
 				localStorage["favicons"] = local_storage_favicons;
 				document.getElementById("list_div").innerHTML = list_content;
-				build_detailed_page();
+				update_data();
 			}
 			else{
 				document.getElementById("page_body").innerHTML = "You are not logged yet!!";				
@@ -315,6 +351,14 @@
 			return 0;
 		}
 		
+		function update_data(){
+			setTimeout("_update_data()", 10);
+		}
+		
+		function update_data(){
+			set_uncount_number();
+		}
+		
 		function build_detailed_page(){
 			setTimeout("_build_detailed_page()", 10);
 		}
@@ -326,7 +370,7 @@
 		
 		function build_footer(){
 			set_footer_msg();
-			//set_footer_slc();
+			set_footer_slc();
 		}
 		
 		function set_footer_msg(){
@@ -348,10 +392,17 @@
 			var options = "";
 			
 			for(var i = 0; i < options_number; i++){
-				options += "<option value='"+i + 1+"'>"+i+"</option>";
+				var item = i + 1;	
+				options += "<option value='"+item+"'>"+item+"</option>";
 			}
-			var select = "<select id='page_slc' onchange='update_page()'>"+ options + "</select>";
+			var select = "<label id=\"select_text\">Page: </label><select id='page_slc' onchange='update_page()'>"+ options + "</select>";
 			return select;
+		}
+		
+		function update_page(){
+			show_load_screen();
+			var page = get_actual_page();
+			setTimeout('_load_mylist('+page+')', 10);
 		}
 		
 		function get_items_per_page(){
@@ -361,6 +412,13 @@
 		}
 		
 		function get_uncount_number(){
+			if(localStorage["uncount_number"]){
+				return localStorage["uncount_number"];
+			}
+			return 0;
+		}
+		
+		function set_uncount_number(){
 			var bgPage = chrome.extension.getBackgroundPage();
 			localStorage["uncount_number"] = bgPage.get_uncount_number();  
 		}	

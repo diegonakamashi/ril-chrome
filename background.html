@@ -36,14 +36,14 @@
 	}
 		
 
-	function get(){
+	function get(page){
 		var url = "https://readitlaterlist.com/v2/get";
 		var params =	"state=\"0\""+
 				"&password="+localStorage["rilPassword"]+
 				"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517"+
 				"&username="+localStorage["rilName"]+
 				"&count=5"+
-				"&page=2";
+				"&page="+page;
 		var resp = post(url, params);
 		//verificar o status da resposta
 		return parse_list(resp);
