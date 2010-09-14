@@ -42,7 +42,8 @@
 				"&password="+localStorage["rilPassword"]+
 				"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517"+
 				"&username="+localStorage["rilName"]+
-				"&since=0";
+				"&count=5"+
+				"&page=2";
 		var resp = post(url, params);
 		//verificar o status da resposta
 		return parse_list(resp);
@@ -57,6 +58,23 @@
 		params += make_send_param(read_list);		
 		var resp = post(url, params);	                  
 		return resp == "200 OK" ? true: false;
+	}
+	
+	function get_uncount_number(){
+		var st = stats();
+		var st_json = JSON.parse(st);
+		
+		return st_json.count_unread;
+	}
+	
+	function stats(){
+	
+		var url = "https://readitlaterlist.com/v2/stats";
+		var params = 	"username="+localStorage["rilName"]+
+			    	"&password="+localStorage["rilPassword"]+
+				"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517";
+		
+		return post(url, params);
 	}
 		
 	function make_send_param(list){

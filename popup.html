@@ -3,14 +3,25 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Molengo">
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Reenie+Beanie">
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Josefin+Sans+Std+Light">
   
 	<style>
 		body {
 			font-family: 'Molengo', serif;
 			font-size: 14px;
 			width: 300px;
-			height: 300px;
+			height: 350px;
 			background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#DDDDDD));
+			margin: 0px;
+		}
+		
+		#list_div{
+			height: 300px;
+		}
+		
+		#page_body{
+			width: 300px;
+			height: 421px;
 		}
      
 		#add_button{
@@ -28,42 +39,59 @@
 		}
 		
 		#list_div{
-			position:absolute;
-			top: 70px;
+			
 		}
 		
 		#load_div{
 			background: #000000;
 			opacity: 0.2;
 			width: 300px;
-			height: 300px;
+			height: 200px;
 			position:absolute;
 			top: 0px;
 		}
      
 		td{
 			font-size:14px;
-			border-top: navy solid thin;
+			border-bottom: navy solid thin;
 			border-color:  #CCCCCC;
 		}
 		a{
-		  color: black;
-		  text-decoration:none; 
+		  	color: black;
+		  	text-decoration:none; 
 		}
 		
 
 		#sync_button{
-		  float: right;
+		  	float: right;
 		}
 		
 		#ext_title{
-		  font-family: 'Reenie Beanie', serif;
-		  font-size: 40px;
+		  	font-family: 'Reenie Beanie', serif;
+		  	font-size: 40;
+		  	text-shadow: 4px 4px 4px black;
+		  	position: relative;
+		  	left: 90px;
+		}
+		
+		header{
+			position: absolute;
+		}
+		
+		footer{			
+			position:absolute;			
+		  	top: 382px
+		}
+		#footer_msg{
+			font-family: 'Josefin Sans Std Light', serif;
+			font-size: 15px;
+		  	position: absolute;
+		  	width: 300px;
 		}
 		
 		.url_domain{
-		  font-size: 12px;
-		  color: #CCCCCC;
+		  	font-size: 12px;
+		  	color: #CCCCCC;
 		}
 		
 		.favicon{
@@ -72,41 +100,75 @@
 		}
 		
 		table{
-      border-collapse: collapse;
+			border-collapse: collapse;
 		}
 		
 		.no_border{
-		  border: none;
+		  	border: none;
 		}
+		
+		fieldset{
+			 -webkit-border-radius: 15px;
+			height: 280px;
+			position:absolute;
+			top: 84px;
+			margin: 0;
+			padding: 0;
+			width: 280px;
+			border: navy solid thin;
+			border-color:  #CCCCCC;
+			left: 9px;
+		}	
 	</style>
   
 	<script>
 	  
-		function show_options(){
+		function build_page(){
 			var html_content = "";
-			html_content +=	"<header><span id=\"add_button\"  onclick=\"add()\"><img id=\"add_img\" title=\"Add to Read It Later\" src=\"bookmark.png\"></img></span>" + 
-			    "<span id=\"ext_title\">IWILLRIL</span>"+
-					"<span id=\"sync_button\" onclick=\"load_mylist()\"><img id=\"refresh_img\" title=\"Synchronize List\" src=\"refresh.png\"></img></span>"+
-					"</header>"+		                        
-					"<div id=\"list_div\">"+		                        
+			html_content +=	_get_page_header() +		                        
+					"<fieldset><div id=\"list_div\">"+		                        
 					localStorage["ril_mylist"]+		                          
-					"</div>";
+					"</div></fieldset>"+
+					_get_page_footer();
+					;
 			
-			document.getElementById("page_body").innerHTML = html_content;
-			setTimeout("_show_options()", 10);
-
+			document.getElementById("page_body").innerHTML = html_content;			
+			setTimeout("complete_page()", 10);
 		}
 		
-		function _show_options(){
-      if(localStorage["favicons"]){
-			  var favicons = localStorage["favicons"].split("||||");			  
-        insert_favicons(favicons);
+		function _get_page_header(){
+			var header = 	"<header>" + 
+			    			"<span id=\"ext_title\">IWillRil</span><br>"+
+			    			"<span id=\"add_button\"  onclick=\"add()\"><img id=\"add_img\" title=\"Add to Read It Later\" src=\"bookmark.png\"></img></span>"+
+						"<span id=\"sync_button\" onclick=\"load_mylist()\"><img id=\"refresh_img\" title=\"Synchronize List\" src=\"refresh.png\"></img></span>"+
+					"</header>";
+			return header;		
+		}
+		
+		function _get_page_footer(){
+			var footer = 	"<footer>"+
+						"<div id=\"pagination\"></div>"+
+						"<br><label id=\"footer_msg\"></label>"
+					"</footer>";
+					
+			return footer;		
+		}
+		
+		function complete_page(){
+			build_favicons();
+			build_footer();
+		}
+		
+		function build_favicons(){
+      			if(localStorage["favicons"]){
+			  	var favicons = localStorage["favicons"].split("||||");			  
+        			insert_favicons(favicons);
 			}
 		  
 		}
 	  
 		function add(){
-		  document.getElementById("add_img").src = "bookmark_press.png";
+		  	document.getElementById("add_img").src = "bookmark_press.png";
 			show_load_screen();
 			setTimeout("_add_aux()", 10);
 			_add_aux();   
@@ -131,39 +193,6 @@
 			setTimeout("_mark_as_read('"+url+"')", 10);
 		}
 		
-		function show_load_screen(){
-			document.getElementById("list_div").style.opacity = 0.4;
-		}
-		
-		function hide_load_screen(){
-			var op = document.getElementById("list_div").style.opacity;			
-			change_opacity(parseFloat(op));
-		}
-		
-		function change_opacity(op){
-			if(op < 1){
-				setTimeout("_change_opacity(\""+op+"\")", 20);
-			}else{
-				document.getElementById("list_div").style.opacity = 1;
-			}			
-		}
-		
-		function _change_opacity(op){
-			if(op < 1){				
-				document.getElementById("list_div").style.opacity = op;
-				var opa = parseFloat(op);
-				opa = opa + 0.1;
-				change_opacity(opa);
-			}	
-		}
-		
-		function change_list_elem_style(id){					
-		  document.getElementById("img_line_"+id).src = "uncheck.png";
-			var elem = document.getElementById("line_"+id);
-			elem.style.opacity = 0.3;
-			elem.style.textDecoration = "line-through";
-		}
-	  
 		function _mark_as_read(url){
 			var bgPage = chrome.extension.getBackgroundPage();	
 			var array = new Array();
@@ -171,6 +200,21 @@
 			bgPage.send(array);
 			_load_mylist();
 		}
+		
+		function show_load_screen(){
+			document.getElementById("list_div").style.opacity = 0.4;
+		}
+		
+		function hide_load_screen(){
+			document.getElementById("list_div").style.opacity = 1;
+		}		
+		
+		function change_list_elem_style(id){					
+		  document.getElementById("img_line_"+id).src = "uncheck.png";
+			var elem = document.getElementById("line_"+id);
+			elem.style.opacity = 0.3;
+			elem.style.textDecoration = "line-through";
+		}		
 	
 		function load_mylist(){
 		  document.getElementById("refresh_img").src = "refresh_press.png";
@@ -184,11 +228,12 @@
 		  }else{
 		    document.getElementById('title_span_'+id).style.textDecoration = "none";
 		  }
-		}
+		}			
 	
 		function _load_mylist(){			
 			var bgPage = chrome.extension.getBackgroundPage();			
-			if(bgPage.is_authenticate()){
+			//if(bgPage.is_authenticate()){							
+			if(true){
 				var list = bgPage.get();
 				list.sort(function(a, b){			
 						if(a.time_updated > b.time_updated)
@@ -207,14 +252,14 @@
 					  favicons[i] = get_domain(obj.url)+"/favicon.ico";
 					  
 					  var title = obj.title;
-					  if(title.length > 38){
-					    title = title.substr(0, 38) + "...";
+					  if(title.length > 30){
+					    title = title.substr(0, 30) + "...";
 					  }
 					  
 						list_content += ""+
 						"<tr id=\"line_"+i+"\" >"+
 						  "<td class=\"no_border\">"+
-                "<span><img id=\"favicon_"+i+"\" class=\"favicon\"></img></span>"+
+                				  "<span><img id=\"favicon_"+i+"\" class=\"favicon\"></img></span>"+
 						  "</td>"+
 						  "<td>"+
 						  "<span id=\"title_span_"+i+"\" onmouseout=\"change_title_style('"+i+"', 'off')\" onmouseover=\"change_title_style('"+i+"', 'on')\">"+
@@ -236,9 +281,10 @@
 				var local_storage_favicons = favicons.join("||||");				
 				localStorage["favicons"] = local_storage_favicons;
 				document.getElementById("list_div").innerHTML = list_content;
+				build_detailed_page();
 			}
 			else{
-				document.getElementById("page_body").innerHTML = "You are not logged yet!!";
+				document.getElementById("page_body").innerHTML = "You are not logged yet!!";				
 			}
 			hide_load_screen();
 			insert_favicons(favicons);
@@ -269,9 +315,58 @@
 			return 0;
 		}
 		
+		function build_detailed_page(){
+			setTimeout("_build_detailed_page()", 10);
+		}
+		
+		function _build_detailed_page(){
+			get_uncount_number();
+			set_footer_msg();	
+		}
+		
+		function build_footer(){
+			set_footer_msg();
+			//set_footer_slc();
+		}
+		
+		function set_footer_msg(){
+			var uncount = localStorage["uncount_number"];
+			var footer_msg = "I have nothing to read!!!";
+			if(uncount && uncount > 0)
+				footer_msg = "I will read "+uncount+" items Later!!!"
+			document.getElementById("footer_msg").innerHTML = footer_msg;	
+		}
+		
+		function set_footer_slc(){
+			var select = get_footer_select();
+			document.getElementById("pagination").innerHTML = select;
+		}
+		
+		function get_footer_select(){
+			var options_number = get_uncount_number() / get_items_per_page();			
+	
+			var options = "";
+			
+			for(var i = 0; i < options_number; i++){
+				options += "<option value='"+i + 1+"'>"+i+"</option>";
+			}
+			var select = "<select id='page_slc' onchange='update_page()'>"+ options + "</select>";
+			return select;
+		}
+		
+		function get_items_per_page(){
+			if(localStorage["ril_items_per_page"])
+				return localStorage["ril_items_per_page"];
+			return 5;	
+		}
+		
+		function get_uncount_number(){
+			var bgPage = chrome.extension.getBackgroundPage();
+			localStorage["uncount_number"] = bgPage.get_uncount_number();  
+		}	
 	</script>	
 </head>
-<body onload="show_options()">	  
+<body onload="build_page()">	  
 	<div id="page_body">
 		  
 	</div>
