@@ -14,21 +14,13 @@
 		xhr.send(params);	
 	}
 	
-	function is_authenticate(){
+	function is_authenticate(callback){
 		var url = "https://readitlaterlist.com/v2/auth";
 		var params = 	"username="+localStorage["rilName"]+
 				"&password="+localStorage["rilPassword"]+
 				"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517";
 				
-		var xhr = new XMLHttpRequest();
-		xhr.open("POST", url, false);   
-		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xhr.setRequestHeader("Content-length", params.length);
-		xhr.setRequestHeader("Connection", "close");			
-		xhr.send(params);	
-	                
-		var resp = xhr.responseText	;	
-		return resp == "200 OK" ? true: false;	    
+		post(url, params, callback);
 	}
 		
 	function add(callback, addurl, title){
@@ -43,14 +35,13 @@
 	}
 		
 
-	function get(callback, page){
+	function get(callback, time){
 		var url = "https://readitlaterlist.com/v2/get";
 		var params =	"state=\"0\""+
 				"&password="+localStorage["rilPassword"]+
 				"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517"+
 				"&username="+localStorage["rilName"]+
-				"&count=5"+
-				"&page="+page;
+				"&since="+time;
 		post(url, params, callback);		
 	}
 		

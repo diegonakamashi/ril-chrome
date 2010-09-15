@@ -74,6 +74,11 @@
 		  	left: 90px;
 		}
 		
+		.list_msg{
+			font-family: 'Reenie Beanie', serif;
+			font-size: 20;
+		}
+		
 		header{
 			position: absolute;
 		}
@@ -166,7 +171,7 @@
 					           _get_page_content() +
 					          _get_page_footer();
 			
-			document.getElementById("page_body").innerHTML = html_content;			
+			document.getElementById("page_body").innerHTML = html_content;	
 			setTimeout("complete_page()", 1);
 		}
 		
@@ -180,12 +185,35 @@
 		}		
 		
 		function _get_page_content(){
-		  var content = "<fieldset><div id=\"list_div\">"+	
-                   "<table  cellpadding=\"5\" ><tbody id=\"table_list\">"+
-					localStorage["ril_mylist"]+
+			var list = localStorage["ril_mylist"] ? localStorage["ril_mylist"] : "";
+			
+			if(list == ""){
+				if((localStorage["rilName"]  && localStorage["rilPassword"])){
+					var bgPage = chrome.extension.getBackgroundPage();				
+					bgPage.is_authenticate(callback_empty_list_check);
+				}else{					
+					list = "<tr class='list_msg' style=\"text-align:center; height: 200px\"><td class='no_border'>Please Configure The IWillRil in the Option page</td></tr>";
+				}				
+			}			
+			
+		  	var content = "<fieldset><div id=\"list_div\">"+	
+                   "<table  cellpadding=\"5\" width='100%' ><tbody id=\"table_list\">"+
+					list +
 					"</tbody></table>"+
 					"</div></fieldset>";
 			return content;		
+		}
+		
+		function callback_empty_list_check(resp){
+			var list = "";
+			if(resp == "200 OK"){
+				list = "<tr class='list_msg' style=\"text-align:center; height: 200px\"><td class='no_border'>Congratulations!! You already read all yours items</td></tr>"
+			}
+			else{
+				list = "<tr class='list_msg' style=\"text-align:center; height: 200px\" ><td class='no_border'>Authentication Failed!!</td></tr>"
+			}
+			
+			document.getElementById('table_list').innerHTML = list;
 		}
 		
 		function _get_page_footer(){
@@ -236,9 +264,9 @@
 		}
 				
 		function get_actual_page(){
-			if(document.getElementById('page_slc'))
+			if(document.getElementById('page_slc') && !isNaN(document.getElementById('page_slc').value))				
 				return document.getElementById('page_slc').value;
-			return 0;	
+			return 1;	
 		}
 	
 		function mark_as_read(url, id){
@@ -284,23 +312,31 @@
 		
 		function build_list(){
 		  	var bgPage = chrome.extension.getBackgroundPage();			
-			bgPage.get(callback_get, get_actual_page());
+			bgPage.get(callback_get, get_last_get_time());
 		}
 		
-		function parse_list(resp){			
+		function parse_json_obj(resp){
+			var list = get_json_str_list(resp)
+			return parse_list(list);
+		}
+		
+		function get_json_str_list(resp){
 			var obj = JSON.parse(resp);  
 			var list = obj.list;
-			var list_s = JSON.stringify(list);
+			var list_s =  JSON.stringify(list);	
 			list_s = list_s.replace("{", "[");
 			list_s = list_s.replace("}}", "}]");
 			
 			while(list_s.match(/\"[0-9]+\":/) != null)			
-				list_s = list_s.replace(/\"[0-9]+\":/,"");			
-			
-			var list_obj = JSON.parse(list_s);
-			
+				list_s = list_s.replace(/\"[0-9]+\":/,"");					
+				
+			return list_s;	
+		}
+		
+		function parse_list(list_s){			
+			var list_obj = JSON.parse(list_s);			
 			return list_obj;
-	    	}	
+		}	
 	  
 		function sort_list(list){
 	    	list.sort(function(a, b){			
@@ -311,49 +347,90 @@
 			return 0;
 			});
 			return list;	
-	    	}
+	    }
 		
-		function callback_get(list){
-		    var array = parse_list(list);
-		    update_list(array);
+		function callback_get(resp){
+			var list = get_json_str_list(resp);
+			list = merge_json_list(list);
+			localStorage["json_list_iwillril"] = list;
+			update_list(list);
+		}
+		
+		function merge_json_list(list_with_alterations_json){
+			var old_json_list = get_json_list();
+			if(old_json_list){			
+				var old_list = parse_list(old_json_list);
+				var list_with_alterations = parse_list(list_with_alterations_json);
+				var removed_list = new Array();
+				var added_list = new Array();
+				var new_list = new Array();
+				
+				for(var j = 0; j < list_with_alterations.length; j++){					
+					if(list_with_alterations[j].state == 0)	{
+						added_list.push(list_with_alterations[j]);
+					}	
+					else{
+						removed_list.push(list_with_alterations[j]);
+					}
+				}
+				var index = 0;
+				for(var i = 0; i < old_list.length; i++){
+					for(var j = 0; j < removed_list.length; j++){					
+						if(old_list[i].item_id != removed_list[j].item_id){
+							new_list[index++] = old_list[i];
+						}
+					}
+				}
+				new_list = added_list.concat(new_list);
+				return JSON.stringify(new_list);
+			}
+			return list_with_alterations_json;
+		}
+		
+		function get_json_list(){
+			if(localStorage["json_list_iwillril"]){
+				return localStorage["json_list_iwillril"];
+			}
+			return null;
 		}
 		
         function update_list(list){
+        	list = parse_list(list);
             if(list.length > 0){
-				list.sort(function(a, b){			
-					if(a.time_updated > b.time_updated)
-						return 1;
-					else if (a.time_updated < b.time_updated)	
-						return -1;
-					return 0;
-					});	
+				list.sort(sort_function);
 				var favicons = new Array();	
 				var list_content = "";
 				
-				for(var i = 0; i < list.length; i++){
-					var obj = list[i];
-					if(obj.state == "0"){					  
-						list_content += build_item_table(i, obj.title, obj.url);
-						favicons[i] = get_domain(obj.url)+"/favicon.ico";
-					}
-			}
+				var page = get_actual_page();
+				var items = get_items_per_page();
 				
-			if(get_actual_page() == 1)
-				localStorage["ril_mylist"] = list_content;				
-				var local_storage_favicons = favicons.join("||||");				
-				localStorage["favicons"] = local_storage_favicons;
-				document.getElementById("table_list").innerHTML = list_content;
-				update_data();
+				var index = (page - 1) * items;
+				var limit = items * page;
+				if(list.length > index){
+					for(index; index < limit && index < list.length; index++){
+							var obj = list[index];
+							list_content += build_item_table(index, obj.title, obj.url);
+							favicons[index] = get_domain(obj.url)+"/favicon.ico";
+					}		
+				}
 			}
-			else{
-				document.getElementById("page_body").innerHTML = "You are not logged yet!!";				
-			}
+			document.getElementById("table_list").innerHTML = list_content;
+				
+			localStorage["ril_mylist"] = list_content;
+			localStorage["actual_page_iwillril"] = get_actual_page();
+			var local_storage_favicons = favicons.join("||||");				
+			localStorage["favicons"] = local_storage_favicons;
+			refresh_screen();						
+		}		
+		
+		function refresh_screen(){
+			update_data();
 			hide_load_screen();
 			hide_load_icon();
 			build_favicons();
 			change_img("refresh_img", "refresh.png");
 			change_img("add_img", "bookmark.png");
-		}		
+		}
 		
 		function build_item_table(i, real_title, url){
             	var title = real_title;
@@ -431,11 +508,14 @@
 		
 		function get_footer_select(){
 			var options_number = get_uncount_number() / get_items_per_page();			
-	
+			
+			if(options_number == 0)
+				options_number = 1;
+			
 			var options = "";
 			
 			for(var i = 0; i < options_number; i++){
-				var page = get_actual_page();
+				var page = localStorage["actual_page_iwillril"] ? localStorage["actual_page_iwillril"] : get_actual_page();
 				var item = i + 1;					
 				var selected = page == item ? " selected "	: "";
 				options += "<option "+selected+" value='"+item+"'>"+item+"</option>";
@@ -446,8 +526,7 @@
 		
 		function update_page(){
 			show_load_screen();
-			var page = get_actual_page();
-			build_list();
+			update_list(localStorage["json_list_iwillril"]);
 		}
 		
 		function get_items_per_page(){
@@ -460,6 +539,15 @@
 			if(localStorage["uncount_number"]){
 				return localStorage["uncount_number"];
 			}
+			return 0;
+		}
+		
+		function get_last_get_time(){
+			if(localStorage["last_get_time_iwillril"]){
+				return localStorage["last_get_time_iwillril"];
+			}
+			
+			localStorage["last_get_time_iwillril"] = get_unix_time();
 			return 0;
 		}
 		
@@ -485,6 +573,12 @@
 		
 		function hide_load_icon(){
 		    	document.getElementById("status_img").style.visibility = 'hidden';
+		}
+		
+		function get_unix_time(){
+			var foo = new Date();
+			var unixtime_ms = foo.getTime();
+			var unixtime = parseInt(unixtime_ms / 1000);
 		}
 	</script>	
 </head>
