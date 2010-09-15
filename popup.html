@@ -92,6 +92,12 @@
 			width:300px;
 			top: 10px;	
 		}
+		#status_img{
+		    top: 10px;	
+		    position: relative;
+		    left: 90px;
+		    visibility: hidden;
+		}
 		
 		.url_domain{
 		  	font-size: 12px;
@@ -112,6 +118,11 @@
 			position:relative;
 			text-align:right;
 			width:100%;
+		}
+		
+		#loading{
+		    font-family:'Josefin Sans Std Light',serif;
+			font-size:15px;
 		}
 		
 		.no_border{
@@ -152,11 +163,8 @@
 		function build_page(){
 			var html_content = "";
 			html_content +=	_get_page_header() +		                        
-					"<fieldset><div id=\"list_div\">"+		                        
-					localStorage["ril_mylist"]+		                          
-					"</div></fieldset>"+
-					_get_page_footer();
-					;
+					           _get_page_content() +
+					          _get_page_footer();
 			
 			document.getElementById("page_body").innerHTML = html_content;			
 			setTimeout("complete_page()", 1);
@@ -164,76 +172,83 @@
 		
 		function _get_page_header(){
 			var header = 	"<header>" + 
-			    			"<span id=\"ext_title\">IWillRil</span><br>"+
+			    			"<span id=\"ext_title\">IWillRiL</span><br>"+
 			    			"<span id=\"add_button\"  onclick=\"add()\"><img onmouseover = \"change_img('add_img', 'bookmark_press.png')\" onmouseout = \"change_img('add_img', 'bookmark.png')\" id=\"add_img\" title=\"Add to Read It Later\" src=\"bookmark.png\"></img></span>"+
 						"<span id=\"sync_button\" onclick=\"load_mylist()\"><img onmouseover = \"change_img('refresh_img', 'refresh_press.png')\" onmouseout = \"change_img('refresh_img', 'refresh.png')\" id=\"refresh_img\" title=\"Synchronize List\" src=\"refresh.png\"></img></span>"+
 					"</header>";
 			return header;		
-		}
+		}		
 		
-		function change_img(id, img){
-			document.getElementById(id).src = img;
+		function _get_page_content(){
+		  var content = "<fieldset><div id=\"list_div\">"+	
+                   "<table  cellpadding=\"5\" ><tbody id=\"table_list\">"+
+					localStorage["ril_mylist"]+
+					"</tbody></table>"+
+					"</div></fieldset>";
+			return content;		
 		}
 		
 		function _get_page_footer(){
 			var footer = 	"<footer>"+
 						"<div id=\"pagination\"></div>"+
-						"<br><label id=\"footer_msg\"></label>"
+						"<br><label id=\"footer_msg\"></label><img id=\"status_img\" src=\"loader.gif\">"
 					"</footer>";
 					
 			return footer;		
 		}
-		
+				
 		function complete_page(){
 			build_favicons();
 			build_footer();
 		}
 		
 		function build_favicons(){
-      			if(localStorage["favicons"]){
+            if(localStorage["favicons"]){
 			  	var favicons = localStorage["favicons"].split("||||");			  
-        			insert_favicons(favicons);
-			}
-		  
+        	    for(var i = 0; i < favicons.length; i++){
+		            document.getElementById("favicon_index_"+i).src = "\""+favicons[i]+"\"";
+		        }
+			}		  
 		}
 	  
 		function add(){
+		    show_load_icon();
+		    if(get_items_per_page() > get_uncount_number()){
+		        document.getElementById("table_list").innerHTML += "<tr  id='load_td' ><td class=\"no_border\"><br></td><td><label id='loading'>Loading</label><img src='loader_table.gif'></img></td><td class=\"no_border\"></td></tr>" 
+		        document.getElementById("load_td").opacity = 0.4;
+		    }
 		  	document.getElementById("add_img").src = "bookmark_press.png";
-			show_load_screen();
-			setTimeout("_add_aux()", 1);
-			_add_aux();   
-		}
-		
-		function _add_aux(){
 			chrome.tabs.getSelected(null, function(tab) {
-			var url = tab.url;
-			var title = tab.title;
-			_add(url,title);        
+			    var url = tab.url;
+			    var title = tab.title;
+			    _add(url,title);        
 			});
 		}
-	  
+		
 		function _add(url, title){
-			var bgPage = chrome.extension.getBackgroundPage();	
-			bgPage.add(url, title);
-			
-			_load_mylist(get_actual_page());
+			var bgPage = chrome.extension.getBackgroundPage();				
+			bgPage.add(callback_add, url, title);			
 		}
 		
+		
+		function callback_add(resp){
+		    build_list();
+		}
+				
 		function get_actual_page(){
 			return document.getElementById('page_slc').value;
 		}
 	
 		function mark_as_read(url, id){
 			change_list_elem_style(id);
-			setTimeout("_mark_as_read('"+url+"')", 1);
-		}
-		
-		function _mark_as_read(url){
 			var bgPage = chrome.extension.getBackgroundPage();	
 			var array = new Array();
 			array[0] = url;
-			bgPage.send(array);
-			_load_mylist(get_actual_page());
+			bgPage.send(callback_mark_as_read, array);
+		}
+		
+		function callback_mark_as_read(url){			
+			build_list();
 		}
 		
 		function show_load_screen(){
@@ -245,8 +260,8 @@
 		}		
 		
 		function change_list_elem_style(id){					
-		  document.getElementById("img_line_"+id).src = "uncheck.png";
-			var elem = document.getElementById("line_"+id);
+		    document.getElementById("img_line_index"+id).src = "uncheck.png";
+			var elem = document.getElementById("line_index_"+id);
 			elem.style.opacity = 0.3;
 			elem.style.textDecoration = "line-through";
 		}		
@@ -254,85 +269,105 @@
 		function load_mylist(){
 		  document.getElementById("refresh_img").src = "refresh_press.png";
 			show_load_screen();
-			setTimeout("_load_mylist(1)", 1);
+			setTimeout("build_list()", 1);
 		}
 		
 		function change_title_style(id, style){
 		  if(style == 'on'){		  
-		      document.getElementById('title_span_'+id).style.textDecoration = "underline";
+		      document.getElementById('title_span_index_'+id).style.textDecoration = "underline";
 		  }else{
-		    document.getElementById('title_span_'+id).style.textDecoration = "none";
+		    document.getElementById('title_span_index_'+id).style.textDecoration = "none";
 		  }
 		}			
-	
-		function _load_mylist(page){			
-			var bgPage = chrome.extension.getBackgroundPage();			
-			//if(bgPage.is_authenticate()){							
-			if(true){
-				var list = bgPage.get(page);
-				list.sort(function(a, b){			
+		
+		function build_list(){
+		  var bgPage = chrome.extension.getBackgroundPage();			
+			bgPage.get(callback_get, get_actual_page());
+		}
+		
+		function parse_list(resp){			
+		  var obj = JSON.parse(resp);  
+		  var list = obj.list;
+		  var list_s = JSON.stringify(list);
+		  list_s = list_s.replace("{", "[");
+		  list_s = list_s.replace("}}", "}]");
+			
+		  while(list_s.match(/\"[0-9]+\":/) != null)			
+			  list_s = list_s.replace(/\"[0-9]+\":/,"");			
+			
+		  var list_obj = JSON.parse(list_s);
+			
+		  return list_obj;
+	    }	
+	  
+	    function sort_list(list){
+	    list.sort(function(a, b){			
 						if(a.time_updated > b.time_updated)
 							return 1;
 						else if (a.time_updated < b.time_updated)	
 							return -1;
 						return 0;
 				});
-				
-				var favicons = new Array();
-				
+			return list;	
+	    }
+		
+		function callback_get(list){
+		    var array = parse_list(list);
+		    update_list(array);
+		}
+		
+        function update_list(list){
+            if(list.length > 0){
+		        list = sort_list(list);			
+				var favicons = new Array();	
 				var list_content = "";
+				
 				for(var i = 0; i < list.length; i++){
 					var obj = list[i];
-					if(obj.state == "0"){
-					  favicons[i] = get_domain(obj.url)+"/favicon.ico";
-					  
-					  var title = obj.title;
-					  if(title.length > 30){
-					    title = title.substr(0, 30) + "...";
-					  }
-					  
-						list_content += ""+
-						"<tr id=\"line_"+i+"\" >"+
-						  "<td class=\"no_border\">"+
-                				  "<span><img id=\"favicon_"+i+"\" class=\"favicon\"></img></span>"+
-						  "</td>"+
-						  "<td>"+
-						  "<span id=\"title_span_"+i+"\" onmouseout=\"change_title_style('"+i+"', 'off')\" onmouseover=\"change_title_style('"+i+"', 'on')\">"+
-							  "<a href=\""+obj.url+"\" target=\"_blank\" title=\""+obj.title+"\">"+title+"</a>"+
-							  "</span>"+
-							  "<br><label class=\"url_domain\">"+get_domain(obj.url)+"</label>"+
-						  "</td>"+
-						  "<td class=\"no_border\">"+
-						  "<span class=\"list_span\" id=\"list_img_"+i+"\" onclick=\"mark_as_read('"+obj.url+"', "+i+")\">"+
-							  "<img  title=\"Mark as Read\" id=\"img_line_"+i+"\" src='check.png'>"+
-						  "</span>"+
-						  "</td>"
-						"</tr>";
+					if(obj.state == "0"){					  
+					    list_content += build_item_table(i, obj.title, obj.url);
+					    favicons[i] = get_domain(obj.url)+"/favicon.ico";
 					}
 				}
-				list_content = "<table cellpadding=\"5\" >" + list_content + "</table>";
-				if(page == 1)
-					localStorage["ril_mylist"] = list_content; 				
 				
+				if(get_actual_page() == 1)
+					localStorage["ril_mylist"] = list_content;				
 				var local_storage_favicons = favicons.join("||||");				
 				localStorage["favicons"] = local_storage_favicons;
-				document.getElementById("list_div").innerHTML = list_content;
+				document.getElementById("table_list").innerHTML = list_content;
 				update_data();
 			}
 			else{
 				document.getElementById("page_body").innerHTML = "You are not logged yet!!";				
 			}
 			hide_load_screen();
-			insert_favicons(favicons);
-			document.getElementById("refresh_img").src = "refresh.png";
-			document.getElementById("add_img").src = "bookmark.png";
-		}
+			hide_load_icon();
+			build_favicons();
+			change_img("refresh_img", "refresh.png");
+			change_img("add_img", "bookmark.png");
+		}		
 		
-		
-		function insert_favicons(favicons){
-		  for(var i = 0; i < favicons.length; i++){
-		    document.getElementById("favicon_"+i).src = "\""+favicons[i]+"\"";
-		  }
+		function build_item_table(i, real_title, url){
+            var title = real_title;
+            if(title.length > 30)
+                title = title.substr(0, 30) + "...";
+		    var item =  "<tr id=\"line_index_"+i+"\" >"+
+						    "<td class=\"no_border\">"+
+                		        "<span><img id=\"favicon_index_"+i+"\" class=\"favicon\"></img></span>"+
+						    "</td>"+
+						    "<td>"+
+						        "<span id=\"title_span_index_"+i+"\" onmouseout=\"change_title_style('"+i+"', 'off')\" onmouseover=\"change_title_style('"+i+"', 'on')\">"+
+							        "<a href=\""+url+"\" target=\"_blank\" title=\""+real_title+"\">"+title+"</a>"+
+							    "</span>"+
+							    "<br><label class=\"url_domain\">"+get_domain(url)+"</label>"+
+						    "</td>"+
+						    "<td class=\"no_border\">"+
+						        "<span class=\"list_span\" id=\"list_img_index_"+i+"\" onclick=\"mark_as_read('"+url+"', "+i+")\">"+
+							        "<img  title=\"Mark as Read\" id=\"img_line_index"+i+"\" src='check.png'>"+
+						        "</span>"+
+						    "</td>"
+				        "</tr>";
+				return item;		
 		}
 		
 		function get_domain(url){
@@ -355,7 +390,7 @@
 			setTimeout("_update_data()", 10);
 		}
 		
-		function update_data(){
+		function _update_data(){
 			set_uncount_number();
 		}
 		
@@ -402,7 +437,7 @@
 		function update_page(){
 			show_load_screen();
 			var page = get_actual_page();
-			setTimeout('_load_mylist('+page+')', 10);
+			setTimeout('build_list', 10);
 		}
 		
 		function get_items_per_page(){
@@ -420,8 +455,26 @@
 		
 		function set_uncount_number(){
 			var bgPage = chrome.extension.getBackgroundPage();
-			localStorage["uncount_number"] = bgPage.get_uncount_number();  
-		}	
+			bgPage.get_uncount_number(callback_set_uncount_number);  
+		}			
+		
+		function callback_set_uncount_number(st){
+				var st_json = JSON.parse(st);		
+		        localStorage["uncount_number"] = st_json.count_unread;
+		        build_footer();
+		}
+		
+		function change_img(id, img){
+			document.getElementById(id).src = img;
+		}
+		
+		function show_load_icon(){
+		    document.getElementById("status_img").style.visibility = 'visible';
+		}
+		
+		function hide_load_icon(){
+		    document.getElementById("status_img").style.visibility = 'hidden';
+		}
 	</script>	
 </head>
 <body onload="build_page()">	  

@@ -1,10 +1,39 @@
 <html>
+    <head>
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Reenie+Beanie">
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Josefin+Sans+Std+Light">
+    <style>
+        body{
+            font-family: 'Tangerine', serif;
+			font-size: 25px;
+			text-shadow: 4px 4px 4px black;
+        }
+        #ril_name{
+            padding: 10px;
+            border-radius: 10;
+            text-align:center;
+        }
+        
+        #ril_password{
+            padding: 10px;
+            border-radius: 10;
+            text-align:center;
+        }
+        
+        fieldset{
+            width: 250px;
+            border-radius: 10;
+        }
+    </style>
+    
 	<script type="text/javascript" language="javascript" charset="utf-8">
 		function save_options(){
 			var name = document.getElementById("ril_name").value;
 			var password = document.getElementById("ril_password").value;
 			localStorage["rilName"] = name;
-			localStorage["rilPassword"] = password;			
+			localStorage["rilPassword"] = password;	
+			alert("Saved!!!!");
 		}		
 		
 		function try_to_fill(){
@@ -18,10 +47,13 @@
 		}
 		
 	</script>
+	</head>
 	<body onload="try_to_fill();">
-		
-	<label>Username</label><input id="ril_name" type="text" size="15"><br/>
-	<label>Password</label><input id="ril_password" type="password" size="15"><br/>
+	<fieldset>	
+	<legend>Read it Later Login</legend>
+	<label>Username: </label><input size='30' id="ril_name" type="text" size="15"><br/>
+	<label>Password: </label><input size='30' id="ril_password" type="password" size="15"><br/>
 	<input type="button" value="Save" onclick="save_options();" id="opt_save_btn" class="btn"/>
+	</fieldset>
 	</body>
 </html>

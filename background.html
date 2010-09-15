@@ -1,16 +1,17 @@
 <html>
 	<script>
 	
-	function post(url, params){
+	function post(url, params, callback){
 		var xhr = new XMLHttpRequest();
-		xhr.open("POST", url, false);   
+		xhr.open("POST", url, true);   
 		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xhr.setRequestHeader("Content-length", params.length);
 		xhr.setRequestHeader("Connection", "close");			
+		var teste = chrome.extension.getViews()[0];
+		xhr.onreadystatechange = function(){
+		 callback(xhr.responseText);		  
+		}
 		xhr.send(params);	
-		if(xhr.responseText)
-			return xhr.responseText;
-		return  "";
 	}
 	
 	function is_authenticate(){
@@ -18,12 +19,19 @@
 		var params = 	"username="+localStorage["rilName"]+
 				"&password="+localStorage["rilPassword"]+
 				"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517";
+				
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", url, false);   
+		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhr.setRequestHeader("Content-length", params.length);
+		xhr.setRequestHeader("Connection", "close");			
+		xhr.send(params);	
 	                
-		var resp = post(url, params);	                  
+		var resp = xhr.responseText	;	
 		return resp == "200 OK" ? true: false;	    
 	}
 		
-	function add(addurl, title){
+	function add(callback, addurl, title){
 		var url = "https://readitlaterlist.com/v2/add";
 		var params =	"username="+localStorage["rilName"]+
 				"&password="+localStorage["rilPassword"]+
@@ -31,12 +39,11 @@
 				"&url="+addurl+
 				"&title="+title;
 					  
-		var resp = post(url, params);	                  
-		return resp == "200 OK" ? true: false;
+		post(url, params, callback);		
 	}
 		
 
-	function get(page){
+	function get(callback, page){
 		var url = "https://readitlaterlist.com/v2/get";
 		var params =	"state=\"0\""+
 				"&password="+localStorage["rilPassword"]+
@@ -44,37 +51,31 @@
 				"&username="+localStorage["rilName"]+
 				"&count=5"+
 				"&page="+page;
-		var resp = post(url, params);
-		//verificar o status da resposta
-		return parse_list(resp);
+		post(url, params, callback);		
 	}
 		
-	function send(read_list){
+	function send(callback, read_list){
 		var url = "https://readitlaterlist.com/v2/send";
 		var params = 	"username="+localStorage["rilName"]+
 			    	"&password="+localStorage["rilPassword"]+
 				"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517";
 					
 		params += make_send_param(read_list);		
-		var resp = post(url, params);	                  
-		return resp == "200 OK" ? true: false;
+		post(url, params, callback);		
 	}
 	
-	function get_uncount_number(){
-		var st = stats();
-		var st_json = JSON.parse(st);
-		
-		return st_json.count_unread;
+	function get_uncount_number(callback){
+		stats(callback);
 	}
 	
-	function stats(){
+	function stats(callback){
 	
 		var url = "https://readitlaterlist.com/v2/stats";
 		var params = 	"username="+localStorage["rilName"]+
 			    	"&password="+localStorage["rilPassword"]+
 				"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517";
 		
-		return post(url, params);
+		post(url, params, callback);
 	}
 		
 	function make_send_param(list){
@@ -90,20 +91,7 @@
 		return params;
 	}
 		
-	function parse_list(resp){			
-		var obj = JSON.parse(resp);  
-		var list = obj.list;
-		var list_s = JSON.stringify(list);
-		list_s = list_s.replace("{", "[");
-		list_s = list_s.replace("}}", "}]");
-			
-		while(list_s.match(/\"[0-9]+\":/) != null)			
-			list_s = list_s.replace(/\"[0-9]+\":/,"");			
-			
-		var list_obj = JSON.parse(list_s);
-			
-		return list_obj;
-	}	
+	
 		
 	</script>	
 </html>
