@@ -192,7 +192,7 @@
 					var bgPage = chrome.extension.getBackgroundPage();				
 					bgPage.is_authenticate(callback_empty_list_check);
 				}else{					
-					list = "<tr class='list_msg' style=\"text-align:center; height: 200px\"><td class='no_border'>Please Configure The IWillRil in the Option page</td></tr>";
+					list = "<tr class='list_msg' style=\"text-align:center; height: 200px\"><td class='no_border' style=\"font-size:20px;\">Please Configure The IWillRil in the Option page</td></tr>";
 				}				
 			}			
 			
@@ -207,10 +207,10 @@
 		function callback_empty_list_check(resp){
 			var list = "";
 			if(resp == "200 OK"){
-				list = "<tr class='list_msg' style=\"text-align:center; height: 200px\"><td class='no_border'>Congratulations!! You already read all yours items</td></tr>"
+				build_list();
 			}
 			else{
-				list = "<tr class='list_msg' style=\"text-align:center; height: 200px\" ><td class='no_border'>Authentication Failed!!</td></tr>"
+				list = "<tr id=\"auth_failed\" class='list_msg' style=\"text-align:center; height: 200px\" ><td class='no_border' style=\"font-size:20px;\">Authentication Failed!!</td></tr>";
 			}
 			
 			document.getElementById('table_list').innerHTML = list;
@@ -242,6 +242,9 @@
 		function add(){
 			show_load_icon();
 			if(get_items_per_page() > get_uncount_number()){
+			    if(document.getElementById("all_msg_read"))
+			        document.getElementById("table_list").innerHTML = "";
+			
 				document.getElementById("table_list").innerHTML += "<tr  id='load_td' ><td class=\"no_border\"><br></td><td><label id='loading'>Loading</label><img src='loader_table.gif'></img></td><td class=\"no_border\"></td></tr>" 
 				document.getElementById("load_td").opacity = 0.4;
 			}
@@ -268,6 +271,10 @@
 				return document.getElementById('page_slc').value;
 			return 1;	
 		}
+	
+	    function change_page(page){
+	        document.getElementById('page_slc').value = page;
+	    }
 	
 		function mark_as_read(url, id){
 			change_list_elem_style(id);
@@ -351,19 +358,19 @@
 		
 		function callback_get(resp){
 			var list = get_json_str_list(resp);
-			list = merge_json_list(list);
+			//list = merge_json_list(list); não realiza o merge ainda
 			localStorage["json_list_iwillril"] = list;
 			update_list(list);
 		}
 		
 		function merge_json_list(list_with_alterations_json){
 			var old_json_list = get_json_list();
-			if(old_json_list){			
+			if(old_json_list){
 				var old_list = parse_list(old_json_list);
 				var list_with_alterations = parse_list(list_with_alterations_json);
+				
 				var removed_list = new Array();
 				var added_list = new Array();
-				var new_list = new Array();
 				
 				for(var j = 0; j < list_with_alterations.length; j++){					
 					if(list_with_alterations[j].state == 0)	{
@@ -373,16 +380,27 @@
 						removed_list.push(list_with_alterations[j]);
 					}
 				}
+				
 				var index = 0;
 				for(var i = 0; i < old_list.length; i++){
 					for(var j = 0; j < removed_list.length; j++){					
-						if(old_list[i].item_id != removed_list[j].item_id){
-							new_list[index++] = old_list[i];
+						if(old_list[i].item_id == removed_list[j].item_id){
+							old_list.splice(i, 1);
 						}
 					}
 				}
-				new_list = added_list.concat(new_list);
-				return JSON.stringify(new_list);
+				
+				for(var i = 0; i < old_list.length; i++){
+					for(var j = 0; j < added_list.length; j++){					
+						if(old_list[i].item_id == added_list[j].item_id){
+							old_list.splice(i, 1);
+						}
+					}
+				}
+				
+				
+				var final_list = old_list.concat(added_list);
+				return JSON.stringify(final_list);
 			}
 			return list_with_alterations_json;
 		}
@@ -405,6 +423,13 @@
 				var items = get_items_per_page();
 				
 				var index = (page - 1) * items;
+				
+				if(index == list.length){
+				    --page;
+				    index -= items;				    
+				    change_page(page);
+				}
+				
 				var limit = items * page;
 				if(list.length > index){
 					for(index; index < limit && index < list.length; index++){
@@ -413,13 +438,16 @@
 							favicons[index] = get_domain(obj.url)+"/favicon.ico";
 					}		
 				}
+				localStorage["ril_mylist"] = list_content;
+			    localStorage["actual_page_iwillril"] = get_actual_page();
+			    var local_storage_favicons = favicons.join("||||");				
+			    localStorage["favicons"] = local_storage_favicons;
 			}
-			document.getElementById("table_list").innerHTML = list_content;
-				
-			localStorage["ril_mylist"] = list_content;
-			localStorage["actual_page_iwillril"] = get_actual_page();
-			var local_storage_favicons = favicons.join("||||");				
-			localStorage["favicons"] = local_storage_favicons;
+			else{
+			    localStorage["ril_mylist"]  = "";
+			    list_content = "<tr id=\"all_msg_read\" class='list_msg' style=\"text-align:center; height: 200px\"><td class='no_border' style=\"font-size:20px;\">Congratulations!! You already read all yours items</td></tr>";
+			}
+			document.getElementById("table_list").innerHTML = list_content;			
 			refresh_screen();						
 		}		
 		
@@ -543,8 +571,12 @@
 		}
 		
 		function get_last_get_time(){
+		    return 0;
+		
 			if(localStorage["last_get_time_iwillril"]){
-				return localStorage["last_get_time_iwillril"];
+                var time =	localStorage["last_get_time_iwillril"];
+                localStorage["last_get_time_iwillril"] = get_unix_time();                		
+				return time;
 			}
 			
 			localStorage["last_get_time_iwillril"] = get_unix_time();
@@ -557,7 +589,7 @@
 		}			
 		
 		function callback_set_uncount_number(st){
-			var st_json = JSON.parse(st);		
+			    var st_json = JSON.parse(st);		
 		        localStorage["uncount_number"] = st_json.count_unread;
 		        build_footer();
 		}
@@ -579,6 +611,7 @@
 			var foo = new Date();
 			var unixtime_ms = foo.getTime();
 			var unixtime = parseInt(unixtime_ms / 1000);
+			return unixtime;
 		}
 	</script>	
 </head>

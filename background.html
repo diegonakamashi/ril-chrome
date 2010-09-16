@@ -37,11 +37,12 @@
 
 	function get(callback, time){
 		var url = "https://readitlaterlist.com/v2/get";
-		var params =	"state=\"0\""+
-				"&password="+localStorage["rilPassword"]+
+		var params ="password="+localStorage["rilPassword"]+
 				"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517"+
 				"&username="+localStorage["rilName"]+
-				"&since="+time;
+				"&since="+time+
+				"&state=\"0\"";				
+
 		post(url, params, callback);		
 	}
 		
