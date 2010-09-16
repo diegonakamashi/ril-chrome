@@ -13,10 +13,15 @@
 			height: 350px;
 			background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#DDDDDD));
 			margin: 0px;
-		}
+			
+		}	
+		
 		
 		#list_div{
-			height: 300px;
+			height: 230px;
+			width: 270px;
+			top: 5px;
+			position: relative;
 		}
 		
 		#page_body{
@@ -38,9 +43,6 @@
 			height: 100%;
 		}
 		
-		#list_div{
-			
-		}
 		
 		#load_div{
 			background: #000000;
@@ -139,7 +141,7 @@
 			font-size:15px;
 		}
 		
-		fieldset{
+		#ril_fieldset{
 			border-radius: 15px;
 			height: 240px;
 			position:absolute;
@@ -172,7 +174,8 @@
 					          _get_page_footer();
 			
 			document.getElementById("page_body").innerHTML = html_content;	
-			setTimeout("complete_page()", 1);
+			
+			complete_page();
 		}
 		
 		function _get_page_header(){
@@ -196,24 +199,29 @@
 				}				
 			}			
 			
-		  	var content = "<fieldset><div id=\"list_div\">"+	
-                   "<table  cellpadding=\"5\" width='100%' ><tbody id=\"table_list\">"+
-					list +
-					"</tbody></table>"+
-					"</div></fieldset>";
+		  	var content = 	"<fieldset id=\"ril_fieldset\">"+
+		  						"<div id=\"list_div\">"+	
+								   	"<table  cellpadding=\"5\" width='100%' ><tbody id=\"table_list\">"+
+										list +
+									"</tbody></table>"+
+								"</div>"+
+							"</fieldset>";
 			return content;		
 		}
 		
 		function callback_empty_list_check(resp){
 			var list = "";
 			if(resp == "200 OK"){
+				show_load_screen();
+				list = "<tr id=\"auth_failed\" class='list_msg' style=\"text-align:center; height: 200px\" ><td class='no_border' style=\"font-size:20px;\"><img src='build_list_loader.gif'></gif></td></tr>";				
+				document.getElementById('table_list').innerHTML = list;
 				build_list();
 			}
 			else{
-				list = "<tr id=\"auth_failed\" class='list_msg' style=\"text-align:center; height: 200px\" ><td class='no_border' style=\"font-size:20px;\">Authentication Failed!!</td></tr>";
+				list = "<tr id=\"auth_failed\" class='list_msg' style=\"text-align:center; height: 200px\" ><td class='no_border' style=\"font-size:20px;\">Authentication Failed!!</td></tr>";				
+				document.getElementById('table_list').innerHTML = list;
 			}
 			
-			document.getElementById('table_list').innerHTML = list;
 		}
 		
 		function _get_page_footer(){
@@ -225,7 +233,17 @@
 			return footer;		
 		}
 				
+
 		function complete_page(){
+			var items = get_items_per_page();
+			
+			if(items > 5){
+				document.getElementById("list_div").style.overflow = "auto";
+			}			
+			setTimeout("_complete_page()", 1);
+		}
+		
+		function _complete_page(){
 			build_favicons();
 			build_footer();
 		}
@@ -559,7 +577,7 @@
 		
 		function get_items_per_page(){
 			if(localStorage["ril_items_per_page"])
-				return localStorage["ril_items_per_page"];
+				return parseInt(localStorage["ril_items_per_page"]);
 			return 5;	
 		}
 		

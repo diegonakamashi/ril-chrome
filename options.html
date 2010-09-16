@@ -1,30 +1,39 @@
 <html>
     <head>
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lobster">
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Reenie+Beanie">
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Josefin+Sans+Std+Light">
     <style>
         body{
-            font-family: 'Tangerine', serif;
-			font-size: 25px;
-			text-shadow: 4px 4px 4px black;
+            font-family: 'Lobster', serif;
+			font-size: 20px;
+			text-shadow: 8px 8px 8px black;
         }
+        input{
+        	font-family: 'Reenie Beanie', serif;
+        	font-size: 25px;
+        	border-radius: 10;
+        	text-align:center;
+        }
+        
+        input:focus {
+			background-color: #FCFFCD;
+		}
+        
         #ril_name{
             padding: 10px;
-            border-radius: 10;
-            text-align:center;
         }
         
         #ril_password{
             padding: 10px;
-            border-radius: 10;
-            text-align:center;
         }
         
         fieldset{
-            width: 250px;
+            width: 350px;
             border-radius: 10;
+            background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#DDDDDD));
         }
+        
     </style>
     
 	<script type="text/javascript" language="javascript" charset="utf-8">
@@ -33,6 +42,8 @@
 			var password = document.getElementById("ril_password").value;
 			localStorage["rilName"] = name;
 			localStorage["rilPassword"] = password;	
+			localStorage["ril_items_per_page"] = document.getElementById("ril_ipp").value;
+			localStorage["ril_mylist"] = "";
 			alert("Saved!!!!");
 		}		
 		
@@ -42,17 +53,26 @@
 			}
 			
 			if(localStorage["rilPassword"]){
-				password = document.getElementById("ril_password").value = localStorage["rilPassword"];
+				document.getElementById("ril_password").value = localStorage["rilPassword"];
 			}
+			
+			if(localStorage["ril_items_per_page"]){
+				document.getElementById("ril_ipp").value = localStorage["ril_items_per_page"];
+			}else{
+				document.getElementById("ril_ipp").value = 5;
+			}
+			
 		}
+		
 		
 	</script>
 	</head>
 	<body onload="try_to_fill();">
 	<fieldset>	
 	<legend>Read it Later Login</legend>
-	<label>Username: </label><input size='30' id="ril_name" type="text" size="15"><br/>
-	<label>Password: </label><input size='30' id="ril_password" type="password" size="15"><br/>
+	<label>Username: </label><input class=\"txt\" size='30' id="ril_name" type="text" size="15"><br/>
+	<label>Password: </label><input class=\"txt\" size='30' id="ril_password" type="password" size="15"><br/>
+	<label>Items per page: </label><input class=\"txt\" size='10' id="ril_ipp" type="text" size="15"><br/>
 	<input type="button" value="Save" onclick="save_options();" id="opt_save_btn" class="btn"/>
 	</fieldset>
 	</body>
