@@ -21,6 +21,23 @@
 				"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517";
 				
 		post(url, params, callback);
+		ril_auth();
+	}
+	
+	function ril_auth(){
+		var url = "http://readitlaterlist.com/login_process";
+		var params = 	"feed_id="+localStorage["rilName"]+
+				"&password="+localStorage["rilPassword"];	
+				
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", url, false);   
+		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhr.setRequestHeader("Content-length", params.length);
+		xhr.setRequestHeader("Connection", "close");			
+		var teste = chrome.extension.getViews()[0];
+
+		xhr.send(params);
+		xhr.responseText;	
 	}
 		
 	function add(callback, addurl, title){
@@ -83,7 +100,16 @@
 		return params;
 	}
 		
+	function add_2_ril(){
+		
+	}	
+		
+
 	
+	function _add_callback(resp){
+		resp;
+		
+	}
 		
 	</script>	
 </html>

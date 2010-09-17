@@ -10,6 +10,7 @@
   },
   "permissions": [
     "https://readitlaterlist.com/", 
+    "http://readitlaterlist.com/",
     "tabs"
   ],
   

@@ -192,7 +192,7 @@
 			
 			if(list == ""){
 				if((localStorage["rilName"]  && localStorage["rilPassword"])){
-					var bgPage = chrome.extension.getBackgroundPage();				
+					var bgPage = chrome.extension.getBackgroundPage();
 					bgPage.is_authenticate(callback_empty_list_check);
 				}else{					
 					list = "<tr class='list_msg' style=\"text-align:center; height: 200px\"><td class='no_border' style=\"font-size:20px;\">Please Configure The IWillRil in the Option page</td></tr>";
@@ -208,6 +208,7 @@
 							"</fieldset>";
 			return content;		
 		}
+		
 		
 		function callback_empty_list_check(resp){
 			var list = "";
