@@ -109,6 +109,6 @@ busy = false;
             //make RTM icon
             setRtmIcon(node, href, titleStr);
             //title.insertBefore(node, title.childNodes[1]);
-            icons[i].innerHTML = "";
+            icons[i].innerHTML += "<span>"+href+"</span>";
         }
     }
