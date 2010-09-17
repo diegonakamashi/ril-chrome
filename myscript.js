@@ -1,4 +1,4 @@
-setTimeout(greader_add_rilicon, 3000);
+setInterval(greader_add_rilicon, 1000);
 
 function greader_add_rilicon() {
 	var titles = document.evaluate('//h2[@class="entry-title"]', document, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
@@ -6,10 +6,18 @@ function greader_add_rilicon() {
 
 	if (! titles.snapshotLength) return;	
 	if(titles.snapshotLength != iconsx.snapshotLength) return;
+    
+	var where;
+	var element = iconsx.snapshotItem(i);
+	if (element.offsetWidth === 0 || element.offsetHeight === 0)
+		where = titles;		
+	else
+		where = iconsx;
+		
                                   
 	var icons = new Array();
-	for(var i = 0; i < iconsx.snapshotLength; i++)
-		icons.push(iconsx.snapshotItem(i));
+	for(var i = 0; i < where.snapshotLength; i++)
+		icons.push(where.snapshotItem(i));
 
 	var titleArray = new Array();
 	for (var i = 0; i < titles.snapshotLength; i++) {
@@ -17,6 +25,10 @@ function greader_add_rilicon() {
 		var title = titles.snapshotItem(i);
 		var nodes = title.childNodes;
 		if ((nodes == null) || true) {
+			var spans = icons[i].childNodes;
+			
+			if(spans.length > 1 && spans[0].className == 'googlereader2iwillril') continue;
+			
 			var link = null;
 			var titleStr = '';
 			if (title.firstChild.tagName == 'A') {
@@ -43,7 +55,7 @@ function greader_add_rilicon() {
 function setRtmIcon(targetNode, href, titleStr) {
 	//make linking string
 	//var anker = "javascript:(function(){name=\""+def_prefix+"\"+encodeURIComponent(\""+titleStr+"\");due=\""+def_due+"\";tags=\""+def_tag+"\";url=\""+href+"\";cp=\"http://m.rememberthemilk.com/add?name=\"+name+\"&due=\"+due+\"&tags=\"+tags+\"&url=\"+url;w=window.open(cp,\"_blank\",\"status=no,toolbar=no,width=200,height=560,resizable=yes\");setTimeout(function(){w.focus();},500);})();";
-	var anker = "add_2_ril(\""+ href +"\", \""+ titleStr +"\")";
+	var anker = "javascript:(function{})";
 	//make anker tags
 	var a = document.createElement("a");
 	a.setAttribute('href', anker);
@@ -63,10 +75,11 @@ function setRtmIcon(targetNode, href, titleStr) {
 	//set img tag in anker tag
 	a.appendChild(imgTag);
 	//set anker tag in span tag
-	with (targetNode) {
-		appendChild(document.createTextNode(" "));
-		appendChild(a);
-	}        
+	targetNode.appendChild(document.createTextNode(" "));
+	targetNode.appendChild(a);
+
+	
+	return targetNode;
 }
 
 //make RTM icons
@@ -79,13 +92,11 @@ function setRtmIcons(titleArray, icons) {
 		var titleStr = titleArray[i].titleStr;
 		//make span tag
 		var node = document.createElement('span');
-		node.className = 'googlereader2iwillril';
 		//make RTM icon
-		setRtmIcon(node, href, titleStr);
+		node = setRtmIcon(node, href, titleStr);
 		//title.insertBefore(node, title.childNodes[1]);
-		icons[i].innerHTML = node.innerHTML + icons[i].innerHTML;
+		icons[i].innerHTML = "<span class='googlereader2iwillril'>" + node.innerHTML + "</span>" + icons[i].innerHTML;
 	}
-	
 
 }
 
