@@ -1,8 +1,11 @@
-setInterval(greader_add_rilicon, 1000);
-
+//setInterval(greader_add_rilicon, 500);
+BUSY = false;
 function greader_add_rilicon() {
+    if(BUSY == true)
+        return;
+    BUSY = true;
 	var titles = document.evaluate('//h2[@class="entry-title"]', document, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
-	var iconsx = document.evaluate('//*[@class="entry-source-title"]', document, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
+	var iconsx = document.evaluate('//SPAN[@class="entry-source-title"]', document, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
 
 	if (! titles.snapshotLength) return;	
 	if(titles.snapshotLength != iconsx.snapshotLength) return;
@@ -24,26 +27,25 @@ function greader_add_rilicon() {
                                     
 		var title = titles.snapshotItem(i);
 		var nodes = title.childNodes;
-		if ((nodes == null) || true) {
-			var spans = icons[i].childNodes;
+		var spans = icons[i].childNodes;
 			
-			if(spans.length > 1 && spans[0].className == 'googlereader2iwillril') continue;
+		if(spans[0].className == 'googlereader2iwillril' || spans[0].nodeName == "SPAN") continue;
 			
-			var link = null;
-			var titleStr = '';
-			if (title.firstChild.tagName == 'A') {
-               // entry-container (Expanded view or Collapsed item)
-				link = title.firstChild;
-				titleStr = link.firstChild.textContent;
-			}else {
-				// entry (List view)                                             
-				link = title.parentNode.parentNode.firstChild;
-				if (link.tagName != 'A') link = null;
-					titleStr = title.textContent;                                             
-			}
-			if (link != null)
-				titleArray.push({ node: title, href: link.href, titleStr: titleStr });				
+		var link = null;
+		var titleStr = '';
+		if (title.firstChild.tagName == 'A') {
+              // entry-container (Expanded view or Collapsed item)
+			link = title.firstChild;
+			titleStr = link.firstChild.textContent;
+		}else {
+			// entry (List view)                                             
+			link = title.parentNode.parentNode.firstChild;
+			if (link.tagName != 'A') link = null;
+				titleStr = title.textContent;                                             
 		}
+		if (link != null)
+			titleArray.push({ node: title, href: link.href, titleStr: titleStr });				
+
 	}
                 
     if (titleArray.length == 0) return;
@@ -55,7 +57,7 @@ function greader_add_rilicon() {
 function setRtmIcon(targetNode, href, titleStr) {
 	//make linking string
 	//var anker = "javascript:(function(){name=\""+def_prefix+"\"+encodeURIComponent(\""+titleStr+"\");due=\""+def_due+"\";tags=\""+def_tag+"\";url=\""+href+"\";cp=\"http://m.rememberthemilk.com/add?name=\"+name+\"&due=\"+due+\"&tags=\"+tags+\"&url=\"+url;w=window.open(cp,\"_blank\",\"status=no,toolbar=no,width=200,height=560,resizable=yes\");setTimeout(function(){w.focus();},500);})();";
-	var anker = "javascript:(function{})";
+	var anker = "javascript:(function(){window.open(\"https://readitlaterlist.com/edit?BL=1&title=Xadrez%20Lego%20de%20Star%20Wars&url=http://www.designontherocks.xpg.com.br/xadrez-lego-de-star-wars/\", \"_blank\", \"status=no,toolbar=no,width=320,height=220,resizable=yes\");})";
 	//make anker tags
 	var a = document.createElement("a");
 	a.setAttribute('href', anker);
@@ -74,6 +76,8 @@ function setRtmIcon(targetNode, href, titleStr) {
 	imgTag.border="0px";
 	//set img tag in anker tag
 	a.appendChild(imgTag);
+	a.setAttribute('style', 'z-index:1000; width:100px; height: 100px');
+	
 	//set anker tag in span tag
 	targetNode.appendChild(document.createTextNode(" "));
 	targetNode.appendChild(a);
@@ -97,7 +101,8 @@ function setRtmIcons(titleArray, icons) {
 		//title.insertBefore(node, title.childNodes[1]);
 		icons[i].innerHTML = "<span class='googlereader2iwillril'>" + node.innerHTML + "</span>" + icons[i].innerHTML;
 	}
-
+	
+	BUSY = false;
 }
 
 function add_2_ril(link, item_title){
