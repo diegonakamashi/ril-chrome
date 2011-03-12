@@ -172,12 +172,9 @@
 	    }
 	  
 		function build_page(){
-			var html_content = "";
-			html_content +=	    _get_page_header() +		                        
-					            _get_page_content() +
-					            _get_page_footer();
+			var html_content = get_page_content();
 			
-			document.getElementById("page_body").innerHTML = html_content;	
+			document.getElementById("table_list").innerHTML = html_content;	
 			
 			var items = get_items_per_page();
 			
@@ -187,17 +184,8 @@
 		    build_favicons();
 			build_footer();
 		}
-		
-		function _get_page_header(){
-			var header = 	"<header>" + 
-			    			"<span id=\"ext_title\">IWillRiL</span><br>"+
-			    			"<span id=\"add_button\"  onclick=\"add()\"><img onmouseover = \"change_img('add_img', 'bookmark_press.png')\" onmouseout = \"change_img('add_img', 'bookmark.png')\" id=\"add_img\" title=\"Add to Read It Later\" src=\"bookmark.png\"></img></span>"+
-						"<span id=\"sync_button\" onclick=\"load_mylist()\"><img onmouseover = \"change_img('refresh_img', 'refresh_press.png')\" onmouseout = \"change_img('refresh_img', 'refresh.png')\" id=\"refresh_img\" title=\"Synchronize List\" src=\"refresh.png\"></img></span>"+
-					"</header>";
-			return header;		
-		}		
-		
-		function _get_page_content(){
+				
+		function get_page_content(){
 			var list = localStorage["ril_mylist"] ? localStorage["ril_mylist"] : "";
 			
 			if(list == ""){
@@ -209,13 +197,7 @@
 				}				
 			}			
 			
-		  	var content = 	"<fieldset id=\"ril_fieldset\">"+
-		  						"<div id=\"list_div\">"+	
-								   	"<table  cellpadding=\"5\" width='100%' ><tbody id=\"table_list\">"+
-										list +
-									"</tbody></table>"+
-								"</div>"+
-							"</fieldset>";
+		  	var content = 	list;
 			return content;		
 		}
 		
@@ -229,22 +211,12 @@
 				build_list();
 			}
 			else{
-				list = "<tr id=\"auth_failed\" class='list_msg' style=\"text-align:center; height: 200px\" ><td class='no_border' style=\"font-size:20px;\">Authentication Failed!!</td></tr>";				
+				list = "<tr id=\"auth_failed\" class='list_msg' style=\"text-align:center; height: 200px\" ><td class='no_border' style=\"font-size:20px;\">Authentication Failed!! Resp Code" + resp +"</td></tr>";				
 				document.getElementById('table_list').innerHTML = list;
 			}
 			
 		}
-		
-		function _get_page_footer(){
-			var footer = 	"<footer>"+
-						"<div id=\"pagination\"></div>"+
-						"<br><label id=\"footer_msg\"></label><img id=\"status_img\" src=\"loader.gif\">"
-					"</footer>";
-					
-			return footer;		
-		}
-			
-				
+						
 		function build_favicons(){
             		if(localStorage["favicons"]){
 			  	var favicons = localStorage["favicons"].split("||||");			  
@@ -259,7 +231,7 @@
 			if(get_items_per_page() > get_uncount_number()){
 			    if(document.getElementById("all_msg_read"))
 			        document.getElementById("table_list").innerHTML = "";
-			
+
 				document.getElementById("table_list").innerHTML += "<tr  id='load_td' ><td class=\"no_border\"><br></td><td><label id='loading'>Loading</label><img src='loader_table.gif'></img></td><td class=\"no_border\"></td></tr>" 
 				document.getElementById("load_td").opacity = 0.4;
 			}
@@ -632,6 +604,31 @@
 </head>
 <body onload="init()">	  
 	<div id="page_body">
+	
+	    <header>
+	        <span id="ext_title">IWillRiL</span><br>
+	        <span id="add_button"  onclick="add()">
+	            <img onmouseover="change_img('add_img', 'bookmark_press.png')" onmouseout="change_img('add_img', 'bookmark.png')" id="add_img" title="Add to Read It Later" src="bookmark.png"></img>
+	        </span>
+			<span id="sync_button" onclick="load_mylist()">
+			    <img onmouseover="change_img('refresh_img', 'refresh_press.png')" onmouseout="change_img('refresh_img', 'refresh.png')" id="refresh_img" title="Synchronize List" src="refresh.png"></img>
+		    </span>
+        </header>
+        
+        <fieldset id="ril_fieldset">
+		    <div id="list_div">	
+				<table  cellpadding="5" width='100%' >
+				    <tbody id="table_list">
+										
+					</tbody>
+				</table>
+            </div>
+        </fieldset>
+	    
+	    <footer>
+		    <div id="pagination"></div>
+		    <br><label id="footer_msg"></label><img id="status_img" src="loader.gif">
+		</footer>
 		  
 	</div>
 </body>
