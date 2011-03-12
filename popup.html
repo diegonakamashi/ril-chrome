@@ -166,6 +166,10 @@
 	</style>
   
 	<script>
+	
+	    function init(){
+	        setTimeout("build_page()", 1);
+	    }
 	  
 		function build_page(){
 			var html_content = "";
@@ -175,7 +179,13 @@
 			
 			document.getElementById("page_body").innerHTML = html_content;	
 			
-			complete_page();
+			var items = get_items_per_page();
+			
+			if(items > 5){
+				document.getElementById("list_div").style.overflow = "auto";
+			}			
+		    build_favicons();
+			build_footer();
 		}
 		
 		function _get_page_header(){
@@ -233,22 +243,8 @@
 					
 			return footer;		
 		}
-				
-
-		function complete_page(){
-			var items = get_items_per_page();
 			
-			if(items > 5){
-				document.getElementById("list_div").style.overflow = "auto";
-			}			
-			setTimeout("_complete_page()", 1);
-		}
-		
-		function _complete_page(){
-			build_favicons();
-			build_footer();
-		}
-		
+				
 		function build_favicons(){
             		if(localStorage["favicons"]){
 			  	var favicons = localStorage["favicons"].split("||||");			  
@@ -634,7 +630,7 @@
 		}
 	</script>	
 </head>
-<body onload="build_page()">	  
+<body onload="init()">	  
 	<div id="page_body">
 		  
 	</div>
