@@ -1,4 +1,5 @@
 <html>
+    <script type="text/javascript" src="rilList.js"></script>
 	<script>
 	
 	function post(url, params, callback){
@@ -110,9 +111,34 @@
 		
 	}
 	
-	function update_list_content(time){
-	    
-	}
+	 function update_list(list){
+        list = RilList.parse_json2obj(list);
+        if(list.length > 0){
+		    list.sort(sort_function);
+			var favicons = new Array();	
+			var list_content = "";
+				
+				var limit = items * page;
+				if(list.length > index){
+					for(index; index < limit && index < list.length; index++){
+							var obj = list[index];
+							list_content += build_item_table(index, obj.title, obj.url);
+							favicons[index] = get_domain(obj.url)+"/favicon.ico";
+					}		
+				}
+				
+				localStorage["ril_mylist"] = list_content;
+			    localStorage["actual_page_iwillril"] = get_actual_page();
+			    var local_storage_favicons = favicons.join("||||");				
+			    localStorage["favicons"] = local_storage_favicons;
+			}
+			else{
+			    localStorage["ril_mylist"]  = "";
+			    list_content = "<tr id=\"all_msg_read\" class='list_msg' style=\"text-align:center; height: 200px\"><td class='no_border' style=\"font-size:20px;\">Congratulations!! You already read all yours items</td></tr>";
+			}
+			document.getElementById("table_list").innerHTML = list_content;			
+			refresh_screen();						
+		}		
 		
 	</script>	
 </html>
