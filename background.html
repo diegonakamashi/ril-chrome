@@ -112,10 +112,10 @@
 	  get(update_content, 0);
 	}
 	
-	//Atualiza o lista com seus favicons
+	//Recebe a resposta do ReadItLater e guarda os favicons e a lista
   function update_content(resp){  
-    var list = RilList.parse_2jsonOK(resp);
-	  localStorage["json_list_iwillril"] = list; 
+    localStorage["json_list_iwillril"] = resp; 
+    var list = RilList.parse_2jsonOK(resp);	  
     list = RilList.parse_json2obj(list);
     
     if(list.length > 0){

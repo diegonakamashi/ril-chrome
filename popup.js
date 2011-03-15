@@ -5,9 +5,7 @@ function init(){
 }
 	  
 function build_page(){
-	var html_content = get_page_content();
-	
-	document.getElementById("table_list").innerHTML = html_content;	
+	get_page_content();
 	
 	var items = get_items_per_page();
 	
@@ -19,18 +17,18 @@ function build_page(){
 }
 
 function get_page_content(){
-	var list = localStorage["ril_mylist"] ? localStorage["ril_mylist"] : "";
-	
-	if(list == ""){
+		
+	if(!localStorage["ril_mylist_array"]){
         if((localStorage["rilName"]  && localStorage["rilPassword"])){
 	        bgPage.is_authenticate(callback_empty_list_check);
         }else{	
-	        list = "<tr class='list_msg' style=\"text-align:center; height: 200px\"><td class='no_border' style=\"font-size:20px;\">Please Configure The IWillRil in the Option page</td></tr>";
+	        document.getElementById("table_list").innerHTML = "<tr class='list_msg' style=\"text-align:center; height: 200px\"><td class='no_border' style=\"font-size:20px;\">Please Configure The IWillRil in the Option page</td></tr>";
         }
 	}	
+	else{
+	    update_page(1);
+	}
 	
-  	var content = 	list;
-	return content;
 }
 
 
@@ -86,10 +84,6 @@ function get_actual_page(){
 	if(document.getElementById('page_slc') && !isNaN(document.getElementById('page_slc').value))
         return document.getElementById('page_slc').value;
 	return 1;	
-}
-	
-function change_page(page){
-    document.getElementById('page_slc').value = page;
 }
 	
 function mark_as_read(url, id){
@@ -153,48 +147,45 @@ function sort_list(list){
 }
 
 function callback_get(resp){
-	var list = RilList.parse_2jsonOK(resp);
-	localStorage["json_list_iwillril"] = list;
-	update_list(list);
+    bgPage.update_content(resp);    
+	update_page();
 }
 
-function update_list(list){
-    list = RilList.parse_json2obj(list);
-    if(list.length > 0){
-        list.sort(RilList.sort_function);
-        var favicons = new Array();	
-        var list_content = "";
 
-        var page = get_actual_page();
+//TODO -> melhorar a lógica de itens_per page
+function update_page(page){
+    page = parseInt(page);
+    if(!page)    
+        page = 1;
+    
+    var list_content = "";
+    if(localStorage["ril_mylist_array"]){    
+        var list_array = localStorage["ril_mylist_array"].split("||||");        
         var items = get_items_per_page();
-
+                
         var index = (page - 1) * items;
-
-        if(index == list.length){
+        
+        if(index == list_array.length){
             --page;
-            index -= items;    
-            change_page(page);
+            index -= items;                	
+            document.getElementById('page_slc').value = page;
         }
-
+        
         var limit = items * page;
-        if(list.length > index){
-	        for(index; index < limit && index < list.length; index++){
-	            var obj = list[index];
-	            list_content += bgPage.build_item_table(index, obj.title, obj.url);
-	            favicons[index] = bgPage.get_domain(obj.url)+"/favicon.ico";
+        if(list_array.length > index){
+	        for(index; index < limit && index < list_array.length; index++){
+	            list_content += list_array[index];
 	        }
         }
+        
         localStorage["ril_mylist"] = list_content;
-	    localStorage["actual_page_iwillril"] = get_actual_page();
-	    var local_storage_favicons = favicons.join("||||");
-	    localStorage["favicons"] = local_storage_favicons;
-	}
-	else{
+
+    }else{
 	    localStorage["ril_mylist"]  = "";
 	    list_content = "<tr id=\"all_msg_read\" class='list_msg' style=\"text-align:center; height: 200px\"><td class='no_border' style=\"font-size:20px;\">Congratulations!! You already read all yours items</td></tr>";
 	}
 	document.getElementById("table_list").innerHTML = list_content;	
-	refresh_screen();
+	refresh_screen();    
 }
 
 function refresh_screen(){
@@ -250,18 +241,18 @@ function get_footer_select(){
 	var options = "";
 	
 	for(var i = 0; i < options_number; i++){
-        var page = localStorage["actual_page_iwillril"] ? localStorage["actual_page_iwillril"] : get_actual_page();
+        var page = get_actual_page();
         var item = i + 1;	
         var selected = page == item ? " selected "	: "";
         options += "<option "+selected+" value='"+item+"'>"+item+"</option>";
 	}
-	var select = "<label id=\"select_text\">Page: </label><select id='page_slc' onchange='update_page()'>"+ options + "</select>";
+	var select = "<label id=\"select_text\">Page: </label><select id='page_slc' onchange='change_page(this.value)'>"+ options + "</select>";
 	return select;
 }
 
-function update_page(){
+function change_page(page){
 	show_load_screen();
-	update_list(localStorage["json_list_iwillril"]);
+	update_page(page);
 }
 
 function get_items_per_page(){
