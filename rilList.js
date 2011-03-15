@@ -19,3 +19,11 @@ RilList.parse_json2obj = function(list){
     var list_obj = JSON.parse(list);			
 	return list_obj;
 }
+
+RilList.sort_function = function(a, b){	
+	if(a.time_updated > b.time_updated)
+        return 1;
+	else if (a.time_updated < b.time_updated)	
+        return -1;
+	return 0;
+}

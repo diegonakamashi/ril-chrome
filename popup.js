@@ -161,7 +161,7 @@ function callback_get(resp){
 function update_list(list){
     list = RilList.parse_json2obj(list);
     if(list.length > 0){
-        list.sort(sort_function);
+        list.sort(RilList.sort_function);
         var favicons = new Array();	
         var list_content = "";
 
@@ -180,8 +180,8 @@ function update_list(list){
         if(list.length > index){
 	        for(index; index < limit && index < list.length; index++){
 	            var obj = list[index];
-	            list_content += build_item_table(index, obj.title, obj.url);
-	            favicons[index] = get_domain(obj.url)+"/favicon.ico";
+	            list_content += bgPage.build_item_table(index, obj.title, obj.url);
+	            favicons[index] = bgPage.get_domain(obj.url)+"/favicon.ico";
 	        }
         }
         localStorage["ril_mylist"] = list_content;
@@ -204,45 +204,6 @@ function refresh_screen(){
 	build_favicons();
 	change_img("refresh_img", "refresh.png");
 	change_img("add_img", "bookmark.png");
-}
-
-function build_item_table(i, real_title, url){
-    var title = real_title;
-    if(title.length > 30)
-    title = title.substr(0, 30) + "...";
-    var item =  "<tr id=\"line_index_"+i+"\" >"+
-                    "<td class=\"no_border\">"+
-                        "<span><img id=\"favicon_index_"+i+"\" class=\"favicon\"></img></span>"+
-                    "</td>"+
-                    "<td>"+
-                        "<span id=\"title_span_index_"+i+"\" onmouseout=\"change_title_style('"+i+"', 'off')\" onmouseover=\"change_title_style('"+i+"', 'on')\">"+
-	                        "<a href=\""+url+"\" target=\"_blank\" title=\""+real_title+"\">"+title+"</a>"+
-	                    "</span>"+
-	                    "<br><label class=\"url_domain\">"+get_domain(url)+"</label>"+
-                    "</td>"+
-                    "<td class=\"no_border\">"+
-                        "<span class=\"list_span\" id=\"list_img_index_"+i+"\" onclick=\"mark_as_read('"+url+"', "+i+")\">"+
-	                        "<img  title=\"Mark as Read\" id=\"img_line_index"+i+"\" src='check.png'>"+
-                        "</span>"+
-                    "</td>"
-                "</tr>";
-	return item;
-}
-
-function get_domain(url){
-	url = url.replace(/https?/,"");
-	url = url.replace("://", "");
-	var index = url.indexOf("/");
-	url = "http://" + url.substr(0, index);
-	return url;
-}
-
-function sort_function(a, b){	
-	if(a.time_updated > b.time_updated)
-        return 1;
-	else if (a.time_updated < b.time_updated)	
-        return -1;
-	return 0;
 }
 
 function update_data(){
