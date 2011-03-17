@@ -1,23 +1,21 @@
 var bgPage = chrome.extension.getBackgroundPage();
-	
 function init(){
+    if(!localStorage["iwillril_updating"])    
+    {
+        bgPage.update_loop();
+        localStorage["iwillril_updating"] = 'true';
+    }
     setTimeout("build_page()", 1);
 }
 	  
 function build_page(){
-	get_page_content();
-	
-	var items = get_items_per_page();
+
+    var items = get_items_per_page();
 	
 	if(items > 5){
         document.getElementById("list_div").style.overflow = "auto";
-	}	
-    build_favicons();
-	build_footer();
-}
+	}
 
-function get_page_content(){
-		
 	if(!localStorage["ril_mylist_array"]){
         if((localStorage["rilName"]  && localStorage["rilPassword"])){
 	        bgPage.is_authenticate(callback_empty_list_check);
@@ -27,8 +25,7 @@ function get_page_content(){
 	}	
 	else{
 	    update_page(1);
-	}
-	
+	}		
 }
 
 
@@ -133,17 +130,6 @@ function build_list(){
 function parse_list(list_s){	
 	var list_obj = JSON.parse(list_s);	
 	return list_obj;
-}	
-	  
-function sort_list(list){
-    list.sort(function(a, b){	
-	if(a.time_updated > b.time_updated)
-        return 1;
-	else if (a.time_updated < b.time_updated)	
-        return -1;
-	return 0;
-	});
-	return list;	
 }
 
 function callback_get(resp){
@@ -151,9 +137,22 @@ function callback_get(resp){
 	update_page();
 }
 
+function update_page(page){
+    build_content(page);
+	build_footer();
+	build_favicons();
+	refresh_screen();    
+}
+
+function refresh_screen(){	
+	hide_load_screen();
+	hide_load_icon();	
+	change_img("refresh_img", "refresh.png");
+	change_img("add_img", "bookmark.png");
+}
 
 //TODO -> melhorar a lógica de itens_per page
-function update_page(page){
+function build_content(page){
     page = parseInt(page);
     if(!page)    
         page = 1;
@@ -161,6 +160,9 @@ function update_page(page){
     var list_content = "";
     if(localStorage["ril_mylist_array"]){    
         var list_array = localStorage["ril_mylist_array"].split("||||");        
+        
+        localStorage["uncount_number"] = list_array.length;
+        
         var items = get_items_per_page();
                 
         var index = (page - 1) * items;
@@ -185,33 +187,6 @@ function update_page(page){
 	    list_content = "<tr id=\"all_msg_read\" class='list_msg' style=\"text-align:center; height: 200px\"><td class='no_border' style=\"font-size:20px;\">Congratulations!! You already read all yours items</td></tr>";
 	}
 	document.getElementById("table_list").innerHTML = list_content;	
-	refresh_screen();    
-}
-
-function refresh_screen(){
-	update_data();
-	hide_load_screen();
-	hide_load_icon();
-	build_favicons();
-	change_img("refresh_img", "refresh.png");
-	change_img("add_img", "bookmark.png");
-}
-
-function update_data(){
-	setTimeout("_update_data()", 10);
-}
-
-function _update_data(){
-	set_uncount_number();
-}
-
-function build_detailed_page(){
-	setTimeout("_build_detailed_page()", 10);
-}
-
-function _build_detailed_page(){
-	get_uncount_number();
-	set_footer_msg();	
 }
 
 function build_footer(){
@@ -228,11 +203,6 @@ function set_footer_msg(){
 }
 
 function set_footer_slc(){
-	var select = get_footer_select();
-	document.getElementById("pagination").innerHTML = select;
-}
-
-function get_footer_select(){
 	var options_number = get_uncount_number() / get_items_per_page();	
 	
 	if(options_number == 0)
@@ -247,7 +217,7 @@ function get_footer_select(){
         options += "<option "+selected+" value='"+item+"'>"+item+"</option>";
 	}
 	var select = "<label id=\"select_text\">Page: </label><select id='page_slc' onchange='change_page(this.value)'>"+ options + "</select>";
-	return select;
+	document.getElementById("pagination").innerHTML = select;
 }
 
 function change_page(page){
@@ -279,16 +249,6 @@ function get_last_get_time(){
 	
 	localStorage["last_get_time_iwillril"] = get_unix_time();
 	return 0;
-}
-
-function set_uncount_number(){
-	bgPage.get_uncount_number(callback_set_uncount_number);  
-}	
-
-function callback_set_uncount_number(st){
-    var st_json = JSON.parse(st);
-    localStorage["uncount_number"] = st_json.count_unread;
-    build_footer();
 }
 
 function change_img(id, img){

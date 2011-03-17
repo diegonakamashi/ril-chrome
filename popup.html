@@ -64,14 +64,9 @@
 		  	text-decoration:none; 
 		}
 		
-
-		#sync_button{
-		  	float: right;
-		}
-		
 		#ext_title{
 		  	font-family: 'Reenie Beanie', serif;
-		  	font-size: 40;
+		  	font-size: 25;
 		  	text-shadow: 4px 4px 4px black;
 		  	position: relative;
 		  	left: 90px;
@@ -157,12 +152,14 @@
 		
 		#add_button{
 			left:10px;
-			position:relative;
+			position:absolute;
+			top: 10px;
 		}
 		
 		#sync_button{
-			left:190px;
-			position:relative;
+			right: 10px;
+			position:absolute;
+			top: 15px;
 		}
 	</style>
   
@@ -174,25 +171,25 @@
 <body onload="init()">	  
 	<div id="page_body">
 	
-	    <header>
-	        <span id="ext_title">IWillRiL</span><br>
+	    <header style="position: relative;">
+	        <span id="ext_title">IWillRiL</span>
 	        <span id="add_button"  onclick="add()">
 	            <img onmouseover="change_img('add_img', 'bookmark_press.png')" onmouseout="change_img('add_img', 'bookmark.png')" id="add_img" title="Add to Read It Later" src="bookmark.png"></img>
 	        </span>
-			<span id="sync_button" onclick="load_mylist()">
-			    <img onmouseover="change_img('refresh_img', 'refresh_press.png')" onmouseout="change_img('refresh_img', 'refresh.png')" id="refresh_img" title="Synchronize List" src="refresh.png"></img>
-		    </span>
-        </header>
+			    <span id="sync_button" onclick="load_mylist()">
+			      <img onmouseover="change_img('refresh_img', 'refresh_press.png')" onmouseout="change_img('refresh_img', 'refresh.png')" id="refresh_img" title="Synchronize List" src="refresh.png"></img>
+		      </span>
+      </header>
         
-        <fieldset id="ril_fieldset">
+      <fieldset id="ril_fieldset">
 		    <div id="list_div">	
-				<table  cellpadding="5" width='100%' >
-				    <tbody id="table_list">
+          <table  cellpadding="5" width='100%' >
+            <tbody id="table_list">
 										
-					</tbody>
-				</table>
-            </div>
-        </fieldset>
+            </tbody>
+          </table>
+          </div>
+      </fieldset>
 	    
 	    <footer>
 		    <div id="pagination"></div>

@@ -100,13 +100,16 @@
 		
 	function add_2_ril(){
 		
-	}			
-
+	}
 	
 	function _add_callback(resp){
-		resp;
-		
+		resp;		
 	}
+	
+ function update_loop(){
+    var interval = 1000 * 60 * 30;//30 minutos
+    setInterval(update, interval);
+ }
 	
 	function update(){
 	  get(update_content, 0);
