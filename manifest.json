@@ -11,8 +11,15 @@
   "permissions": [
     "https://readitlaterlist.com/", 
     "http://readitlaterlist.com/",
-    "tabs"
-  ],
+    "tabs",
+    "contextMenus"
+  ],  
+  
+   "icons": {
+    "16": "bookmark.png",
+    "48": "bookmark.png",
+    "128": "bookmark.png"
+  },
   
   "content_scripts": [
    {

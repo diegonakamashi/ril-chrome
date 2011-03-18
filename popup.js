@@ -1,4 +1,7 @@
 var bgPage = chrome.extension.getBackgroundPage();
+
+
+
 function init(){
     if(!localStorage["iwillril_updating"])    
     {

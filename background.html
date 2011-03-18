@@ -2,6 +2,8 @@
     <script type="text/javascript" src="rilList.js"></script>
 	<script>
 	
+    chrome.contextMenus.create({"title": "I'll Read it Later ", "onclick": iwillril});
+	
 	function post(url, params, callback){
 		var xhr = new XMLHttpRequest();
 		xhr.open("POST", url, true);   
@@ -10,6 +12,18 @@
 		 callback(xhr.responseText);		  
 		}
 		xhr.send(params);	
+	}
+	
+	function iwillril(){
+        chrome.tabs.getSelected(null, function(tab) {
+	    var url = tab.url;
+	    var title = tab.title;
+	    add(iwillril_callback, url,title);        
+	});
+	}
+	
+	function iwillril_callback(resp){
+	    update();
 	}
 	
 	function is_authenticate(callback){
