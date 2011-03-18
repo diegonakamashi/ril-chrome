@@ -179,6 +179,13 @@
 			    <span id="sync_button" onclick="load_mylist()">
 			      <img onmouseover="change_img('refresh_img', 'refresh_press.png')" onmouseout="change_img('refresh_img', 'refresh.png')" id="refresh_img" title="Synchronize List" src="refresh.png"></img>
 		      </span>
+		      
+		       <div id="categorias"> 
+		        <label id="categorias_labe">Category</label>
+		        <select id="categorias_slc" onchange="change_category(this.value)">
+		            <option selected="" value="All">All</option>
+		        </select>    
+		       </div>
       </header>
         
       <fieldset id="ril_fieldset">
