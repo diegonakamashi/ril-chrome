@@ -70,6 +70,7 @@
 				"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517"+
 				"&username="+localStorage["rilName"]+
 				"&since="+time+
+				"&tags=0"+
 				"&state=\"0\"";				
 
 		post(url, params, callback);		
@@ -129,7 +130,7 @@
 	  get(update_content, 0);
 	}
 	
-	//Recebe a resposta do ReadItLater e guarda os favicons e a lista
+	//Recebe a resposta do ReadItLater e guarda os favicons, lista e as categorias
   function update_content(resp){  
     localStorage["json_list_iwillril"] = resp; 
     var list = RilList.parse_2jsonOK(resp);	  
