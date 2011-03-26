@@ -20,10 +20,19 @@ RilList.parse_json2obj = function(list){
 	return list_obj;
 }
 
-RilList.sort_function = function(a, b){	
+RilList.sort_function_old = function(a, b){	
 	if(a.time_updated > b.time_updated)
         return 1;
-	else if (a.time_added < b.time_added)	
+	else if (a.time_updated < b.time_updated)	
         return -1;
+	return 0;
+}
+
+
+RilList.sort_function_new = function(a, b){	
+	if(a.time_updated > b.time_updated)
+        return -1;
+	else if (a.time_updated < b.time_updated)	
+        return 1;
 	return 0;
 }

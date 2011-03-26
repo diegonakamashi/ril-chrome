@@ -138,7 +138,10 @@
     list = RilList.parse_json2obj(list);
     
     if(list.length > 0){
-		  list.sort(RilList.sort_function);
+            if(localStorage['iwillril_order_by'] == "new")
+                list.sort(RilList.sort_function_new);
+            else
+                list.sort(RilList.sort_function_old);
 			var favicons = new Array();	
 			var list_items = new Array();
 			var list_content = "";		 
@@ -159,13 +162,13 @@
     
   function build_item_table(i, real_title, url){
     var title = real_title;
-    if(title.length > 30)
+    if(title.length > 33)
     title = title.substr(0, 30) + "...";
     var item =  "<tr id=\"line_index_"+i+"\" >"+
                     "<td class=\"no_border\">"+
                         "<span><img id=\"favicon_index_"+i+"\" class=\"favicon\"></img></span>"+
                     "</td>"+
-                    "<td>"+
+                    "<td nowrap='nowrap'>"+
                         "<span id=\"title_span_index_"+i+"\" onmouseout=\"change_title_style('"+i+"', 'off')\" onmouseover=\"change_title_style('"+i+"', 'on')\">"+
 	                        "<a href=\""+url+"\" target=\"_blank\" title=\""+real_title+"\">"+title+"</a>"+
 	                    "</span>"+
