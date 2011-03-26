@@ -58,7 +58,8 @@
 				"&password="+localStorage["rilPassword"]+
 				"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517"+
 				"&url="+addurl+
-				"&title="+title;
+				"&title="+title+
+				"&tags=testando";
 					  
 		post(url, params, callback);		
 	}
@@ -121,16 +122,16 @@
 		resp;		
 	}
 	
- function update_loop(){
-    var interval = 1000 * 60 * 30;//30 minutos
-    setInterval(update, interval);
- }
+    function update_loop(){
+        var interval = 1000 * 60 * 30;//30 minutos
+        setInterval(update, interval);
+     }
 	
 	function update(){
 	  get(update_content, 0);
 	}
 	
-	//Recebe a resposta do ReadItLater e guarda os favicons, lista e as categorias
+	//Recebe a resposta do ReadItLater e guarda os favicon e lista
   function update_content(resp){  
     localStorage["json_list_iwillril"] = resp; 
     var list = RilList.parse_2jsonOK(resp);	  
@@ -155,7 +156,7 @@
 		  localStorage["ril_mylist_array"]  = "";
 		}
   }		
-  
+    
   function build_item_table(i, real_title, url){
     var title = real_title;
     if(title.length > 30)
@@ -174,7 +175,12 @@
                         "<span class=\"list_span\" id=\"list_img_index_"+i+"\" onclick=\"mark_as_read('"+url+"', "+i+")\">"+
 	                        "<img  title=\"Mark as Read\" id=\"img_line_index"+i+"\" src='check.png'>"+
                         "</span>"+
-                    "</td>"
+                    "</td>" +
+                     "<td class=\"no_border\">"+
+                        "<span class=\"list_span\" id=\"list_img_index_"+i+"\" onclick=\"add_to_delicious('"+url+"', '" + real_title + "' )\">"+
+	                        "<img  title=\"Add To Delicious\" id=\"img_line_index"+i+"\" src='delicious.png'>"+
+                        "</span>"+
+                    "</td>"+
                 "</tr>";
 	return item;
 }
@@ -185,6 +191,8 @@
 	  url = url.replace("://", "");
 	  var index = url.indexOf("/");
 	  url = "http://" + url.substr(0, index);
+	  if(url.length > 30)
+        url = url.substr(0, 30) + "...";
 	  return url;
   }
 		

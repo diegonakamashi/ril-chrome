@@ -1,12 +1,11 @@
 var bgPage = chrome.extension.getBackgroundPage();
-
-
+var updating = false;
 
 function init(){
-    if(!localStorage["iwillril_updating"])    
+    if(!updating)    
     {
         bgPage.update_loop();
-        localStorage["iwillril_updating"] = 'true';
+        updating = true;
     }
     setTimeout("build_page()", 1);
 }
@@ -30,7 +29,6 @@ function build_page(){
 	    update_page(1);
 	}		
 }
-
 
 function callback_empty_list_check(resp){
 	var list = "";
@@ -272,4 +270,18 @@ function get_unix_time(){
 	var unixtime_ms = foo.getTime();
 	var unixtime = parseInt(unixtime_ms / 1000);
 	return unixtime;
+}
+
+
+  
+function add_to_delicious(url, title){
+    var time = get_unix_time();
+    chrome.windows.create({
+       type: "popup",
+        url: "http://www.delicious.com/save?title="+title+"&url="+url+"&notes=&tags=&noui=1&time="+time+"&jump=doclose",
+        width:400,
+        height: 400        
+    });
+//    http://www.delicious.com/save?url=http%3A%2F%2Fwww.delicious.com%2Fserty&title=serty's%20Bookmarks%20on%20Delicious&v=5&noui=1
+    //http://www.delicious.com/save?title=testando&url=asdasdsad&notes=&tags=&noui=no&time=1300545214&share=yes&recipients=
 }

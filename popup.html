@@ -2,15 +2,16 @@
 <html>
 <head>
 
-	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Molengo"/>
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Cherry+Cream+Soda"/>
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Reenie+Beanie"/>
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Architects+Daughter"/>	
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Josefin+Sans+Std+Light"/>
     
 	<style>
 		body {
-			font-family: 'Molengo', serif;
-			font-size: 12px;
-			width: 300px;
+			font-family: 'Cherry Cream Soda', serif;
+			font-size: 9px;
+			width: 320px;
 			height: 350px;
 			background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#DDDDDD));
 			margin: 0px;
@@ -20,7 +21,7 @@
 		
 		#list_div{
 			height: 230px;
-			width: 270px;
+			width: 290px;
 			top: 5px;
 			position: relative;
 		}
@@ -48,14 +49,14 @@
 		#load_div{
 			background: #000000;
 			opacity: 0.2;
-			width: 300px;
+			width: 320px;
 			height: 200px;
 			position:absolute;
 			top: 0px;
 		}
      
 		td{
-			font-size:12px;
+			font-size:11px;
 			border-bottom: navy solid thin;
 			border-color:  #CCCCCC;
 		}
@@ -65,7 +66,7 @@
 		}
 		
 		#ext_title{
-		  	font-family: 'Reenie Beanie', serif;
+		  	font-family: 'Architects Daughter', serif;
 		  	font-size: 25;
 		  	text-shadow: 4px 4px 4px black;
 		  	position: relative;
@@ -92,7 +93,7 @@
 			font-size:15px;
 			left:40px;
 			position:relative;
-			width:300px;
+			width:320px;
 			top: 10px;	
 		}
 		#status_img{
@@ -144,7 +145,7 @@
 			top: 84px;
 			margin: 0;
 			padding: 0;
-			width: 280px;
+			width: 300px;
 			border: navy solid thin;
 			border-color:  #CCCCCC;
 			left: 9px;
@@ -180,12 +181,6 @@
 			      <img onmouseover="change_img('refresh_img', 'refresh_press.png')" onmouseout="change_img('refresh_img', 'refresh.png')" id="refresh_img" title="Synchronize List" src="refresh.png"></img>
 		      </span>
 		      
-		       <div id="categorias"> 
-		        <label id="categorias_labe">Category</label>
-		        <select id="categorias_slc" onchange="change_category(this.value)">
-		            <option selected="" value="All">All</option>
-		        </select>    
-		       </div>
       </header>
         
       <fieldset id="ril_fieldset">
