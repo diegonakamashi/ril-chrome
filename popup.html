@@ -3,16 +3,14 @@
 <head>
 
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Cherry+Cream+Soda"/>
-	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Reenie+Beanie"/>
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Dancing+Script"/>
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Architects+Daughter"/>	
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Josefin+Sans+Std+Light"/>
     
 	<style>
 		body {
 			font-family: 'Cherry Cream Soda', serif;
-			font-size: 8px;
-			width: 320px;
-			height: 350px;
+			font-size: 8px;			
 			background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#DDDDDD));
 			margin: 0px;
 			
@@ -24,15 +22,17 @@
 		}
 		
 		#list_div{
-			height: 230px;
-			width: 290px;
+			height: 98%;
+			width: 100%;
 			top: 5px;
 			position: relative;
+			overflow-x: hidden;
+			overflow-y: auto;
 		}
 		
 		#page_body{
-			width: 300px;
-			height: 381px;
+            width: 340px;
+			height: 350px;
 		}
      
 		#add_button{
@@ -59,6 +59,10 @@
 			top: 0px;
 		}
      
+        .real_link{
+            color: blue;
+        }
+     
 		td{
 			font-size:11px;
 			border-bottom: navy solid thin;
@@ -78,7 +82,7 @@
 		}
 		
 		.list_msg{
-			font-family: 'Reenie Beanie', serif;
+			font-family: 'Dancing Script', serif;
 			font-size: 20;
 		}
 		
@@ -87,10 +91,10 @@
 		}
 		
 		footer{			
-			left:9px;
-			position:absolute;
-			top:332px;
-			width:280px;
+		    left: 9px;
+            position: absolute;
+            top: 310px;
+            width: 95%;
 		}
 		#footer_msg{
 			font-family:'Josefin Sans Std Light',serif;
@@ -98,7 +102,6 @@
 			left:40px;
 			position:relative;
 			width:320px;
-			top: 10px;	
 		}
 		#status_img{
 		    top: 10px;	
@@ -106,7 +109,7 @@
 		    left: 90px;
 		    visibility: hidden;
 		}
-		
+		Dancing+Script
 		.url_domain{
 		  	font-size: 12px;
 		  	color: #CCCCCC;
@@ -144,12 +147,12 @@
 		
 		#ril_fieldset{
 			border-radius: 15px;
-			height: 240px;
+			height: 69%;
 			position:absolute;
-			top: 84px;
+			top: 64px;
 			margin: 0;
 			padding: 0;
-			width: 300px;
+			width: 95%;
 			border: navy solid thin;
 			border-color:  #CCCCCC;
 			left: 9px;
@@ -168,9 +171,9 @@
 		}
 		
 		#order_select_div{
-		top: 60px;
+		top: 40px;
         position: absolute;
-        right: 0px;
+        right: 10px;
 		}
 	</style>
   

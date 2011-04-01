@@ -22,13 +22,18 @@ function build_page(){
         if((localStorage["rilName"]  && localStorage["rilPassword"])){
 	        bgPage.is_authenticate(callback_empty_list_check);
         }else{	
-	        document.getElementById("table_list").innerHTML = "<tr class='list_msg' style=\"text-align:center; height: 200px\"><td class='no_border' style=\"font-size:20px;\">Please Configure The IWillRil in the Option page</td></tr>";
+	        document.getElementById("table_list").innerHTML = "<tr class='list_msg' style=\"text-align:center; height: 200px\"><td class='no_border' style=\"font-size:20px;\">Please Configure The IWillRil in the <a class='real_link' href='options.html'>Option page</a></td></tr>";
         }
 	}	
 	else{
 	    update_page(1);
 	}		
 }
+
+function open_options(){
+    var optionsUrl = chrome.extension.getURL('options.html');
+    chrome.tabs.create({url: optionsUrl});
+   }
 
 function callback_empty_list_check(resp){
 	var list = "";
@@ -134,8 +139,14 @@ function parse_list(list_s){
 }
 
 function callback_get(resp){
-    bgPage.update_content(resp);    
-	update_page();
+    if(resp == "403 Forbidden" || resp == "401 Unauthorized"){
+        document.getElementById("table_list").innerHTML = "<tr class='list_msg' style=\"text-align:center; height: 200px\"><td class='no_border' style=\"font-size:20px;\">Wrong username/password</td></tr>";
+        hide_load_screen();
+    }
+    else{    
+        bgPage.update_content(resp);    
+	    update_page();
+	}
 }
 
 function update_page(page){
