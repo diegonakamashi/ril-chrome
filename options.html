@@ -5,13 +5,13 @@
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Josefin+Sans+Std+Light">
     <style>
         body{
-            font-family: 'Lobster', serif;
-			font-size: 20px;
-			text-shadow: 8px 8px 8px black;
+            font-family: 'Helvetica', serif;
+			    font-size: 15px;
+
         }
         input{
-        	font-family: 'Oswald', serif;
-        	font-size: 25px;
+        	font-family: 'Helvetica', serif;
+        	font-size: 12px;
         	border-radius: 10;
         	text-align:center;
         }
@@ -21,11 +21,11 @@
 		}
         
         #ril_name{
-            padding: 10px;
+            padding: 0px;
         }
         
         #ril_password{
-            padding: 10px;
+            padding: 0px;
         }
         
         fieldset{
@@ -70,9 +70,9 @@
 	<body onload="try_to_fill();">
 	<fieldset>	
 	<legend>Read it Later Login</legend>
-	<label>Username: </label><input class=\"txt\" size='30' id="ril_name" type="text" size="15"><br/>
-	<label>Password: </label><input class=\"txt\" size='30' id="ril_password" type="password" size="15"><br/>
-	<label>Items per page: </label><input class=\"txt\" size='10' id="ril_ipp" type="text" size="15"><br/>
+	<label>Username: </label><input class=\"txt\" size='20' id="ril_name" type="text"><br/>
+	<label>Password: </label><input class=\"txt\" size='20' id="ril_password" type="password"><br/>
+	<label>Items per page: </label><input class=\"txt\" size='10' id="ril_ipp" type="text"><br/>
 	<input type="button" value="Save" onclick="save_options();" id="opt_save_btn" class="btn"/>
 	</fieldset>
 	</body>

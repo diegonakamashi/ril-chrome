@@ -162,8 +162,8 @@
     
   function build_item_table(i, real_title, url){
     var title = real_title;
-    if(title.length > 33)
-    title = title.substr(0, 30) + "...";
+    if(title.length > 40)
+    title = title.substr(0, 40) + "...";
     var item =  "<tr id=\"line_index_"+i+"\" >"+
                     "<td class=\"no_border\">"+
                         "<span><img id=\"favicon_index_"+i+"\" class=\"favicon\"></img></span>"+
@@ -179,11 +179,12 @@
 	                        "<img  title=\"Mark as Read\" id=\"img_line_index"+i+"\" src='check.png'>"+
                         "</span>"+
                     "</td>" +
-                     "<td class=\"no_border\">"+
+/*                     "<td class=\"no_border\">"+
                         "<span class=\"list_span\" id=\"list_img_index_"+i+"\" onclick=\"add_to_delicious('"+url+"', '" + real_title + "' )\">"+
 	                        "<img  title=\"Add To Delicious\" id=\"img_line_index"+i+"\" src='delicious.png'>"+
                         "</span>"+
                     "</td>"+
+*/                    
                 "</tr>";
 	return item;
 }
