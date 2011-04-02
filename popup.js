@@ -14,15 +14,11 @@ function build_page(){
 
     var items = get_items_per_page();
 	
-	if(items > 5){
-        document.getElementById("list_div").style.overflow = "auto";
-	}
-
 	if(!localStorage["ril_mylist_array"]){
         if((localStorage["rilName"]  && localStorage["rilPassword"])){
 	        bgPage.is_authenticate(callback_empty_list_check);
         }else{	
-	        document.getElementById("table_list").innerHTML = "<tr class='list_msg' style=\"text-align:center; height: 200px\"><td class='no_border' style=\"font-size:20px;\">Please Configure The IWillRil in the <a class='real_link' href='options.html'>Option page</a></td></tr>";
+	        document.getElementById("table_list").innerHTML = "<tr class='list_msg' style=\"text-align:center; height: 200px\"><td class='no_border' style=\"font-size:20px;\">Please Configure the Login in the <label class='real_link' onclick='open_options();'>Option page</label></td></tr>";
         }
 	}	
 	else{
@@ -146,6 +142,7 @@ function callback_get(resp){
     else{    
         bgPage.update_content(resp);    
 	    update_page();
+	    document.getElementById('page_slc').value = 1;
 	}
 }
 
@@ -299,6 +296,18 @@ function add_to_delicious(url, title){
     });
 }
 
+function change_line_style(type, tr){
+    
+
+}
+
+function change_mark_as_read_style(type, img){
+    if(type == "over")
+        img.src = "uncheck.png";
+    else    
+        img.src = "check.png";
+}
+
 function order_by(){
     if(!localStorage["json_list_iwillril"])
         return;
@@ -306,5 +315,6 @@ function order_by(){
     var order = document.getElementById("order_select").value;
     localStorage['iwillril_order_by'] = order;
     bgPage.update_content(localStorage["json_list_iwillril"]);
-    update_page();
+    document.getElementById('page_slc').value = 1;
+    change_page(1);
 }

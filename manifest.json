@@ -1,6 +1,6 @@
 {
   "name": "IwillriL - Read It Later Client",
-  "version": "0.1",
+  "version": "1.0",
   "description": "Unnoficial Read It Later Client Extension for Google Chrome",
   "background_page": "background.html",
   "options_page": "options.html", 

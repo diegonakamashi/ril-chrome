@@ -3,7 +3,7 @@
 <head>
 
 
-	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Architects+Daughter"/>	
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Fontdiner+Swanky"/>	
     
 	<style>
 		body {
@@ -58,6 +58,7 @@
      
     .real_link{
       color: blue;
+      cursor:pointer;
     }
      
 		td{
@@ -72,11 +73,10 @@
 		}
 		
 		#ext_title{
-		  	font-family: 'Architects Daughter', serif;
-		  	font-size: 25;
-		  	text-shadow: 4px 4px 4px black;
+		  	font-family: Fontdiner Swanky, serif;
+		  	font-size: 25px;
 		  	position: relative;
-		  	left: 90px;
+		  	left: 110px;
 		}
 		
 		.list_msg{
@@ -89,15 +89,15 @@
 		}
 		
 		footer{			
-      left: 9px;
-      position: absolute;
-      top: 310px;
-      width: 95%;
+          left: 9px;
+          position: absolute;
+          top: 310px;
+          width: 95%;
 		}
 		#footer_msg{
 			font-family: Helvetica, Arial, sans-serif;
-			font-size:15px;
-			left:40px;
+			font-size:12px;
+			left:80px;
 			position:relative;
 			width:320px;
 		}
@@ -173,6 +173,12 @@
         position: absolute;
         right: 10px;
 		}
+		
+		#option_footer{
+		    float: right;
+		    font-size: 12px;
+		    text-decoration: underline;
+		}
 	</style>
   
   
@@ -214,6 +220,7 @@
 	    <footer>
 		    <div id="pagination"></div>
 		    <br><label id="footer_msg"></label><img id="status_img" src="loader.gif">
+		    <label id="option_footer" class='real_link' onclick='open_options();'>Options</label>
 		</footer>
 		  
 	</div>

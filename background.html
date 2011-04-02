@@ -164,7 +164,7 @@
     var title = real_title;
     if(title.length > 40)
     title = title.substr(0, 40) + "...";
-    var item =  "<tr id=\"line_index_"+i+"\" >"+
+    var item =  "<tr onmouseover=\"change_line_style('over', this);\" onmouseout=\"change_line_style('out', this);\" id=\"line_index_"+i+"\" >"+
                     "<td class=\"no_border\">"+
                         "<span><img id=\"favicon_index_"+i+"\" class=\"favicon\"></img></span>"+
                     "</td>"+
@@ -175,8 +175,8 @@
 	                    "<br><label class=\"url_domain\">"+get_domain(url)+"</label>"+
                     "</td>"+
                     "<td class=\"no_border\">"+
-                        "<span class=\"list_span\" id=\"list_img_index_"+i+"\" onclick=\"mark_as_read('"+url+"', "+i+")\">"+
-	                        "<img  title=\"Mark as Read\" id=\"img_line_index"+i+"\" src='check.png'>"+
+                        "<span class=\"list_span\" id=\"list_img_index_"+i+"\"  onclick=\"mark_as_read('"+url+"', "+i+")\">"+
+	                        "<img onmouseover=\"change_mark_as_read_style('over', this);\" onmouseout=\"change_mark_as_read_style('out', this);\"  title=\"Mark as Read\" id=\"img_line_index"+i+"\" src='check.png'>"+
                         "</span>"+
                     "</td>" +
 /*                     "<td class=\"no_border\">"+
