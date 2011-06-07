@@ -2,7 +2,7 @@
     <script type="text/javascript" src="rilList.js"></script>
 	<script>
 	
-    chrome.contextMenus.create({"title": "I'll Read it Later ", "onclick": iwillril});
+    chrome.contextMenus.create({"title": "I'll Read it Later ", "onclick": iwillril,"contexts":["page", "link"]});
 	
 	function post(url, params, callback){
 		var xhr = new XMLHttpRequest();
@@ -14,12 +14,18 @@
 		xhr.send(params);	
 	}
 	
-	function iwillril(){
-        chrome.tabs.getSelected(null, function(tab) {
-	    var url = tab.url;
-	    var title = tab.title;
-	    add(iwillril_callback, url,title);        
-	});
+	function iwillril(info, tab){
+	    
+	    if(info.linkUrl && info.linkUrl.length > 0)
+	        add(iwillril_callback, info.linkUrl,info.linkUrl);
+        else
+        {
+            chrome.tabs.getSelected(null, function(tab) {
+	        var url = tab.url;
+	        var title = tab.title;
+	        add(iwillril_callback, url,title);        
+	        });
+	    }
 	}
 	
 	function iwillril_callback(resp){
@@ -104,7 +110,10 @@
 	function make_send_param(list){
 		var params = "";
 		for(var i = 0; i < list.length; i++){
-			params = params +  "\""+ i + "\":{" + "\"url\":\""+ list[i] + "\"" + "},"; 		               
+		    var url = list[i].replace(/&/g, "\&amp;");
+		    url= url.replace(/\+/g, "\+");
+		    url= url.replace(/\%/g, "\%");
+			params = params +  "\""+ i + "\":{" + "\"url\":\""+ url + "\"" + "},"; 		               
 		}
 		  
 		if(params.length > 0){

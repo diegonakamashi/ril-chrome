@@ -78,12 +78,6 @@ function _add(url, title){
 function callback_add(resp){
     build_list();
 }
-
-function get_actual_page(){
-	if(document.getElementById('page_slc') && !isNaN(document.getElementById('page_slc').value))
-        return document.getElementById('page_slc').value;
-	return 1;	
-}
 	
 function mark_as_read(url, id){
 	change_list_elem_style(id);
@@ -92,7 +86,8 @@ function mark_as_read(url, id){
 	bgPage.send(callback_mark_as_read, array);
 }
 
-function callback_mark_as_read(url){	
+function callback_mark_as_read(resp){	
+    if(resp == "200 OK")
 	build_list();
 }
 
@@ -118,10 +113,15 @@ function load_mylist(){
 }
 
 function change_title_style(id, style){
-	if(style == 'on')
+	if(style == 'on'){
         document.getElementById('title_span_index_'+id).style.textDecoration = "underline";
+        document.getElementById('title_span_index_'+id).style.fontWeight = "bold";
+     }
 	else
+	{
         document.getElementById('title_span_index_'+id).style.textDecoration = "none";
+        document.getElementById('title_span_index_'+id).style.fontWeight = "";
+    }
 }	
 
 function build_list(){	
@@ -142,7 +142,6 @@ function callback_get(resp){
     else{    
         bgPage.update_content(resp);    
 	    update_page();
-	    document.getElementById('page_slc').value = 1;
 	}
 }
 
@@ -176,24 +175,11 @@ function build_content(page){
     if(localStorage["ril_mylist_array"]){    
         var list_array = localStorage["ril_mylist_array"].split("||||");        
         
-        localStorage["uncount_number"] = list_array.length;
-        
-        var items = get_items_per_page();
-                
-        var index = (page - 1) * items;
-        
-        if(index == list_array.length){
-            --page;
-            index -= items;                	
-            document.getElementById('page_slc').value = page;
-        }
-        
-        var limit = items * page;
-        if(list_array.length > index){
-	        for(index; index < limit && index < list_array.length; index++){
+        localStorage["uncount_number"] = list_array.length;       
+       
+        for(var index = 0; index < list_array.length; index++){
 	            list_content += list_array[index];
-	        }
-        }
+	   }
         
         localStorage["ril_mylist"] = list_content;
 
@@ -221,18 +207,7 @@ function set_footer_slc(){
 	var options_number = get_uncount_number() / get_items_per_page();	
 	
 	if(options_number == 0)
-        options_number = 1;
-	
-	var options = "";
-	
-	for(var i = 0; i < options_number; i++){
-        var page = get_actual_page();
-        var item = i + 1;	
-        var selected = page == item ? " selected "	: "";
-        options += "<option "+selected+" value='"+item+"'>"+item+"</option>";
-	}
-	var select = "<label id=\"select_text\">Page: </label><select id='page_slc' onchange='change_page(this.value)'>"+ options + "</select>";
-	document.getElementById("pagination").innerHTML = select;
+        options_number = 1;	
 }
 
 function change_page(page){
@@ -315,6 +290,5 @@ function order_by(){
     var order = document.getElementById("order_select").value;
     localStorage['iwillril_order_by'] = order;
     bgPage.update_content(localStorage["json_list_iwillril"]);
-    document.getElementById('page_slc').value = 1;
-    change_page(1);
+     change_page(1);
 }

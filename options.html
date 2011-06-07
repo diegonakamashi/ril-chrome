@@ -5,12 +5,12 @@
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Josefin+Sans+Std+Light">
     <style>
         body{
-            font-family: 'Helvetica', serif;
+            font-family: Oswald, 'Helvetica', serif;
 			    font-size: 15px;
 
         }
         input{
-        	font-family: 'Helvetica', serif;
+        	font-family: Oswald, 'Helvetica', serif;
         	font-size: 12px;
         	border-radius: 10;
         	text-align:center;
@@ -30,7 +30,7 @@
         
         fieldset{
             width: 350px;
-            border-radius: 10;
+            border-radius: 5;
             background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#DDDDDD));
         }
         
@@ -42,8 +42,8 @@
 			var password = document.getElementById("ril_password").value;
 			localStorage["rilName"] = name;
 			localStorage["rilPassword"] = password;	
-			localStorage["ril_items_per_page"] = document.getElementById("ril_ipp").value;
-			localStorage["ril_mylist"] = "";
+			localStorage["ril_mylist"] = "";//TODO verificar se pode deletar esta linha
+			localStorage["ril_mylist_array"] = "";
 			alert("Saved!!!!");
 		}		
 		
@@ -56,12 +56,6 @@
 				document.getElementById("ril_password").value = localStorage["rilPassword"];
 			}
 			
-			if(localStorage["ril_items_per_page"]){
-				document.getElementById("ril_ipp").value = localStorage["ril_items_per_page"];
-			}else{
-				document.getElementById("ril_ipp").value = 5;
-			}
-			
 		}
 		
 		
@@ -72,7 +66,6 @@
 	<legend>Read it Later Login</legend>
 	<label>Username: </label><input class=\"txt\" size='20' id="ril_name" type="text"><br/>
 	<label>Password: </label><input class=\"txt\" size='20' id="ril_password" type="password"><br/>
-	<label>Items per page: </label><input class=\"txt\" size='10' id="ril_ipp" type="text"><br/>
 	<input type="button" value="Save" onclick="save_options();" id="opt_save_btn" class="btn"/>
 	</fieldset>
 	</body>
