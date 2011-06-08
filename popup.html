@@ -30,10 +30,9 @@
 		}
 		
 		#list_div{
-			height: 98%;
+			height: 500px;
 			width: 100%;
 			top: 5px;
-			position: relative;
 			overflow-x: hidden;
 			overflow-y: auto;
 		}
@@ -99,9 +98,7 @@
 		}
 		
 		footer{			
-          left: 9px;
-          position: absolute;
-          top: 500px;
+          left: 9px;          
           width: 95%;
 		}
 		#footer_msg{
@@ -191,6 +188,35 @@
 		    font-size: 12px;
 		    text-decoration: underline;
 		}
+		
+		
+		::-webkit-scrollbar {
+    width: 8px;
+    height: 5px;
+    }
+    
+    
+  ::-webkit-scrollbar-button:start:decrement,
+  ::-webkit-scrollbar-button:end:increment  {
+      height: 10px;
+      display: block;
+  }
+
+  ::-webkit-scrollbar-track-piece  {
+    -webkit-border-radius: 6px;
+  }
+
+
+  ::-webkit-scrollbar-thumb:vertical {
+    height: 5px;
+    background-color: #4682B4;
+    border: 1px solid #eee;
+    -webkit-border-radius: 6px;
+  }
+
+
+
+
 	</style>
   
   
@@ -219,7 +245,7 @@
 		      
       </header>
         
-      <fieldset id="ril_fieldset">
+
 		    <div id="list_div">	
           <table  cellpadding="5" width='100%' >
             <tbody id="table_list">
@@ -227,7 +253,7 @@
             </tbody>
           </table>
           </div>
-      </fieldset>
+
 	    
 	    <footer>
 		    <div id="pagination"></div>
