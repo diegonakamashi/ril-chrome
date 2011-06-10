@@ -272,7 +272,12 @@ function add_to_delicious(url, title){
 }
 
 function change_line_style(type, tr){
-    
+    if(type == 'over'){
+        tr.bgColor = "#FFFF99";
+    }
+    else{
+        tr.bgColor = "";
+    }
 
 }
 
