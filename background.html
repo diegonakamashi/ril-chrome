@@ -106,14 +106,27 @@
 		
 		post(url, params, callback);
 	}
+	
+	function replaceAll(str, token, newtoken){
+    var str_array = new Array();
+    str_array = str.split(token);
+    var new_str = '';
+    for(var i = 0; i < str_array.length; i++) {
+      if(new_str == '')
+        new_str = str_array[i];
+      else
+        new_str = new_str + newtoken + str_array[i];
+    }   
+    return new_str;
+	}
 		
 	function make_send_param(list){
 		var params = "";
 		for(var i = 0; i < list.length; i++){
-		    var url = list[i].replace(/&/g, "\&amp;");
-		    url= url.replace(/\+/g, "\+");
-		    url= url.replace(/\%/g, "\%");
-			params = params +  "\""+ i + "\":{" + "\"url\":\""+ url + "\"" + "},"; 		               
+		    var url = escape(list[i]);
+		    url= replaceAll(url, "&", "%26amp;");		  
+		    url= replaceAll(url, "+", "%2B");
+			  params = params +  "\""+ i + "\":{" + "\"url\":\""+ url + "\"" + "},"; 		               
 		}
 		  
 		if(params.length > 0){
