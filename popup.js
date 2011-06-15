@@ -63,7 +63,6 @@ function add(){
         document.getElementById("table_list").innerHTML += "<tr  id='load_td' ><td class=\"no_border\"><br></td><td><label id='loading'>Loading</label><img src='loader_table.gif'></img></td><td class=\"no_border\"></td></tr>" 
         document.getElementById("load_td").opacity = 0.4;
 	}
-  	document.getElementById("add_img").src = "bookmark_press.png";
 	chrome.tabs.getSelected(null, function(tab) {
 	    var url = tab.url;
 	    var title = tab.title;
@@ -107,7 +106,6 @@ function change_list_elem_style(id){
 }
 	
 function load_mylist(){
-  	document.getElementById("refresh_img").src = "refresh_press.png";
 	show_load_screen();
 	build_list();
 }
@@ -161,8 +159,6 @@ function update_page(page){
 function refresh_screen(){	
 	hide_load_screen();
 	hide_load_icon();	
-	change_img("refresh_img", "refresh.png");
-	change_img("add_img", "bookmark.png");
 }
 
 //TODO -> melhorar a lógica de itens_per page
@@ -296,4 +292,16 @@ function order_by(){
     localStorage['iwillril_order_by'] = order;
     bgPage.update_content(localStorage["json_list_iwillril"]);
      change_page(1);
+}
+
+function mouse_over(elem){
+    elem.className='font_header naka_button naka_button_over';
+    elem.style.class='font_header naka_button naka_button_over';
+    elem.style.borderStyle="inset";
+}
+
+function mouse_out(elem){
+    elem.className='font_header naka_button naka_button_out';
+    elem.style.class='font_header naka_button naka_button_out';
+    elem.style.borderStyle="outset";
 }

@@ -24,13 +24,14 @@
 			
 		}	
 		
+			
 		td{
 		    padding-rigth: 0px;
 		    padding-left: 0px;
 		}
 		
 		#list_div{
-			height: 500px;
+			max-height: 500px;
 			width: 100%;
 			top: 5px;
 			overflow-x: hidden;
@@ -39,7 +40,7 @@
 		
 		#page_body{
             width: 340px;
-			height: 550px;
+			max-height: 550px;
 		}
      
 		#add_button{
@@ -94,7 +95,7 @@
 		}
 		
 		header{
-			position: absolute;
+			position: relative;
 		}
 		
 		footer{			
@@ -127,6 +128,8 @@
 		
 		table{
 			border-collapse: collapse;
+			left: 10px;
+			position:relative;
 		}
 		
 		#pagination{
@@ -167,21 +170,63 @@
 			left:10px;
 			position:absolute;
 			top: 10px;
-			font-size: 10px;
+		}
+		
+   		.font_header{
+            font-size: 11px;
+		}
+		
+		.naka_button{
+		    border-top-style: outset;
+            border-right-style: outset;
+            border-bottom-style: outset;
+            border-left-style: outset;
+            border-width: initial;
+            border-color: initial;
+            border-radius: 15px;
+            text-align: center;
+            width: 40px;
+            border-radius: 15px;
+            font-weight: bold;
+		}
+		
+		
+		.naka_button_out{
+		    background-image: -webkit-gradient(
+                linear,
+                left bottom,
+                left top,
+                color-stop(0.18, rgb(255,255,255)),
+                color-stop(0.59, rgb(224,220,224)),
+                color-stop(1, rgb(191,191,191))
+            );
+		}
+		
+		.naka_button_over{
+		    background-image: -webkit-gradient(
+            linear,
+            left bottom,
+            left top,
+            color-stop(0.18, rgb(227,227,227)),
+            color-stop(0.59, rgb(209,209,209)),
+            color-stop(1, rgb(130,130,130))
+        );
+
 		}
 		
 		#sync_button{
 			right: 10px;
 			position:absolute;
 			top: 10px;
-			font-size: 10px;
+			
 		}
 		
 		#order_select_div{
-		top: 10px;
-        position: absolute;
-        right: 40px;
-        font-size :10px;
+		top: 35px;
+position: absolute;
+right: 10px;
+font-size: 10px;
+z-index:99;
 		}
 		
 		
@@ -230,9 +275,9 @@
 	<div id="page_body">
 	
 	    <header style="position: relative;">
-	    <span id="add_button"  onclick="add()">Add to List</span>
+	    <span id="add_button" class="font_header naka_button naka_button_out" onmouseout="mouse_out(this)" onmouseover="mouse_over(this)" onclick="add()">Add</span>
 	        <span id="ext_title">IWillRiL</span>
-	        <span id="sync_button" onclick="load_mylist()">Sync</span>
+	        <span id="sync_button" class="font_header naka_button naka_button_out" onmouseout="mouse_out(this)" onmouseover="mouse_over(this)"  onclick="load_mylist()">Sync</span>
 		      
 		      <div id="order_select_div">
 		        <select id="order_select" onchange="order_by()">
@@ -245,7 +290,7 @@
         
 
 		    <div id="list_div">	
-          <table  cellpadding="5" width='100%' >
+          <table  cellpadding="5" width='95%' >
             <tbody id="table_list">
 										
             </tbody>
