@@ -6,14 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Fontdiner+Swanky"/>
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu"/>
 	<style>
-	select {
-	    display: inline-block;
-    margin: 0;
-    outline: none;
-    line-height: 1.2;
-    background: #F8F8F8;
-    -webkit-appearance: none;
-    border-radius: 6px;
+	select {	  
     font-size: 10px;
 	}
 		body {
@@ -32,6 +25,7 @@
 		
 		#list_div{
 			max-height: 500px;
+      min-height: 100px;
 			width: 100%;
 			top: 5px;
 			overflow-x: hidden;
@@ -39,8 +33,8 @@
 		}
 		
 		#page_body{
-            width: 340px;
-			max-height: 550px;
+      width: 340px;
+      max-height: 550px;
 		}
      
 		#add_button{
@@ -84,9 +78,10 @@
 		
 		#ext_title{
 		  	font-family: Fontdiner Swanky, serif;
-		  	font-size: 25px;
+		  	font-size: 15px;
 		  	position: relative;
-		  	left: 110px;
+		  	left: 10px;
+		  	color: white;
 		}
 		
 		.list_msg{
@@ -96,6 +91,7 @@
 		
 		header{
 			position: relative;
+			background: #8B8989;
 		}
 		
 		footer{			
@@ -167,73 +163,35 @@
 		}	
 		
 		#add_button{
-			left:10px;
+			right: 110px;
 			position:absolute;
-			top: 10px;
+			top:4px;
 		}
 		
    		.font_header{
             font-size: 11px;
 		}
 		
-		.naka_button{
-		    border-top-style: outset;
-            border-right-style: outset;
-            border-bottom-style: outset;
-            border-left-style: outset;
-            border-width: initial;
-            border-color: initial;
-            border-radius: 15px;
-            text-align: center;
-            width: 40px;
-            border-radius: 15px;
-            font-weight: bold;
-		}
-		
-		
-		.naka_button_out{
-		    background-image: -webkit-gradient(
-                linear,
-                left bottom,
-                left top,
-                color-stop(0.18, rgb(255,255,255)),
-                color-stop(0.59, rgb(224,220,224)),
-                color-stop(1, rgb(191,191,191))
-            );
-		}
-		
-		.naka_button_over{
-		    background-image: -webkit-gradient(
-            linear,
-            left bottom,
-            left top,
-            color-stop(0.18, rgb(227,227,227)),
-            color-stop(0.59, rgb(209,209,209)),
-            color-stop(1, rgb(130,130,130))
-        );
-
-		}
-		
+				
 		#sync_button{
-			right: 10px;
-			position:absolute;
-			top: 10px;
-			
+			right: 90px;
+			position:absolute;		
+			top:4px;	
 		}
 		
 		#order_select_div{
-		top: 35px;
-position: absolute;
-right: 10px;
-font-size: 10px;
-z-index:99;
+		top: 3px;
+    position: absolute;
+    right: 5px;
+    font-size: 10px;
+    z-index:99;
 		}
 		
 		
 		#option_footer{
-		    float: right;
-		    font-size: 12px;
-		    text-decoration: underline;
+		  position: absolute;
+      top: 4px;
+      right: 70px;
 		}
 		
 		
@@ -275,9 +233,10 @@ z-index:99;
 	<div id="page_body">
 	
 	    <header style="position: relative;">
-	    <span id="add_button" class="font_header naka_button naka_button_out" onmouseout="mouse_out(this)" onmouseover="mouse_over(this)" onclick="add()">Add</span>
+	    <span id="add_button" class="font_header" onclick="add()" title="Add"><img src='bookmark.png'/></span>
 	        <span id="ext_title">IWillRiL</span>
-	        <span id="sync_button" class="font_header naka_button naka_button_out" onmouseout="mouse_out(this)" onmouseover="mouse_over(this)"  onclick="load_mylist()">Sync</span>
+	        <span id="sync_button" class="font_header" onclick="load_mylist()" title="Sync"><img src='refresh.png'/></span>
+   		    <span id="option_footer" class='real_link' onclick='open_options();' title="Settings"><img src="settings.png"/></span>
 		      
 		      <div id="order_select_div">
 		        <select id="order_select" onchange="order_by()">
@@ -301,7 +260,6 @@ z-index:99;
 	    <footer>
 		    <div id="pagination"></div>
 		    <br><label id="footer_msg"></label><img id="status_img" src="loader.gif">
-		    <label id="option_footer" class='real_link' onclick='open_options();'>Options</label>
 		</footer>
 		  
 	</div>

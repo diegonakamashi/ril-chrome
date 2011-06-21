@@ -294,14 +294,4 @@ function order_by(){
      change_page(1);
 }
 
-function mouse_over(elem){
-    elem.className='font_header naka_button naka_button_over';
-    elem.style.class='font_header naka_button naka_button_over';
-    elem.style.borderStyle="inset";
-}
 
-function mouse_out(elem){
-    elem.className='font_header naka_button naka_button_out';
-    elem.style.class='font_header naka_button naka_button_out';
-    elem.style.borderStyle="outset";
-}
