@@ -1,9 +1,11 @@
 <html>
     <script type="text/javascript" src="rilList.js"></script>
+    <script type="text/javascript" src="popup.js"></script>
 	<script>
 	
-    chrome.contextMenus.create({"title": "I'll Read it Later ", "onclick": iwillril,"contexts":["page", "link"]});
-	
+  chrome.contextMenus.create({"title": "I'll Read it Later ", "onclick": iwillril,"contexts":["page", "link"]});
+  build_list();
+
 	function post(url, params, callback){
 		var xhr = new XMLHttpRequest();
 		xhr.open("POST", url, true);   
@@ -145,7 +147,7 @@
 	}
 	
     function update_loop(){
-        var interval = 1000 * 60 * 30;//30 minutos
+        var interval = 1000 * 60 * 60 * 2;//2 hours
         setInterval(update, interval);
      }
 	
@@ -154,7 +156,8 @@
 	}
 	
 	//Recebe a resposta do ReadItLater e guarda os favicon e lista
-  function update_content(resp){  
+  function update_content(resp){     
+  
     localStorage["json_list_iwillril"] = resp; 
     var list = RilList.parse_2jsonOK(resp);	  
     list = RilList.parse_json2obj(list);
@@ -173,13 +176,19 @@
 				list_items[i]= build_item_table(i, obj.title, obj.url);
 				favicons[i] = get_domain(obj.url)+"/favicon.ico";
 			}      
-				
+			localStorage["uncount_number"] = list_items.length;	
       localStorage["ril_mylist_array"]  = list_items.join("||||");
 			localStorage["favicons"] = favicons.join("||||");
 		}
 		else{
+		  localStorage["uncount_number"] = 0;
 		  localStorage["ril_mylist_array"]  = "";
 		}
+		
+		var uncount = localStorage["uncount_number"];
+    var txt = new Object();
+    txt.text=uncount;
+    chrome.browserAction.setBadgeText(txt);		
   }		
     
   function build_item_table(i, real_title, url){

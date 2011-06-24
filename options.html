@@ -36,6 +36,8 @@
         
     </style>
     
+    <script type="text/javascript" src="popup.js"></script>
+    
 	<script type="text/javascript" language="javascript" charset="utf-8">
 		function save_options(){
 			var name = document.getElementById("ril_name").value;
@@ -44,6 +46,7 @@
 			localStorage["rilPassword"] = password;	
 			localStorage["ril_mylist"] = "";//TODO verificar se pode deletar esta linha
 			localStorage["ril_mylist_array"] = "";
+			build_page();
 			alert("Saved!!!!");
 		}		
 		

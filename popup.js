@@ -1,6 +1,7 @@
 var bgPage = chrome.extension.getBackgroundPage();
 var updating = false;
 
+
 function init(){
     if(!updating)    
     {
@@ -18,7 +19,7 @@ function build_page(){
         if((localStorage["rilName"]  && localStorage["rilPassword"])){
 	        bgPage.is_authenticate(callback_empty_list_check);
         }else{	
-	        document.getElementById("table_list").innerHTML = "<tr class='list_msg' style=\"text-align:center; height: 200px\"><td class='no_border' style=\"font-size:20px;\">Please Configure the Login in the <label class='real_link' onclick='open_options();'>Option page</label></td></tr>";
+	        document.getElementById("table_list").innerHTML = "<tr class='list_msg' style=\"text-align:center; height: 200px\"><td class='no_border' style=\"font-size:20px; font-family: Didact Gothic;\">Please Configure the Login in the <label class='real_link' onclick='open_options();'>Option page</label></td></tr>";
         }
 	}	
 	else{
@@ -36,11 +37,13 @@ function callback_empty_list_check(resp){
 	if(resp == "200 OK"){
         show_load_screen();
         list = "<tr id=\"auth_failed\" class='list_msg' style=\"text-align:center; height: 200px\" ><td class='no_border' style=\"font-size:20px;\"><img src='build_list_loader.gif'></gif></td></tr>";
-        document.getElementById('table_list').innerHTML = list;
+        
+        if(document.getElementById('table_list'))
+            document.getElementById('table_list').innerHTML = list;
         build_list();
 	}
 	else{
-        list = "<tr id=\"auth_failed\" class='list_msg' style=\"text-align:center; height: 200px\" ><td class='no_border' style=\"font-size:20px;\">Authentication Failed!! Resp Code" + resp +"</td></tr>";
+        list = "<tr id=\"auth_failed\" class='list_msg' style=\"text-align:center; height: 200px\" ><td class='no_border' style=\"font-size:20px;  font-family: Didact Gothic;\">Authentication Failed!! Resp Code" + resp +"</td></tr>";
         document.getElementById('table_list').innerHTML = list;
 	}	
 }
@@ -91,11 +94,13 @@ function callback_mark_as_read(resp){
 }
 
 function show_load_screen(){
-	document.getElementById("list_div").style.opacity = 0.4;
+    if(document.getElementById("list_div"))
+    	document.getElementById("list_div").style.opacity = 0.4;
 }
 
 function hide_load_screen(){
-	document.getElementById("list_div").style.opacity = 1;
+    if(document.getElementById("list_div"))
+	    document.getElementById("list_div").style.opacity = 1;
 }
 
 function change_list_elem_style(id){	
@@ -134,7 +139,8 @@ function parse_list(list_s){
 
 function callback_get(resp){
     if(resp == "403 Forbidden" || resp == "401 Unauthorized"){
-        document.getElementById("table_list").innerHTML = "<tr class='list_msg' style=\"text-align:center; height: 200px\"><td class='no_border' style=\"font-size:20px;\">Wrong username/password</td></tr>";
+        if(document.getElementById("table_list"))
+            document.getElementById("table_list").innerHTML = "<tr class='list_msg' style=\"text-align:center; height: 200px\"><td class='no_border' style=\"font-size:20px;\">Wrong username/password</td></tr>";
         hide_load_screen();
     }
     else{    
@@ -146,13 +152,16 @@ function callback_get(resp){
 function update_page(page){
     build_content(page);
     
-    if(localStorage['iwillril_order_by'] == "new")
-        document.getElementById("order_select").selectedIndex = 1;
-    else    
-        document.getElementById("order_select").selectedIndex = 0;
-    
+    if(document.getElementById("order_select"))
+    {
+        if(localStorage['iwillril_order_by'] == "new")
+            document.getElementById("order_select").selectedIndex = 1;
+        else    
+            document.getElementById("order_select").selectedIndex = 0;
+    }    
 	build_footer();
 	build_favicons();
+	set_uncount_label();
 	refresh_screen();    
 }
 
@@ -171,7 +180,7 @@ function build_content(page){
     if(localStorage["ril_mylist_array"]){    
         var list_array = localStorage["ril_mylist_array"].split("||||");        
         
-        localStorage["uncount_number"] = list_array.length;       
+        localStorage["uncount_number"] = list_array.length;
        
         for(var index = 0; index < list_array.length; index++){
 	            list_content += list_array[index];
@@ -180,10 +189,12 @@ function build_content(page){
         localStorage["ril_mylist"] = list_content;
 
     }else{
+        localStorage["uncount_number"] = 0;
 	    localStorage["ril_mylist"]  = "";
-	    list_content = "<tr id=\"all_msg_read\" class='list_msg' style=\"text-align:center; height: 200px\"><td class='no_border' style=\"font-size:20px;\">Congratulations!! You already read all yours items</td></tr>";
+	    list_content = "<tr id=\"all_msg_read\" class='list_msg' style=\"text-align:center; height: 200px\"><td class='no_border' style=\"font-size:20px;  font-family: Didact Gothic;\">Congratulations!! You already read all yours items</td></tr>";
 	}
-	document.getElementById("table_list").innerHTML = list_content;	
+	if(document.getElementById("table_list"))
+    	document.getElementById("table_list").innerHTML = list_content;	
 }
 
 function build_footer(){
@@ -196,7 +207,8 @@ function set_footer_msg(){
 	var footer_msg = "I have nothing to read!!!";
 	if(uncount && uncount > 0)
         footer_msg = "I will read "+uncount+" items Later!!!"
-	document.getElementById("footer_msg").innerHTML = footer_msg;	
+    if(document.getElementById("footer_msg"))    
+    	document.getElementById("footer_msg").innerHTML = footer_msg;	
 }
 
 function set_footer_slc(){
@@ -243,11 +255,13 @@ function change_img(id, img){
 }
 
 function show_load_icon(){
-    document.getElementById("status_img").style.visibility = 'visible';
+    if(document.getElementById("status_img"))
+        document.getElementById("status_img").style.visibility = 'visible';
 }
 
 function hide_load_icon(){
-    document.getElementById("status_img").style.visibility = 'hidden';
+    if(document.getElementById("status_img"))
+        document.getElementById("status_img").style.visibility = 'hidden';
 }
 
 function get_unix_time(){
@@ -294,4 +308,11 @@ function order_by(){
      change_page(1);
 }
 
+
+function set_uncount_label(){
+    var uncount = localStorage["uncount_number"];
+    var txt = new Object();
+    txt.text=uncount;
+    chrome.browserAction.setBadgeText(txt);
+}
 
