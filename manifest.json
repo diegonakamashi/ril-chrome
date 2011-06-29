@@ -1,6 +1,6 @@
 {
-  "name": "IwillriL - Read It Later Client",
-  "version": "2.0",
+  "name": "IwillriL - Unnoficial Read It Later Client",
+  "version": "2.1",
   "description": "Unnoficial Read It Later Client Extension for Google Chrome",
   "background_page": "background.html",
   "options_page": "options.html", 
@@ -17,8 +17,8 @@
   
    "icons": {
     "16": "bookmark.png",
-    "48": "bookmark.png",
-    "128": "bookmark.png"
+    "48": "bookmark48.png",
+    "128": "bookmark128.png"
   },
   
   "content_scripts": [
