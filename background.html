@@ -1,10 +1,34 @@
 <html>
     <script type="text/javascript" src="rilList.js"></script>
     <script type="text/javascript" src="popup.js"></script>
-	<script>
-	
-  chrome.contextMenus.create({"title": "I'll Read it Later ", "onclick": iwillril,"contexts":["page", "link"]});
+	<script>	
+
   build_list();
+  
+  chrome.tabs.onSelectionChanged.addListener(onSelected);
+
+  function onSelected(tabid, obj){
+      tab = chrome.tabs.get(tabid, manageSelectedTab);
+  }
+
+
+  function manageSelectedTab(tab){
+    chrome.contextMenus.removeAll();
+    var url = tab.url;
+    var list = getJSONList();
+    
+    for(var i = 0; i < list.length; i++){
+				var obj = list[i];
+				if(tab.url == obj.url)				
+				{
+				  chrome.contextMenus.create({"title": "I'll Read it Later ", "onclick": iwillril,"contexts":["link"]});				
+          chrome.contextMenus.create({"title": "Mark as Read ", "onclick": markasread,"contexts":["page"]});      
+          return;
+        }
+			} 
+    
+    chrome.contextMenus.create({"title": "I'll Read it Later ", "onclick": iwillril,"contexts":["page", "link"]});
+  }
 
 	function post(url, params, callback){
 		var xhr = new XMLHttpRequest();
@@ -22,12 +46,20 @@
 	        add(iwillril_callback, info.linkUrl,info.linkUrl);
         else
         {
-            chrome.tabs.getSelected(null, function(tab) {
+          chrome.tabs.getSelected(null, function(tab) {
 	        var url = tab.url;
 	        var title = tab.title;
 	        add(iwillril_callback, url,title);        
 	        });
 	    }
+	}
+	
+	function markasread(info, tab){
+	  chrome.tabs.getSelected(null, function(tab) {
+      var url = tab.url;
+      var title = tab.title;
+      send(iwillril_callback, [url]);
+    });
 	}
 	
 	function iwillril_callback(resp){
@@ -155,12 +187,20 @@
 	  get(update_content, 0);
 	}
 	
+	function getJSONList(){
+	  var list =  localStorage["json_list_iwillril"] ? localStorage["json_list_iwillril"] : new Array();
+	  list = RilList.parse_2jsonOK(list);	  
+    list = RilList.parse_json2obj(list); 
+    return list;
+	}
+	
 	//Recebe a resposta do ReadItLater e guarda os favicon e lista
   function update_content(resp){     
   
-    localStorage["json_list_iwillril"] = resp; 
+    localStorage["json_list_iwillril"] = resp; //TODO -> verificar se é relmente necessário a existencia desta linha
     var list = RilList.parse_2jsonOK(resp);	  
-    list = RilList.parse_json2obj(list);
+    list = RilList.parse_json2obj(list);    
+    localStorage["json_list_final_iwillril"] = list;
     
     if(list.length > 0){
             if(localStorage['iwillril_order_by'] == "new")
