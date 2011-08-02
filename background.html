@@ -66,36 +66,32 @@
 	    update();
 	}
 	
-	function is_authenticate(callback){
-		var url = "https://readitlaterlist.com/v2/auth";
-		var params = 	"username="+localStorage["rilName"]+
-				"&password="+localStorage["rilPassword"]+
-				"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517";
-				
-		post(url, params, callback);
-		ril_auth();
+	function get_username(){
+	  var username =  encodeURIComponent(localStorage["rilName"]);
+    return username;
 	}
 	
-	function ril_auth(){
-		var url = "http://readitlaterlist.com/login_process";
-		var params = 	"feed_id="+localStorage["rilName"]+
-				"&password="+localStorage["rilPassword"];	
-				
-		var xhr = new XMLHttpRequest();
-		xhr.open("POST", url, false);   
-		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xhr.setRequestHeader("Content-length", params.length);
-		xhr.setRequestHeader("Connection", "close");			
-		var teste = chrome.extension.getViews()[0];
-
-		xhr.send(params);
-		xhr.responseText;	
+	function get_password(){
+    var password = encodeURIComponent(localStorage["rilPassword"]);
+    return password;
 	}
+	
+	function get_prefix_params(){
+	  return "username="+get_username()+"&password="+get_password();
+	}
+	
+	function is_authenticate(callback){
+		var url = "https://readitlaterlist.com/v2/auth";
+		var params = get_prefix_params()	+
+				"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517";	
+
+		post(url, params, callback);
+	}
+	
 		
 	function add(callback, addurl, title){
 		var url = "https://readitlaterlist.com/v2/add";
-		var params =	"username="+localStorage["rilName"]+
-				"&password="+localStorage["rilPassword"]+
+		var params =	get_prefix_params()+
 				"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517"+
 				"&url="+addurl+
 				"&title="+title+
@@ -107,9 +103,8 @@
 
 	function get(callback, time){
 		var url = "https://readitlaterlist.com/v2/get";
-		var params ="password="+localStorage["rilPassword"]+
+		var params =get_prefix_params()+
 				"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517"+
-				"&username="+localStorage["rilName"]+
 				"&since="+time+
 				"&tags=0"+
 				"&state=\"0\"";				
@@ -119,8 +114,7 @@
 		
 	function send(callback, read_list){
 		var url = "https://readitlaterlist.com/v2/send";
-		var params = 	"username="+localStorage["rilName"]+
-			    	"&password="+localStorage["rilPassword"]+
+		var params = 	get_prefix_params()+
 				"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517";
 					
 		params += make_send_param(read_list);		
@@ -134,8 +128,7 @@
 	function stats(callback){
 	
 		var url = "https://readitlaterlist.com/v2/stats";
-		var params = 	"username="+localStorage["rilName"]+
-			    	"&password="+localStorage["rilPassword"]+
+		var params = 	get_prefix_params()+
 				"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517";
 		
 		post(url, params, callback);
