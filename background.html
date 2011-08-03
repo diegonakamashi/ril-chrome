@@ -6,9 +6,14 @@
   build_list();
   
   chrome.tabs.onSelectionChanged.addListener(onSelected);
+  chrome.tabs.onUpdated.addListener(onUpdated);
 
   function onSelected(tabid, obj){
       tab = chrome.tabs.get(tabid, manageSelectedTab);
+  }
+  
+  function onUpdated(id, obj, tab){
+    manageSelectedTab(tab);
   }
 
 
