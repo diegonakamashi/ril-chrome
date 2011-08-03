@@ -80,6 +80,11 @@ function _add(url, title){
 function callback_add(resp){
     build_list();
 }
+
+function mark_as_read_auto(url){
+    if(localStorage["mark_auto_iwillril"] && localStorage["mark_auto_iwillril"] == 'true')
+        mark_as_read(url, 'auto');
+}
 	
 function mark_as_read(url, id){
 	change_list_elem_style(id);
@@ -104,10 +109,13 @@ function hide_load_screen(){
 }
 
 function change_list_elem_style(id){	
-    document.getElementById("img_line_index"+id).src = "uncheck.png";
-    var elem = document.getElementById("line_index_"+id);
-	elem.style.opacity = 0.3;
-	elem.style.textDecoration = "line-through";
+    if(document.getElementById("img_line_index"+id))
+    {
+        document.getElementById("img_line_index"+id).src = "uncheck.png";
+        var elem = document.getElementById("line_index_"+id);
+	    elem.style.opacity = 0.3;
+	    elem.style.textDecoration = "line-through";
+	}
 }
 	
 function load_mylist(){

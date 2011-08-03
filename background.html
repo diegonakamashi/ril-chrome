@@ -222,7 +222,8 @@
     var txt = new Object();
     txt.text=uncount;
     chrome.browserAction.setBadgeText(txt);		
-  }		
+  }		  
+
     
   function build_item_table(i, real_title, url){
     var title = real_title;
@@ -233,7 +234,7 @@
                         "<span><img id=\"favicon_index_"+i+"\" class=\"favicon\"></img></span>"+
                     "</td>"+
                     "<td nowrap='nowrap' class=\"item_link_td\">"+
-                        "<span id=\"title_span_index_"+i+"\" onmouseout=\"change_title_style('"+i+"', 'off')\" onmouseover=\"change_title_style('"+i+"', 'on')\">"+
+                        "<span id=\"title_span_index_"+i+"\" onclick=\"mark_as_read_auto('"+url+"')\" onmouseout=\"change_title_style('"+i+"', 'off')\" onmouseover=\"change_title_style('"+i+"', 'on')\">"+
 	                        "<a href=\""+url+"\" target=\"_blank\" title=\""+real_title+"\">"+title+"</a>"+
 	                    "</span>"+
 	                   // "<br><label class=\"url_domain\">"+get_domain(url)+"</label>"+

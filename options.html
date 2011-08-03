@@ -33,6 +33,9 @@
             border-radius: 5;
             background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#DDDDDD));
         }
+        .option_item_minor{
+          font-size: 12px;
+        }
         
     </style>
     
@@ -46,19 +49,20 @@
 			localStorage["rilPassword"] = password;	
 			localStorage["ril_mylist"] = "";//TODO verificar se pode deletar esta linha
 			localStorage["ril_mylist_array"] = "";
+			localStorage["mark_auto_iwillril"] = document.getElementById("mark_as_read_check").checked ? "true" : "false";
 			build_page();
 			alert("Saved!!!!");
 		}		
 		
 		function try_to_fill(){
-			if(localStorage["rilName"]){
+			if(localStorage["rilName"])
 				document.getElementById("ril_name").value = localStorage["rilName"];
-			}
 			
-			if(localStorage["rilPassword"]){
+			if(localStorage["rilPassword"])
 				document.getElementById("ril_password").value = localStorage["rilPassword"];
-			}
 			
+			if(localStorage["mark_auto_iwillril"])
+			  document.getElementById("mark_as_read_check").checked = localStorage["mark_auto_iwillril"] == "true" ? true : false;			
 		}
 		
 		
@@ -69,6 +73,7 @@
 	<legend>Read it Later Login</legend>
 	<label>Username: </label><input class=\"txt\" size='20' id="ril_name" type="text"><br/>
 	<label>Password: </label><input class=\"txt\" size='20' id="ril_password" type="password"><br/>
+	<input id="mark_as_read_check" type="checkbox"/><label class="option_item_minor">Mark items as read when you click on them</label><br>
 	<input type="button" value="Save" onclick="save_options();" id="opt_save_btn" class="btn"/>
 	</fieldset>
 	</body>
