@@ -155,7 +155,7 @@
 	function make_send_param(list){
 		var params = "";
 		for(var i = 0; i < list.length; i++){
-		    var url = encodeURI(list[i]);
+		    var url = encodeURIComponent(list[i]);
 		    url= replaceAll(url, "&", "%26amp;");		  
 		    url= replaceAll(url, "+", "%2B");
 			  params = params +  "\""+ i + "\":{" + "\"url\":\""+ url + "\"" + "},"; 		               
