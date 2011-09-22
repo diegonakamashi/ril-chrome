@@ -27,7 +27,7 @@
 				if(tab.url == obj.url)				
 				{
 				  chrome.contextMenus.create({"title": "I'll Read it Later ", "onclick": iwillril,"contexts":["link"]});				
-          chrome.contextMenus.create({"title": "Mark as Read ", "onclick": markasread,"contexts":["page"]});      
+          		chrome.contextMenus.create({"title": "Mark as Read ", "onclick": markasread,"contexts":["page"]});      
           return;
         }
 			} 
@@ -230,7 +230,10 @@
   }		  
 
     
-  function build_item_table(i, real_title, url){
+  function build_item_table(i, real_title, url){  	
+  	if(!real_title || real_title.length == 0)
+  		real_title = url;
+
     var title = real_title;
     if(title.length > 40)
     title = title.substr(0, 40) + "...";
