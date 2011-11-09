@@ -1,7 +1,6 @@
 var bgPage = chrome.extension.getBackgroundPage();
 var updating = false;
 
-
 function init(){
     if(!updating)    
     {
@@ -12,7 +11,6 @@ function init(){
 }
 	  
 function build_page(){
-
     var items = get_items_per_page();
 	
 	if(!localStorage["ril_mylist_array"]){
@@ -30,7 +28,7 @@ function build_page(){
 function open_options(){
     var optionsUrl = chrome.extension.getURL('options.html');
     chrome.tabs.create({url: optionsUrl});
-   }
+}
 
 function callback_empty_list_check(resp){
 	var list = "";
