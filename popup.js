@@ -9,10 +9,10 @@ function init(){
     }
     setTimeout("build_page()", 1);
 }
-	  
+
 function build_page(){
     var items = get_items_per_page();
-	
+
 	if(!localStorage["ril_mylist_array"]){
         if((localStorage["rilName"]  && localStorage["rilPassword"])){
 	        bgPage.is_authenticate(callback_empty_list_check);
@@ -35,7 +35,7 @@ function callback_empty_list_check(resp){
 	if(resp == "200 OK"){
         show_load_screen();
         list = "<tr id=\"auth_failed\" class='list_msg' style=\"text-align:center; height: 200px\" ><td class='no_border' style=\"font-size:20px;\"><img src='build_list_loader.gif'></gif></td></tr>";
-        
+
         if(document.getElementById('table_list'))
             document.getElementById('table_list').innerHTML = list;
         build_list();
@@ -54,7 +54,7 @@ function build_favicons(){
         }
 	}  
 }
-	  
+
 function add(){
 	show_load_icon();
 	if(get_items_per_page() > get_uncount_number()){
@@ -62,13 +62,13 @@ function add(){
 	        document.getElementById("table_list").innerHTML = "";
 
         document.getElementById("table_list").innerHTML += "<tr  id='load_td' ><td class=\"no_border\"><br></td><td><label id='loading'>Loading</label><img src='loader_table.gif'></img></td><td class=\"no_border\"></td></tr>" 
-        document.getElementById("load_td").opacity = 0.4;
+        	document.getElementById("load_td").opacity = 0.4;
 	}
 	chrome.tabs.getSelected(null, function(tab) {
-	    var url = tab.url;
-	    var title = tab.title;
-	    _add(url,title);        
-	});
+	    	var url = tab.url;
+	    	var title = tab.title;
+	    	_add(url,title);        
+			});
 }
 
 function _add(url, title){
@@ -83,7 +83,7 @@ function mark_as_read_auto(url){
     if(localStorage["mark_auto_iwillril"] && localStorage["mark_auto_iwillril"] == 'true')
         mark_as_read(url, 'auto');
 }
-	
+
 function mark_as_read(url, id){
 	change_list_elem_style(id);
 	var array = new Array();
@@ -93,7 +93,7 @@ function mark_as_read(url, id){
 
 function callback_mark_as_read(resp){	
     if(resp == "200 OK")
-	build_list();
+		build_list();
 }
 
 function show_load_screen(){
@@ -115,7 +115,7 @@ function change_list_elem_style(id){
 	    elem.style.textDecoration = "line-through";
 	}
 }
-	
+
 function load_mylist(){
 	show_load_screen();
 	build_list();
@@ -125,7 +125,7 @@ function change_title_style(id, style){
 	if(style == 'on'){
         document.getElementById('title_span_index_'+id).style.textDecoration = "underline";
         document.getElementById('title_span_index_'+id).style.fontWeight = "bold";
-     }
+    }
 	else
 	{
         document.getElementById('title_span_index_'+id).style.textDecoration = "none";
@@ -157,7 +157,7 @@ function callback_get(resp){
 
 function update_page(page){
     build_content(page);
-    
+
     if(document.getElementById("order_select"))
     {
         if(localStorage['iwillril_order_by'] == "new")
@@ -181,17 +181,17 @@ function build_content(page){
     page = parseInt(page);
     if(!page)    
         page = 1;
-    
+
     var list_content = "";
     if(localStorage["ril_mylist_array"]){    
         var list_array = localStorage["ril_mylist_array"].split("||||");        
-        
+
         localStorage["uncount_number"] = list_array.length;
-       
+
         for(var index = 0; index < list_array.length; index++){
-	            list_content += list_array[index];
-	   }
-        
+	        list_content += list_array[index];
+	   	}
+
         localStorage["ril_mylist"] = list_content;
 
     }else{
@@ -213,13 +213,13 @@ function set_footer_msg(){
 	var footer_msg = "I have nothing to read!!!";
 	if(uncount && uncount > 0)
         footer_msg = "I will read "+uncount+" items Later!!!"
-    if(document.getElementById("footer_msg"))    
-    	document.getElementById("footer_msg").innerHTML = footer_msg;	
+    		if(document.getElementById("footer_msg"))    
+    			document.getElementById("footer_msg").innerHTML = footer_msg;	
 }
 
 function set_footer_slc(){
 	var options_number = get_uncount_number() / get_items_per_page();	
-	
+
 	if(options_number == 0)
         options_number = 1;	
 }
@@ -250,7 +250,7 @@ function get_last_get_time(){
         localStorage["last_get_time_iwillril"] = get_unix_time();                
         return time;
 	}
-	
+
 	localStorage["last_get_time_iwillril"] = get_unix_time();
 	return 0;
 }
@@ -276,15 +276,15 @@ function get_unix_time(){
 	var unixtime = parseInt(unixtime_ms / 1000);
 	return unixtime;
 }
-  
+
 function add_to_delicious(url, title){
     var time = get_unix_time();
     chrome.windows.create({
-       type:"popup",
-        url:"http://www.delicious.com/save?title="+title+"&url="+url+"&notes=&tags=&noui=1&time="+time+"&jump=doclose",
-        width:400,
-        height:400
-    });
+type:"popup",
+url:"http://www.delicious.com/save?title="+title+"&url="+url+"&notes=&tags=&noui=1&time="+time+"&jump=doclose",
+width:400,
+height:400
+});
 }
 
 function change_line_style(type, tr){
@@ -307,18 +307,18 @@ function change_mark_as_read_style(type, img){
 function order_by(){
     if(!localStorage["json_list_iwillril"])
         return;
-        
+
     var order = document.getElementById("order_select").value;
     localStorage['iwillril_order_by'] = order;
     bgPage.update_content(localStorage["json_list_iwillril"]);
-     change_page(1);
+    change_page(1);
 }
 
 
 function set_uncount_label(){
     var uncount = localStorage["uncount_number"];
     if(isNaN(uncount) || uncount <= 0)
-      uncount = "";
+      	uncount = "";
 
     var txt = new Object();
     txt.text=uncount;
