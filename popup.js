@@ -317,6 +317,9 @@ function order_by(){
 
 function set_uncount_label(){
     var uncount = localStorage["uncount_number"];
+    if(isNaN(uncount) || uncount <= 0)
+      uncount = "";
+
     var txt = new Object();
     txt.text=uncount;
     chrome.browserAction.setBadgeText(txt);
