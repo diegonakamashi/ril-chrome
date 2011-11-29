@@ -1,267 +1,267 @@
 <html>
-    <script type="text/javascript" src="rilList.js"></script>
-    <script type="text/javascript" src="popup.js"></script>
-	<script>
-  		build_list();  
-		chrome.tabs.onSelectionChanged.addListener(onSelected);
-		chrome.tabs.onUpdated.addListener(onUpdated);
+<script type="text/javascript" src="rilList.js"></script>
+<script type="text/javascript" src="popup.js"></script>
+<script>
+build_list();  
+chrome.tabs.onSelectionChanged.addListener(onSelected);
+chrome.tabs.onUpdated.addListener(onUpdated);
 
-		function onSelected(tabid, obj){
-			tab = chrome.tabs.get(tabid, manageSelectedTab);
-		}
-		  
-		function onUpdated(id, obj, tab){
-			manageSelectedTab(tab);
-		}
+function onSelected(tabid, obj){
+  	tab = chrome.tabs.get(tabid, manageSelectedTab);
+}
 
-		function manageSelectedTab(tab){
-			chrome.contextMenus.removeAll();
-			var url = tab.url;
-			var list = getJSONList();
-    
-    		for(var i = 0; i < list.length; i++){
-				var obj = list[i];
-				if(tab.url == obj.url)				
-				{
-					chrome.contextMenus.create({"title": "I'll Read it Later ", "onclick": iwillril,"contexts":["link"]});		
-					chrome.contextMenus.create({"title": "Mark as Read ", "onclick": markasread,"contexts":["page"]});      
-          			return;
-				}
-			} 
-    
-			chrome.contextMenus.create({"title": "I'll Read it Later ", "onclick": iwillril,"contexts":["page", "link"]});
-  		}
+function onUpdated(id, obj, tab){
+  	manageSelectedTab(tab);
+}
 
-		function post(url, params, callback){
-			var xhr = new XMLHttpRequest();
-			xhr.open("POST", url, true);   
-			xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			xhr.onreadystatechange = function(){
-			 callback(xhr.responseText);		  
-			}
-			xhr.send(params);	
-		}
-		
-		function iwillril(info, tab){	    
-		    if(info.linkUrl && info.linkUrl.length > 0)
-		        add(iwillril_callback, info.linkUrl,info.linkUrl);
-	        else
-	        {
-	          chrome.tabs.getSelected(null, function(tab) {
-		        var url = tab.url;
-		        var title = tab.title;
-		        add(iwillril_callback, url,title);        
-		        });
-		    }
-		}
-	
-		function markasread(info, tab){
-		  	chrome.tabs.getSelected(null, function(tab) {
-		      	var url = tab.url;
-		      	var title = tab.title;
-		      	send(iwillril_callback, [url]);
-		    });
-		}
-	
-		function iwillril_callback(resp){
-		    update();
-		}
-		
-		function get_username(){
-		  	var username =  encodeURIComponent(localStorage["rilName"]);
-	    	return username;
-		}
-		
-		function get_password(){
-	    	var password = encodeURIComponent(localStorage["rilPassword"]);
-	    	return password;
-		}
-		
-		function get_prefix_params(){
-			return "username="+get_username()+"&password="+get_password();
-		}
-		
-		function is_authenticate(callback){
-			var url = "https://readitlaterlist.com/v2/auth";
-			var params = get_prefix_params()	+
-					"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517";	
+function manageSelectedTab(tab){
+  	chrome.contextMenus.removeAll();
+  	var url = tab.url;
+  	var list = getJSONList();
 
-			post(url, params, callback);
-		}
-	
-		
-		function add(callback, addurl, title){
-			var url = "https://readitlaterlist.com/v2/add";
-			var params =	get_prefix_params()+
-					"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517"+
-					"&url="+addurl+
-					"&title="+title+
-					"&tags=testando";
-						  
-			post(url, params, callback);		
-		}
-			
+  	for(var i = 0; i < list.length; i++){
+    	var obj = list[i];
+    	if(tab.url == obj.url)				
+    	{
+      		chrome.contextMenus.create({"title": "I'll Read it Later ", "onclick": iwillril,"contexts":["link"]});	
+      		chrome.contextMenus.create({"title": "Mark as Read ", "onclick": markasread,"contexts":["page"]});      
+      		return;
+    	}
+  	} 
 
-		function get(callback, time){
-			var url = "https://readitlaterlist.com/v2/get";
-			var params =get_prefix_params()+
-					"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517"+
-					"&since="+time+
-					"&tags=0"+
-					"&state=\"0\"";				
+  	chrome.contextMenus.create({"title": "I'll Read it Later ", "onclick": iwillril,"contexts":["page", "link"]});
+}
 
-			post(url, params, callback);		
-		}
-			
-		function send(callback, read_list){
-			var url = "https://readitlaterlist.com/v2/send";
-			var params = 	get_prefix_params()+
-					"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517";
-						
-			params += make_send_param(read_list);		
-			post(url, params, callback);		
-		}
-		
-		function get_uncount_number(callback){
-			stats(callback);
-		}
-	
-		function stats(callback){		
-			var url = "https://readitlaterlist.com/v2/stats";
-			var params = 	get_prefix_params()+
-					"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517";
-			
-			post(url, params, callback);
-		}
-		
-		function replaceAll(str, token, newtoken){
-		    var str_array = new Array();
-		    str_array = str.split(token);
-		    var new_str = '';
-		    for(var i = 0; i < str_array.length; i++) {
-		      if(new_str == '')
-		        new_str = str_array[i];
-		      else
-		        new_str = new_str + newtoken + str_array[i];
-		    }   
-		    return new_str;
-		}
-			
-		function make_send_param(list){
-			var params = "";
-			for(var i = 0; i < list.length; i++){
-			    var url = encodeURIComponent(list[i]);
-			    url= replaceAll(url, "&", "%26amp;");		  
-			    url= replaceAll(url, "+", "%2B");
-				  params = params +  "\""+ i + "\":{" + "\"url\":\""+ url + "\"" + "},"; 		               
-			}
-			  
-			if(params.length > 0){
-				params = params.substr(0, params.length - 1);
-				params = "&read={"+params+"}";
-			}
-			return params;
-		}			
-				
-		function _add_callback(resp){
-			resp;		
-		}
-		
-	    function update_loop(){
-	        var interval = 1000 * 60 * 60 * 2;//2 hours
-	        setInterval(update, interval);
-	     }
-		
-		function update(){
-		  get(update_content, 0);
-		}
-	
-		function getJSONList(){
-		  	var list =  localStorage["json_list_iwillril"] ? localStorage["json_list_iwillril"] : new Array();
-		  	list = RilList.parse_2jsonOK(list);	  
-	    	list = RilList.parse_json2obj(list); 
-	    	return list;
-		}
-	
-		//Recebe a resposta do ReadItLater e guarda os favicon e lista
-  		function update_content(resp){  
-    		localStorage["json_list_iwillril"] = resp; //TODO -> verificar se é relmente necessário a existencia desta linha
-    		var list = RilList.parse_2jsonOK(resp);	  
-    		list = RilList.parse_json2obj(list);    
-    		localStorage["json_list_final_iwillril"] = list;
-    
-   		 	if(list.length > 0){
-            	if(localStorage['iwillril_order_by'] == "new")
-                	list.sort(RilList.sort_function_new);
-            	else
-                	list.sort(RilList.sort_function_old);
-				var favicons = new Array();	
-				var list_items = new Array();
-				var list_content = "";		 
-			
-				for(var i = 0; i < list.length; i++){
-					var obj = list[i];
-					list_items[i]= build_item_table(i, obj.title, obj.url);
-					favicons[i] = get_domain(obj.url)+"/favicon.ico";
-				}      
-				localStorage["uncount_number"] = list_items.length;	
-	      		localStorage["ril_mylist_array"]  = list_items.join("||||");
-				localStorage["favicons"] = favicons.join("||||");
-			}
-			else{
-			  	localStorage["uncount_number"] = 0;
-			  	localStorage["ril_mylist_array"]  = "";
-			}
-		
-			var uncount = localStorage["uncount_number"];
-		    var txt = new Object();
-		    txt.text=uncount;
-		    chrome.browserAction.setBadgeText(txt);		
-  		}		  
+function post(url, params, callback){
+  	var xhr = new XMLHttpRequest();
+  	xhr.open("POST", url, true);   
+  	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  	xhr.onreadystatechange = function(){
+    	callback(xhr.responseText);		  
+  	}
+  	xhr.send(params);	
+}
 
-    
-	  	function build_item_table(i, real_title, url){  	
-		  	if(!real_title || real_title.length == 0)
-		  		real_title = url;
+function iwillril(info, tab){	    
+  	if(info.linkUrl && info.linkUrl.length > 0)
+    	add(iwillril_callback, info.linkUrl,info.linkUrl);
+  	else
+  	{
+    	chrome.tabs.getSelected(null, function(tab) {
+        		var url = tab.url;
+        		var title = tab.title;
+        		add(iwillril_callback, url,title);        
+        		});
+  	}
+}
 
-		    var title = real_title;
-		    if(title.length > 40)
-		    	title = title.substr(0, 40) + "...";
-		    var item =  "<tr onmouseover=\"change_line_style('over', this);\" onmouseout=\"change_line_style('out', this);\" id=\"line_index_"+i+"\" >"+
-		                    "<td class=\"no_border\">"+
-		                        "<span><img id=\"favicon_index_"+i+"\" class=\"favicon\"></img></span>"+
-		                    "</td>"+
-		                    "<td nowrap='nowrap' class=\"item_link_td\">"+
-		                        "<span id=\"title_span_index_"+i+"\" onclick=\"mark_as_read_auto('"+url+"')\" onmouseout=\"change_title_style('"+i+"', 'off')\" onmouseover=\"change_title_style('"+i+"', 'on')\">"+
-			                        "<a href=\""+url+"\" target=\"_blank\" title=\""+real_title+"\">"+title+"</a>"+
-			                    "</span>"+
-			                   // "<br><label class=\"url_domain\">"+get_domain(url)+"</label>"+
-		                    "</td>"+
-		                    "<td class=\"no_border\">"+
-		                        "<span class=\"list_span\" id=\"list_img_index_"+i+"\"  onclick=\"mark_as_read('"+url+"', "+i+")\">"+
-			                        "<img onmouseover=\"change_mark_as_read_style('over', this);\" onmouseout=\"change_mark_as_read_style('out', this);\"  title=\"Mark as Read\" id=\"img_line_index"+i+"\" src='check.png'>"+
-		                        "</span>"+
-		                    "</td>" +
-		/*                     "<td class=\"no_border\">"+
-		                        "<span class=\"list_span\" id=\"list_img_index_"+i+"\" onclick=\"add_to_delicious('"+url+"', '" + real_title + "' )\">"+
-			                        "<img  title=\"Add To Delicious\" id=\"img_line_index"+i+"\" src='delicious.png'>"+
-		                        "</span>"+
-		                    "</td>"+
-		*/                    
-		                "</tr>";
-			return item;
-		}
+function markasread(info, tab){
+  	chrome.tabs.getSelected(null, function(tab) {
+      		var url = tab.url;
+      		var title = tab.title;
+      		send(iwillril_callback, [url]);
+      		});
+}
+
+function iwillril_callback(resp){
+  	update();
+}
+
+function get_username(){
+  	var username =  encodeURIComponent(localStorage["rilName"]);
+  	return username;
+}
+
+function get_password(){
+  	var password = encodeURIComponent(localStorage["rilPassword"]);
+  	return password;
+}
+
+function get_prefix_params(){
+  	return "username="+get_username()+"&password="+get_password();
+}
+
+function is_authenticate(callback){
+  	var url = "https://readitlaterlist.com/v2/auth";
+  	var params = get_prefix_params()	+
+    	"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517";	
+
+  	post(url, params, callback);
+}
 
 
-		function get_domain(url){
-			url = url.replace(/https?/,"");
-			url = url.replace("://", "");
-			var index = url.indexOf("/");
-			url = "http://" + url.substr(0, index);
-			if(url.length > 30)
-		    	url = url.substr(0, 30) + "...";
-			  	return url;
-		}
-		
-	</script>	
+function add(callback, addurl, title){
+  	var url = "https://readitlaterlist.com/v2/add";
+  	var params =	get_prefix_params()+
+    	"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517"+
+    	"&url="+addurl+
+    	"&title="+title+
+    	"&tags=testando";
+
+  	post(url, params, callback);		
+}
+
+
+function get(callback, time){
+  	var url = "https://readitlaterlist.com/v2/get";
+  	var params =get_prefix_params()+
+    	"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517"+
+    	"&since="+time+
+    	"&tags=0"+
+    	"&state=\"0\"";				
+
+  	post(url, params, callback);		
+}
+
+function send(callback, read_list){
+  	var url = "https://readitlaterlist.com/v2/send";
+  	var params = 	get_prefix_params()+
+    	"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517";
+
+  	params += make_send_param(read_list);		
+  	post(url, params, callback);		
+}
+
+function get_uncount_number(callback){
+  	stats(callback);
+}
+
+function stats(callback){		
+  	var url = "https://readitlaterlist.com/v2/stats";
+  	var params = 	get_prefix_params()+
+    	"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517";
+
+  	post(url, params, callback);
+}
+
+function replaceAll(str, token, newtoken){
+  	var str_array = new Array();
+  	str_array = str.split(token);
+  	var new_str = '';
+  	for(var i = 0; i < str_array.length; i++) {
+    	if(new_str == '')
+      		new_str = str_array[i];
+    	else
+      		new_str = new_str + newtoken + str_array[i];
+  	}   
+  	return new_str;
+}
+
+function make_send_param(list){
+  	var params = "";
+  	for(var i = 0; i < list.length; i++){
+    	var url = encodeURIComponent(list[i]);
+    	url= replaceAll(url, "&", "%26amp;");		  
+    	url= replaceAll(url, "+", "%2B");
+    	params = params +  "\""+ i + "\":{" + "\"url\":\""+ url + "\"" + "},"; 		               
+  	}
+
+  	if(params.length > 0){
+    	params = params.substr(0, params.length - 1);
+    	params = "&read={"+params+"}";
+  	}
+  	return params;
+}			
+
+function _add_callback(resp){
+  	resp;		
+}
+
+function update_loop(){
+  	var interval = 1000 * 60 * 60 * 2;//2 hours
+  	setInterval(update, interval);
+}
+
+function update(){
+  	get(update_content, 0);
+}
+
+function getJSONList(){
+  	var list =  localStorage["json_list_iwillril"] ? localStorage["json_list_iwillril"] : new Array();
+  	list = RilList.parse_2jsonOK(list);	  
+  	list = RilList.parse_json2obj(list); 
+  	return list;
+}
+
+//Recebe a resposta do ReadItLater e guarda os favicon e lista
+function update_content(resp){  
+  	localStorage["json_list_iwillril"] = resp; //TODO -> verificar se é relmente necessário a existencia desta linha
+  	var list = RilList.parse_2jsonOK(resp);	  
+  	list = RilList.parse_json2obj(list);    
+  	localStorage["json_list_final_iwillril"] = list;
+
+  	if(list.length > 0){
+    	if(localStorage['iwillril_order_by'] == "new")
+      		list.sort(RilList.sort_function_new);
+    	else
+      		list.sort(RilList.sort_function_old);
+    	var favicons = new Array();	
+    	var list_items = new Array();
+    	var list_content = "";		 
+
+    	for(var i = 0; i < list.length; i++){
+      		var obj = list[i];
+      		list_items[i]= build_item_table(i, obj.title, obj.url);
+      		favicons[i] = get_domain(obj.url)+"/favicon.ico";
+    	}      
+    	localStorage["uncount_number"] = list_items.length;	
+    	localStorage["ril_mylist_array"]  = list_items.join("||||");
+    	localStorage["favicons"] = favicons.join("||||");
+  	}
+  	else{
+    	localStorage["uncount_number"] = 0;
+    	localStorage["ril_mylist_array"]  = "";
+  	}
+
+  	var uncount = localStorage["uncount_number"];
+  	var txt = new Object();
+  	txt.text=uncount;
+  	chrome.browserAction.setBadgeText(txt);		
+}		  
+
+
+function build_item_table(i, real_title, url){  	
+  	if(!real_title || real_title.length == 0)
+    	real_title = url;
+
+  	var title = real_title;
+  	if(title.length > 40)
+    	title = title.substr(0, 40) + "...";
+  	var item =  "<tr onmouseover=\"change_line_style('over', this);\" onmouseout=\"change_line_style('out', this);\" id=\"line_index_"+i+"\" >"+
+    	"<td class=\"no_border\">"+
+    	"<span><img id=\"favicon_index_"+i+"\" class=\"favicon\"></img></span>"+
+    	"</td>"+
+    	"<td nowrap='nowrap' class=\"item_link_td\">"+
+    	"<span id=\"title_span_index_"+i+"\" onclick=\"mark_as_read_auto('"+url+"')\" onmouseout=\"change_title_style('"+i+"', 'off')\" onmouseover=\"change_title_style('"+i+"', 'on')\">"+
+    	"<a href=\""+url+"\" target=\"_blank\" title=\""+real_title+"\">"+title+"</a>"+
+    	"</span>"+
+    	// "<br><label class=\"url_domain\">"+get_domain(url)+"</label>"+
+    	"</td>"+
+    	"<td class=\"no_border\">"+
+    	"<span class=\"list_span\" id=\"list_img_index_"+i+"\"  onclick=\"mark_as_read('"+url+"', "+i+")\">"+
+    	"<img onmouseover=\"change_mark_as_read_style('over', this);\" onmouseout=\"change_mark_as_read_style('out', this);\"  title=\"Mark as Read\" id=\"img_line_index"+i+"\" src='check.png'>"+
+    	"</span>"+
+    	"</td>" +
+    	/*                     "<td class=\"no_border\">"+
+                           	   "<span class=\"list_span\" id=\"list_img_index_"+i+"\" onclick=\"add_to_delicious('"+url+"', '" + real_title + "' )\">"+
+                           	   "<img  title=\"Add To Delicious\" id=\"img_line_index"+i+"\" src='delicious.png'>"+
+                           	   "</span>"+
+                           	   "</td>"+
+     	 */                    
+    	"</tr>";
+  	return item;
+}
+
+
+function get_domain(url){
+  	url = url.replace(/https?/,"");
+  	url = url.replace("://", "");
+  	var index = url.indexOf("/");
+  	url = "http://" + url.substr(0, index);
+  	if(url.length > 30)
+    	url = url.substr(0, 30) + "...";
+  	return url;
+}
+
+</script>	
 </html>
