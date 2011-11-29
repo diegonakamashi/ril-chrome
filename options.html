@@ -45,8 +45,10 @@
 		function save_options(){
 			var name = document.getElementById("ril_name").value;
 			var password = document.getElementById("ril_password").value;
+                        var button_shortcut = document.getElementById('ril_btn_shortcut').value;
 			localStorage["rilName"] = name;
 			localStorage["rilPassword"] = password;	
+                        localStorage['rilBtnShortCut'] = button_shortcut;
 			localStorage["ril_mylist"] = "";//TODO verificar se pode deletar esta linha
 			localStorage["ril_mylist_array"] = "";
 			localStorage["mark_auto_iwillril"] = document.getElementById("mark_as_read_check").checked ? "true" : "false";
@@ -60,6 +62,9 @@
 			
 			if(localStorage["rilPassword"])
 				document.getElementById("ril_password").value = localStorage["rilPassword"];
+
+                        if(localStorage['rilBtnShortCut'])
+                                document.getElementById('ril_btn_shortcut').value = localStorage['rilBtnShortCut'];
 			
 			if(localStorage["mark_auto_iwillril"])
 			  document.getElementById("mark_as_read_check").checked = localStorage["mark_auto_iwillril"] == "true" ? true : false;			
@@ -71,10 +76,11 @@
 	<body onload="try_to_fill();">
 	<fieldset>	
 	<legend>Read it Later Login</legend>
-	<label>Username: </label><input class=\"txt\" size='20' id="ril_name" type="text"><br/>
-	<label>Password: </label><input class=\"txt\" size='20' id="ril_password" type="password"><br/>
-	<input id="mark_as_read_check" type="checkbox"/><label class="option_item_minor">Mark items as read when you click on them</label><br>
-	<input type="button" value="Save" onclick="save_options();" id="opt_save_btn" class="btn"/>
+        <p><label>Username: </label><input class=\"txt\" size='20' id="ril_name" type="text"><br/></p>
+	<p><label>Password: </label><input class=\"txt\" size='20' id="ril_password" type="password"><br/></p>
+	<p>Keyboard Shortcut: Ctrl + Alt + <input id='ril_btn_shortcut' type="text" size='1' maxlength='1'></p>
+        <p><input id="mark_as_read_check" type="checkbox"/><label class="option_item_minor">Mark items as read when you click on them</label><br></p>
+	<p><input type="button" value="Save" onclick="save_options();" id="opt_save_btn" class="btn"/></p>
 	</fieldset>
 	</body>
 </html>
