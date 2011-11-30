@@ -5,6 +5,7 @@
 build_list();  
 chrome.tabs.onSelectionChanged.addListener(onSelected);
 chrome.tabs.onUpdated.addListener(onUpdated);
+window.addEventListener('keyup', keyboardShortCut, false);//Keyboard ShortCut
 
 function onSelected(tabid, obj){
   	tab = chrome.tabs.get(tabid, manageSelectedTab);
@@ -263,5 +264,13 @@ function get_domain(url){
   	return url;
 }
 
+function keyboardShortCut(e){
+	if(localStorage['rilBtnShortCut'])
+		return;
+	if(e.altKey && e.ctrlKey){
+		if(e.keyCode == localStorage['rilBtnShortCut'])
+			alert("ShortCut");
+	}
+}
 </script>	
 </html>
