@@ -5,7 +5,26 @@
 build_list();  
 chrome.tabs.onSelectionChanged.addListener(onSelected);
 chrome.tabs.onUpdated.addListener(onUpdated);
-window.addEventListener('keyup', keyboardShortCut, false);//Keyboard ShortCut
+chrome.extension.onRequest.addListener(function(request, sender, sendResponse){	
+		switch(request.name){
+			case 'keyShortCut':
+				keyShortCut(request.keyCode);
+			break;
+		}
+		
+	} );
+
+
+function keyShortCut(keyCode){
+	if(!localStorage['rilBtnShortCut'])
+		return;
+	
+	var shortCut = localStorage['rilBtnShortCut'];
+	var charKey = String.fromCharCode(keyCode);
+	
+	if(shortCut.toLowerCase() == charKey.toLowerCase())
+		add(callback_add, url, title);	
+}
 
 function onSelected(tabid, obj){
   	tab = chrome.tabs.get(tabid, manageSelectedTab);
@@ -264,13 +283,5 @@ function get_domain(url){
   	return url;
 }
 
-function keyboardShortCut(e){
-	if(localStorage['rilBtnShortCut'])
-		return;
-	if(e.altKey && e.ctrlKey){
-		if(e.keyCode == localStorage['rilBtnShortCut'])
-			alert("ShortCut");
-	}
-}
 </script>	
 </html>

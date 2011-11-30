@@ -280,11 +280,11 @@ function get_unix_time(){
 function add_to_delicious(url, title){
     var time = get_unix_time();
     chrome.windows.create({
-type:"popup",
-url:"http://www.delicious.com/save?title="+title+"&url="+url+"&notes=&tags=&noui=1&time="+time+"&jump=doclose",
-width:400,
-height:400
-});
+		type:"popup",
+		url:"http://www.delicious.com/save?title="+title+"&url="+url+"&notes=&tags=&noui=1&time="+time+"&jump=doclose",
+		width:400,
+		height:400
+	});
 }
 
 function change_line_style(type, tr){
