@@ -8,14 +8,14 @@ chrome.tabs.onUpdated.addListener(onUpdated);
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse){	
 		switch(request.name){
 			case 'keyShortCut':
-				keyShortCut(request.keyCode);
+				keyShortCut(request.keyCode, request.url, request.title);
 			break;
 		}
 		
 	} );
 
 
-function keyShortCut(keyCode){
+function keyShortCut(keyCode, url, title){
 	if(!localStorage['rilBtnShortCut'])
 		return;
 	
