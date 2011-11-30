@@ -1,6 +1,7 @@
 *html~
 *json~
 *js~
+*.swp
 background.html~
 popup.html~
 options.html~
