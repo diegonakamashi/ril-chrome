@@ -1,86 +1,86 @@
 <html>
-    <head>
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lobster">
-	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Oswald">
-	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Josefin+Sans+Std+Light">
-    <style>
-        body{
-            font-family: Oswald, 'Helvetica', serif;
-			    font-size: 15px;
+<head>
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lobster">
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Oswald">
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Josefin+Sans+Std+Light">
+<style>
+body{
+    font-family: Oswald, 'Helvetica', serif;
+	font-size: 15px;
 
-        }
-        input{
-        	font-family: Oswald, 'Helvetica', serif;
-        	font-size: 12px;
-        	border-radius: 10;
-        	text-align:center;
-        }
-        
-        input:focus {
-			background-color: #FCFFCD;
-		}
-        
-        #ril_name{
-            padding: 5px;
-        }
-        
-        #ril_password{
-            padding: 5px;
-        }
-        
-        fieldset{
-            width: 350px;
-            border-radius: 5;
-            background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#DDDDDD));
-        }
-        .option_item_minor{
-          font-size: 12px;
-        }
-        
-    </style>
-    
-    <script type="text/javascript" src="popup.js"></script>
-    
-	<script type="text/javascript" language="javascript" charset="utf-8">
-		function save_options(){
-			var name = document.getElementById("ril_name").value;
-			var password = document.getElementById("ril_password").value;
-                        var button_shortcut = document.getElementById('ril_btn_shortcut').value;
-			localStorage["rilName"] = name;
-			localStorage["rilPassword"] = password;	
-                        localStorage['rilBtnShortCut'] = button_shortcut;
-			localStorage["ril_mylist"] = "";//TODO verificar se pode deletar esta linha
-			localStorage["ril_mylist_array"] = "";
-			localStorage["mark_auto_iwillril"] = document.getElementById("mark_as_read_check").checked ? "true" : "false";
-			build_page();
-			alert("Saved!!!!");
-		}		
-		
-		function try_to_fill(){
-			if(localStorage["rilName"])
-				document.getElementById("ril_name").value = localStorage["rilName"];
-			
-			if(localStorage["rilPassword"])
-				document.getElementById("ril_password").value = localStorage["rilPassword"];
+}
+input{
+    font-family: Oswald, 'Helvetica', serif;
+    font-size: 12px;
+    border-radius: 10;
+    text-align:center;
+}
 
-                        if(localStorage['rilBtnShortCut'])
-                                document.getElementById('ril_btn_shortcut').value = localStorage['rilBtnShortCut'];
-			
-			if(localStorage["mark_auto_iwillril"])
-			  document.getElementById("mark_as_read_check").checked = localStorage["mark_auto_iwillril"] == "true" ? true : false;			
-		}
-		
-		
-	</script>
-	</head>
-	<body onload="try_to_fill();">
+input:focus {
+		  background-color: #FCFFCD;
+	  }
+
+#ril_name{
+padding: 5px;
+}
+
+#ril_password{
+padding: 5px;
+}
+
+fieldset{
+width: 350px;
+       border-radius: 5;
+background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#DDDDDD));
+}
+.option_item_minor{
+    font-size: 12px;
+}
+
+</style>
+
+<script type="text/javascript" src="popup.js"></script>
+
+<script type="text/javascript" language="javascript" charset="utf-8">
+function save_options(){
+	var name = document.getElementById("ril_name").value;
+	var password = document.getElementById("ril_password").value;
+    var button_shortcut = document.getElementById('ril_btn_shortcut').value;
+	localStorage["rilName"] = name;
+	localStorage["rilPassword"] = password;	
+    localStorage['rilBtnShortCut'] = button_shortcut;
+	localStorage["ril_mylist"] = "";//TODO verificar se pode deletar esta linha
+	localStorage["ril_mylist_array"] = "";
+	localStorage["mark_auto_iwillril"] = document.getElementById("mark_as_read_check").checked ? "true" : "false";
+	build_page();
+	alert("Saved!!!!");
+}		
+
+function try_to_fill(){
+	if(localStorage["rilName"])
+		document.getElementById("ril_name").value = localStorage["rilName"];
+
+	if(localStorage["rilPassword"])
+		document.getElementById("ril_password").value = localStorage["rilPassword"];
+
+    if(localStorage['rilBtnShortCut'])
+        document.getElementById('ril_btn_shortcut').value = localStorage['rilBtnShortCut'];
+
+	if(localStorage["mark_auto_iwillril"])
+		document.getElementById("mark_as_read_check").checked = localStorage["mark_auto_iwillril"] == "true" ? true : false;			
+}
+
+
+</script>
+</head>
+<body onload="try_to_fill();">
 	<fieldset>	
-	<legend>Read it Later Login</legend>
-        <p><label>Username: </label><input class=\"txt\" size='20' id="ril_name" type="text"><br/></p>
-	<p><label>Password: </label><input class=\"txt\" size='20' id="ril_password" type="password"><br/></p>
-	<p>Keyboard Shortcut: Ctrl + Alt + <input id='ril_btn_shortcut' type="text" size='1' maxlength='1'></p>
-        <p><input id="mark_as_read_check" type="checkbox"/><label class="option_item_minor">Mark items as read when you click on them</label><br></p>
-	<p><input type="button" value="Save" onclick="save_options();" id="opt_save_btn" class="btn"/></p>
+		<legend>Read it Later Login</legend>
+		<p><label>Username: </label><input class=\"txt\" size='20' id="ril_name" type="text"><br/></p>
+		<p><label>Password: </label><input class=\"txt\" size='20' id="ril_password" type="password"><br/></p>
+		<p>Keyboard Shortcut: Ctrl + Alt + <input id='ril_btn_shortcut' type="text" size='1' maxlength='1'></p>
+		<p><input id="mark_as_read_check" type="checkbox"/><label class="option_item_minor">Mark items as read when you click on them</label><br></p>
+		<p><input type="button" value="Save" onclick="save_options();" id="opt_save_btn" class="btn"/></p>
 	</fieldset>
-	</body>
+</body>
 </html>
