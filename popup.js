@@ -21,7 +21,7 @@ function build_page(){
         }
 	}	
 	else{
-	    update_page(1);
+	    update_page();
 	}		
 }
 
@@ -155,8 +155,8 @@ function callback_get(resp){
 	}
 }
 
-function update_page(page){
-    build_content(page);
+function update_page(){
+    build_content();
 
     if(document.getElementById("order_select"))
     {
@@ -177,11 +177,7 @@ function refresh_screen(){
 }
 
 //TODO -> melhorar a lógica de itens_per page
-function build_content(page){
-    page = parseInt(page);
-    if(!page)    
-        page = 1;
-
+function build_content(){
     var list_content = "";
     if(localStorage["ril_mylist_array"]){    
         var list_array = localStorage["ril_mylist_array"].split("||||");        
@@ -222,11 +218,6 @@ function set_footer_slc(){
 
 	if(options_number == 0)
         options_number = 1;	
-}
-
-function change_page(page){
-	show_load_screen();
-	update_page(page);
 }
 
 function get_items_per_page(){
@@ -311,7 +302,7 @@ function order_by(){
     var order = document.getElementById("order_select").value;
     localStorage['iwillril_order_by'] = order;
     bgPage.update_content(localStorage["json_list_iwillril"]);
-    change_page(1);
+    update_page();
 }
 
 
