@@ -173,7 +173,12 @@ function update_page(){
 
 function refresh_screen(){	
 	hide_load_screen();
-	hide_load_icon();	
+	hide_load_icon();
+	load_quicksearch();	
+}
+
+function load_quicksearch(){	
+	$('input#iwillril_search').quicksearch('table#iwillril_table tbody tr');
 }
 
 //TODO -> melhorar a lógica de itens_per page
@@ -196,7 +201,9 @@ function build_content(){
 	    list_content = "<tr id=\"all_msg_read\" class='list_msg' style=\"text-align:center; height: 200px\"><td class='no_border' style=\"font-size:20px;  font-family: Didact Gothic;\">Congratulations!! You already read all yours items</td></tr>";
 	}
 	if(document.getElementById("table_list"))
-    	document.getElementById("table_list").innerHTML = list_content;	
+	    	document.getElementById("table_list").innerHTML = list_content;
+
+	load_quicksearch();	
 }
 
 function build_footer(){
