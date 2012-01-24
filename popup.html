@@ -91,6 +91,7 @@
 	header{
 		position: relative;
 		background: #8B8989;
+		height: 22px;
 	}
 		
 	footer{			
@@ -205,6 +206,21 @@
         border: 1px solid #eee;
         -webkit-border-radius: 6px;
     }
+	#iwillril_search{
+		border: solid 1px;
+		background-image:url(search.png);  
+	        background-repeat:no-repeat;
+		margin-left: 10px;
+		width: 200px;
+		padding-left: 15px;
+		background-color:#D3D3D3;
+	}
+
+	#iwillril_search:focus{
+		background-color: white;	
+	}
+
+	
 	</style>
   
   
@@ -214,8 +230,8 @@
 <body onload="init()">	  
 	<div id="page_body">	
 	    <header style="position: relative;">
+	        <input id='iwillril_search' type='text' size=25>
 	        <span id="add_button" class="font_header" onclick="add()" title="Add"><img src='bookmark.png'/></span>
-	        <span id="ext_title">IWillRiL</span>
 	        <span id="sync_button" class="font_header" onclick="load_mylist()" title="Sync"><img src='refresh.png'/></span>
        		<span id="option_footer" class='real_link' onclick='open_options();' title="Settings"><img src="settings.png"/></span>
 		          
