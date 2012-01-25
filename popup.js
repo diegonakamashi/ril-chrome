@@ -121,18 +121,6 @@ function load_mylist(){
 	build_list();
 }
 
-function change_title_style(id, style){
-	if(style == 'on'){
-        document.getElementById('title_span_index_'+id).style.textDecoration = "underline";
-        document.getElementById('title_span_index_'+id).style.fontWeight = "bold";
-    }
-	else
-	{
-        document.getElementById('title_span_index_'+id).style.textDecoration = "none";
-        document.getElementById('title_span_index_'+id).style.fontWeight = "";
-    }
-}	
-
 function build_list(){	
 	bgPage.get(callback_get, get_last_get_time());
 }
@@ -283,16 +271,6 @@ function add_to_delicious(url, title){
 		width:400,
 		height:400
 	});
-}
-
-function change_line_style(type, tr){
-    if(type == 'over'){
-        tr.bgColor = "#FFFF99";
-    }
-    else{
-        tr.bgColor = "";
-    }
-
 }
 
 function change_mark_as_read_style(type, img){
