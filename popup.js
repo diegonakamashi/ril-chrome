@@ -107,9 +107,9 @@ function hide_load_screen(){
 }
 
 function change_list_elem_style(id){	
-    if(document.getElementById("img_line_index"+id))
+    if(document.getElementById("list_img_index_"+id))
     {
-        document.getElementById("img_line_index"+id).src = "uncheck.png";
+        document.getElementById("list_img_index_"+id).style.backgroundImage="url('uncheck.png')";
         var elem = document.getElementById("line_index_"+id);
 	    elem.style.opacity = 0.3;
 	    elem.style.textDecoration = "line-through";
@@ -261,23 +261,6 @@ function get_unix_time(){
 	var unixtime_ms = foo.getTime();
 	var unixtime = parseInt(unixtime_ms / 1000);
 	return unixtime;
-}
-
-function add_to_delicious(url, title){
-    var time = get_unix_time();
-    chrome.windows.create({
-		type:"popup",
-		url:"http://www.delicious.com/save?title="+title+"&url="+url+"&notes=&tags=&noui=1&time="+time+"&jump=doclose",
-		width:400,
-		height:400
-	});
-}
-
-function change_mark_as_read_style(type, img){
-    if(type == "over")
-        img.src = "uncheck.png";
-    else    
-        img.src = "check.png";
 }
 
 function order_by(){

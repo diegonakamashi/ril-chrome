@@ -255,19 +255,9 @@ function build_item_table(i, real_title, url){
     	"<span id=\"title_span_index_"+i+"\" onclick=\"mark_as_read_auto('"+url+"')\">"+
     	"<a href=\""+url+"\" target=\"_blank\" title=\""+real_title+"\">"+title+"</a>"+
     	"</span>"+
-    	// "<br><label class=\"url_domain\">"+get_domain(url)+"</label>"+
     	"</td>"+
-    	"<td class=\"no_border\">"+
-    	"<span class=\"list_span\" id=\"list_img_index_"+i+"\"  onclick=\"mark_as_read('"+url+"', "+i+")\">"+
-    	"<img onmouseover=\"change_mark_as_read_style('over', this);\" onmouseout=\"change_mark_as_read_style('out', this);\"  title=\"Mark as Read\" id=\"img_line_index"+i+"\" src='check.png'>"+
-    	"</span>"+
+    	"<td class=\"no_border table_img_mark_as_read\" id=\"list_img_index_"+i+"\"  onclick=\"mark_as_read('"+url+"', "+i+")\" title=\"Mark as Read\">"
     	"</td>" +
-    	/*                     "<td class=\"no_border\">"+
-                           	   "<span class=\"list_span\" id=\"list_img_index_"+i+"\" onclick=\"add_to_delicious('"+url+"', '" + real_title + "' )\">"+
-                           	   "<img  title=\"Add To Delicious\" id=\"img_line_index"+i+"\" src='delicious.png'>"+
-                           	   "</span>"+
-                           	   "</td>"+
-     	 */                    
     	"</tr>";
   	return item;
 }
