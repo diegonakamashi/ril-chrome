@@ -11,7 +11,6 @@ function init(){
 }
 
 function build_page(){
-    var items = get_items_per_page();
 
 	if(!localStorage["ril_mylist_array"]){
         if((localStorage["rilName"]  && localStorage["rilPassword"])){
@@ -57,13 +56,7 @@ function build_favicons(){
 
 function add(){
 	show_load_icon();
-	if(get_items_per_page() > get_uncount_number()){
-	    if(document.getElementById("all_msg_read"))
-	        document.getElementById("table_list").innerHTML = "";
-
-        document.getElementById("table_list").innerHTML += "<tr  id='load_td' ><td class=\"no_border\"><br></td><td><label id='loading'>Loading</label><img src='loader_table.gif'></img></td><td class=\"no_border\"></td></tr>" 
-        	document.getElementById("load_td").opacity = 0.4;
-	}
+	
 	chrome.tabs.getSelected(null, function(tab) {
 	    	var url = tab.url;
 	    	var title = tab.title;
@@ -196,7 +189,6 @@ function build_content(){
 
 function build_footer(){
 	set_footer_msg();
-	set_footer_slc();
 }
 
 function set_footer_msg(){
@@ -206,19 +198,6 @@ function set_footer_msg(){
         footer_msg = "I will read "+uncount+" items Later!!!"
     		if(document.getElementById("footer_msg"))    
     			document.getElementById("footer_msg").innerHTML = footer_msg;	
-}
-
-function set_footer_slc(){
-	var options_number = get_uncount_number() / get_items_per_page();	
-
-	if(options_number == 0)
-        options_number = 1;	
-}
-
-function get_items_per_page(){
-	if(localStorage["ril_items_per_page"])
-        return parseInt(localStorage["ril_items_per_page"]);
-	return 5;	
 }
 
 function get_uncount_number(){
