@@ -8,7 +8,7 @@ chrome.tabs.onUpdated.addListener(onUpdated);
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse){	
 		switch(request.name){
 			case 'keyShortCut':
-				keyShortCut(request.keyCode, request.url, request.title);
+				iwillril();
 			break;
 		}
 		
@@ -63,7 +63,7 @@ function post(url, params, callback){
 }
 
 function iwillril(info, tab){	    
-  	if(info.linkUrl && info.linkUrl.length > 0)
+  	if(info && info.linkUrl && info.linkUrl.length > 0)
     	add(iwillril_callback, info.linkUrl,info.linkUrl);
   	else
   	{
