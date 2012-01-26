@@ -111,6 +111,7 @@ function is_authenticate(callback){
 
 
 function add(callback, addurl, title){
+	set_icon('loader_table.gif');
   	var url = "https://readitlaterlist.com/v2/add";
   	var params =	get_prefix_params()+
     	"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517"+
@@ -134,6 +135,7 @@ function get(callback, time){
 }
 
 function send(callback, read_list){
+	set_icon('loader_table.gif');
   	var url = "https://readitlaterlist.com/v2/send";
   	var params = 	get_prefix_params()+
     	"&apikey=158guBdkp52ePOcF54T3c16Qf2Akl517";
@@ -237,6 +239,7 @@ function update_content(resp){
   	var txt = new Object();
   	txt.text=uncount;
   	chrome.browserAction.setBadgeText(txt);		
+	set_icon('bookmark.png');
 }		  
 
 

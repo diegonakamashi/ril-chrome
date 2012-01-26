@@ -56,12 +56,17 @@ function build_favicons(){
 
 function add(){
 	show_load_icon();
-	
 	chrome.tabs.getSelected(null, function(tab) {
 	    	var url = tab.url;
 	    	var title = tab.title;
 	    	_add(url,title);        
 			});
+}
+
+function set_icon(icon){
+	var object = new Object();
+	object.path = icon;
+	chrome.browserAction.setIcon(object);
 }
 
 function _add(url, title){
