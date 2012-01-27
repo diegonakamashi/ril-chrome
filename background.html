@@ -8,23 +8,18 @@ chrome.tabs.onUpdated.addListener(onUpdated);
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse){	
 		switch(request.name){
 			case 'keyShortCut':
-				iwillril();
+				if(!localStorage['rilBtnShortCut'])
+					return;
+	
+				var shortCut = localStorage['rilBtnShortCut'];
+				var charKey = String.fromCharCode(keyCode);
+	
+				if(shortCut.toLowerCase() == charKey.toLowerCase())
+					iwillril();
 			break;
 		}
 		
 	} );
-
-
-function keyShortCut(keyCode, url, title){
-	if(!localStorage['rilBtnShortCut'])
-		return;
-	
-	var shortCut = localStorage['rilBtnShortCut'];
-	var charKey = String.fromCharCode(keyCode);
-	
-	if(shortCut.toLowerCase() == charKey.toLowerCase())
-		add(callback_add, url, title);	
-}
 
 function onSelected(tabid, obj){
   	tab = chrome.tabs.get(tabid, manageSelectedTab);
