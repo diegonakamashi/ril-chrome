@@ -52,6 +52,7 @@ function save_options(){
 	localStorage["ril_mylist"] = "";//TODO verificar se pode deletar esta linha
 	localStorage["ril_mylist_array"] = "";
 	localStorage["mark_auto_iwillril"] = document.getElementById("mark_as_read_check").checked ? "true" : "false";
+	localStorage['rilUpdateInterval'] = document.getElementById('ril_slc_updateinterval').value;	
 	build_page();
 	alert("Saved!!!!");
 }		
@@ -66,6 +67,12 @@ function try_to_fill(){
     if(localStorage['rilBtnShortCut'])
         document.getElementById('ril_btn_shortcut').value = localStorage['rilBtnShortCut'];
 
+	if(localStorage['rilUpdateInterval'])
+		document.getElementById('ril_slc_updateinterval').value = localStorage['rilUpdateInterval'];
+	else
+		document.getElementById('ril_slc_updateinterval').value = 2;
+
+
 	if(localStorage["mark_auto_iwillril"])
 		document.getElementById("mark_as_read_check").checked = localStorage["mark_auto_iwillril"] == "true" ? true : false;			
 }
@@ -79,6 +86,11 @@ function try_to_fill(){
 		<p><label>Username: </label><input class=\"txt\" size='20' id="ril_name" type="text"><br/></p>
 		<p><label>Password: </label><input class=\"txt\" size='20' id="ril_password" type="password"><br/></p>
 		<p>Keyboard Shortcut: Ctrl + Alt + <input id='ril_btn_shortcut' type="text" size='1' maxlength='1'></p>
+		<p>Update Interval: <select id='ril_slc_updateinterval'> 
+			<option value=0.5>30 minutes</option>
+			<option value=1>1 hour</option>
+			<option value=2>2 hours</option>
+		</select>
 		<p><input id="mark_as_read_check" type="checkbox"/><label class="option_item_minor">Mark items as read when you click on them</label><br></p>
 		<p><input type="button" value="Save" onclick="save_options();" id="opt_save_btn" class="btn"/></p>
 	</fieldset>

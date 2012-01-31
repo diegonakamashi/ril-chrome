@@ -12,7 +12,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse){
 					return;
 	
 				var shortCut = localStorage['rilBtnShortCut'];
-				var charKey = String.fromCharCode(keyCode);
+				var charKey = String.fromCharCode(request.keyCode);
 	
 				if(shortCut.toLowerCase() == charKey.toLowerCase())
 					iwillril();
@@ -185,8 +185,16 @@ function _add_callback(resp){
 }
 
 function update_loop(){
-  	var interval = 1000 * 60 * 60 * 2;//2 hours
-  	setInterval(update, interval);
+	var interval = localStorage['rilUpdateInterval'] ? localStorage['rilUpdateInterval'] : 2;
+	var hour = 2;
+	switch(interval){
+		case '0': hour = 0.5; break;
+		case '1': hour = 1; break;
+		case '2': hour = 2; break;
+	}
+
+  	var update_time = 1000 * 60 * 60 * hour; 
+  	setInterval(update, update_time);
 }
 
 function update(){
