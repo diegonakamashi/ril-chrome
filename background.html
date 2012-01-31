@@ -185,7 +185,9 @@ function _add_callback(resp){
 }
 
 function update_loop(){
-	var interval = localStorage['rilUpdateInterval'] ? localStorage['rilUpdateInterval'] : 2;
+	if(localStorage['ril_updateloopfunc'])
+		return;
+	var interval = localStorage['rilUpdateInterval'] ? localStorage['rilUpdateInterval'] : '2';
 	var hour = 2;
 	switch(interval){
 		case '0': hour = 0.5; break;
@@ -194,7 +196,7 @@ function update_loop(){
 	}
 
   	var update_time = 1000 * 60 * 60 * hour; 
-  	setInterval(update, update_time);
+  	localStorage['ril_updateloopfunc'] =  setInterval(update, update_time);
 }
 
 function update(){

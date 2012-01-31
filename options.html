@@ -54,6 +54,13 @@ function save_options(){
 	localStorage["mark_auto_iwillril"] = document.getElementById("mark_as_read_check").checked ? "true" : "false";
 	localStorage['rilUpdateInterval'] = document.getElementById('ril_slc_updateinterval').value;	
 	build_page();
+
+	if(localStorage['ril_updateloopfunc']){
+		clearInterval(localStorage['ril_updateloopfunc']);
+		localStorage['ril_updateloopfunc'] = '';
+		chrome.extension.getBackgroundPage().update_loop();
+	}
+	
 	alert("Saved!!!!");
 }		
 
@@ -87,7 +94,7 @@ function try_to_fill(){
 		<p><label>Password: </label><input class=\"txt\" size='20' id="ril_password" type="password"><br/></p>
 		<p>Keyboard Shortcut: Ctrl + Alt + <input id='ril_btn_shortcut' type="text" size='1' maxlength='1'></p>
 		<p>Update Interval: <select id='ril_slc_updateinterval'> 
-			<option value=0.5>30 minutes</option>
+			<option value=0>30 minutes</option>
 			<option value=1>1 hour</option>
 			<option value=2>2 hours</option>
 		</select>

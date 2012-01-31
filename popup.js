@@ -1,12 +1,7 @@
 var bgPage = chrome.extension.getBackgroundPage();
-var updating = false;
 
 function init(){
-    if(!updating)    
-    {
-        bgPage.update_loop();
-        updating = true;
-    }
+	bgPage.update_loop();    
     setTimeout("build_page()", 1);
 }
 
