@@ -50,7 +50,6 @@ function build_favicons(){
 }
 
 function add(){
-	show_load_icon();
 	chrome.tabs.getSelected(null, function(tab) {
 	    	var url = tab.url;
 	    	var title = tab.title;
@@ -146,7 +145,6 @@ function update_page(){
         else    
             document.getElementById("order_select").selectedIndex = 0;
     }    
-	build_footer();
 	build_favicons();
 	set_uncount_label();
 	refresh_screen();    
@@ -154,7 +152,6 @@ function update_page(){
 
 function refresh_screen(){	
 	hide_load_screen();
-	hide_load_icon();
 	load_quicksearch();	
 }
 
@@ -187,19 +184,6 @@ function build_content(){
 	load_quicksearch();	
 }
 
-function build_footer(){
-	set_footer_msg();
-}
-
-function set_footer_msg(){
-	var uncount = localStorage["uncount_number"];
-	var footer_msg = "I have nothing to read!!!";
-	if(uncount && uncount > 0)
-        footer_msg = "I will read "+uncount+" items Later!!!"
-    		if(document.getElementById("footer_msg"))    
-    			document.getElementById("footer_msg").innerHTML = footer_msg;	
-}
-
 function get_uncount_number(){
 	if(localStorage["uncount_number"]){
         return localStorage["uncount_number"];
@@ -223,16 +207,6 @@ function get_last_get_time(){
 function change_img(id, img){
 	if(document.getElementById(id))
         document.getElementById(id).src = img;
-}
-
-function show_load_icon(){
-    if(document.getElementById("status_img"))
-        document.getElementById("status_img").style.visibility = 'visible';
-}
-
-function hide_load_icon(){
-    if(document.getElementById("status_img"))
-        document.getElementById("status_img").style.visibility = 'hidden';
 }
 
 function get_unix_time(){
