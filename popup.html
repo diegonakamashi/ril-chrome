@@ -14,12 +14,7 @@
 	    font-family: Helvetica, Arial, sans-serif;
 		font-size: 8px;			
 		margin: 0px;			
-    }	
-		
-	td{
-	    padding-rigth: 0px;
-	    padding-left: 0px;
-	}
+    }
 		
 	#list_div{
 		max-height: 500px;
@@ -45,16 +40,18 @@
 
 	.table_img_mark_as_read{
 		background: url('check.png') no-repeat;
+		background-position: center center;
 		cursor:pointer;
 		width: 8px;
 	}			
 		
 	.table_img_mark_as_read:hover{		
 		background: url('uncheck.png') no-repeat;
+		background-position: center center;
 	}
 
 	#load_div{
-		background: #000000;
+		background: #222;
 		opacity: 0.2;
 		width: 320px;
 		height: 200px;
@@ -103,7 +100,7 @@
 
 	.url_domain{
         font-size: 12px;
-        color: #CCCCCC;
+        color: #EEE;
 	}
 		
 	.favicon{
@@ -127,7 +124,7 @@
 	}
 		
 	#select_text{
-		font-family:'Helvetica',serif;
+		font-family:'Helvetica', serif;
 		font-size:15px;
 	}
 		
@@ -184,8 +181,8 @@
     
     ::-webkit-scrollbar-thumb:vertical {
         height: 5px;
-        background-color: #BEBEBE;
-        border: 1px solid #eee;
+        background-color: #EEE;
+        border: 1px solid #F5F5F5;
         -webkit-border-radius: 6px;
     }
 	#iwillril_search{
@@ -195,7 +192,7 @@
 		margin-left: 10px;
 		width: 200px;
 		padding-left: 15px;
-		background-color:#D3D3D3;
+		background-color:#EEE;
 	}
 
 	#iwillril_search:focus{
@@ -203,7 +200,7 @@
 	}
 
 	#table_list tr:hover{
-		background-color: #CCCCCC;
+		background-color: #EEE;
 	}
 	
 	.item_link_td span:hover{
@@ -235,9 +232,40 @@
             </div>		      
         </header>
         <div id="list_div">	
-            <table  id='iwillril_table' cellpadding="5" width='95%' >
+            <!-- <table  id='iwillril_table' cellpadding="5" width='95%' >
                 <tbody id="table_list">										
                 </tbody>
+            </table> -->
+            <table id="iwillril_table" cellpadding="5" width="95%">
+                <tbody id="table_list">
+                	<tr id="line_index_0" style="">
+                		<td class="no_border">
+                			<span><img id="favicon_index_0" class="favicon" src="http://readonline.egscans.com/favicon.ico"></span>
+                		</td>
+                		<td nowrap="nowrap" class="item_link_td">
+                			<span id="title_span_index_0" onclick="mark_as_read_auto('http://readonline.egscans.com/Special_Martial_Arts_Extreme_Hell_Private_High_School/Chapter_002')"><a href="http://readonline.egscans.com/Special_Martial_Arts_Extreme_Hell_Private_High_School/Chapter_002" target="_blank" title="EGScans - Online Manga Viewer - Special Martial Arts Extreme Hell Private H">EGScans - Online Manga Viewer - Special ...</a></span>
+                		</td>
+                		<td class="no_border table_img_mark_as_read" id="list_img_index_0" onclick="mark_as_read('http://readonline.egscans.com/Special_Martial_Arts_Extreme_Hell_Private_High_School/Chapter_002', 0)" title="Mark as Read"></td>
+                	</tr>
+                	<tr id="line_index_1" style="">
+                		<td class="no_border"><span><img id="favicon_index_1" class="favicon" src="http://www.animeultima.tv/favicon.ico"></span></td><td nowrap="nowrap" class="item_link_td"><span id="title_span_index_1" onclick="mark_as_read_auto('http://www.animeultima.tv/boku-wa-tomodachi-ga-sukunai-next-episode-1/')"><a href="http://www.animeultima.tv/boku-wa-tomodachi-ga-sukunai-next-episode-1/" target="_blank" title="Watch Boku wa Tomodachi ga Sukunai Next Episode 1 Online">Watch Boku wa Tomodachi ga Sukunai Next ...</a></span></td><td class="no_border table_img_mark_as_read" id="list_img_index_1" onclick="mark_as_read('http://www.animeultima.tv/boku-wa-tomodachi-ga-sukunai-next-episode-1/', 1)" title="Mark as Read"></td>
+                	</tr>
+                	<tr id="line_index_2" style="">
+                		<td class="no_border"><span><img id="favicon_index_2" class="favicon" src="http://chrome.google.com/favicon.ico"></span></td><td nowrap="nowrap" class="item_link_td"><span id="title_span_index_2" onclick="mark_as_read_auto('https://chrome.google.com/webstore/detail/sass-inspector/lkofmbmllpgfbnonmnenkiakimpgoamn')"><a href="https://chrome.google.com/webstore/detail/sass-inspector/lkofmbmllpgfbnonmnenkiakimpgoamn" target="_blank" title="Chrome Web Store - SASS Inspector">Chrome Web Store - SASS Inspector</a></span></td><td class="no_border table_img_mark_as_read" id="list_img_index_2" onclick="mark_as_read('https://chrome.google.com/webstore/detail/sass-inspector/lkofmbmllpgfbnonmnenkiakimpgoamn', 2)" title="Mark as Read"></td>
+                	</tr>
+                	<tr id="line_index_3" style="">
+                		<td class="no_border"><span><img id="favicon_index_3" class="favicon" src="http://github.com/favicon.ico"></span></td><td nowrap="nowrap" class="item_link_td"><span id="title_span_index_3" onclick="mark_as_read_auto('https://github.com/martinsik/php-doc-parser')"><a href="https://github.com/martinsik/php-doc-parser" target="_blank" title="martinsik/php-doc-parser · GitHub">martinsik/php-doc-parser · GitHub</a></span></td><td class="no_border table_img_mark_as_read" id="list_img_index_3" onclick="mark_as_read('https://github.com/martinsik/php-doc-parser', 3)" title="Mark as Read"></td>
+                	</tr>
+                	<tr id="line_index_4" style="">
+                		<td class="no_border"><span><img id="favicon_index_4" class="favicon" src="http://zetcode.com/favicon.ico"></span></td><td nowrap="nowrap" class="item_link_td"><span id="title_span_index_4" onclick="mark_as_read_auto('http://zetcode.com/databases/sqlitephptutorial/')"><a href="http://zetcode.com/databases/sqlitephptutorial/" target="_blank" title="SQLite PHP tutorial">SQLite PHP tutorial</a></span></td><td class="no_border table_img_mark_as_read" id="list_img_index_4" onclick="mark_as_read('http://zetcode.com/databases/sqlitephptutorial/', 4)" title="Mark as Read"></td>
+                	</tr>
+                	<tr id="line_index_5" style="">
+                		<td class="no_border"><span><img id="favicon_index_5" class="favicon" src="http://www.animecrazy.net/favicon.ico"></span></td><td nowrap="nowrap" class="item_link_td"><span id="title_span_index_5" onclick="mark_as_read_auto('http://www.animecrazy.net/cuticle-tantei-inaba-episode-1/')"><a href="http://www.animecrazy.net/cuticle-tantei-inaba-episode-1/" target="_blank" title="Cuticle Tantei Inaba Episode 1 | Watch Cuticle Tantei Inaba Anime Online">Cuticle Tantei Inaba Episode 1 | Watch C...</a></span></td><td class="no_border table_img_mark_as_read" id="list_img_index_5" onclick="mark_as_read('http://www.animecrazy.net/cuticle-tantei-inaba-episode-1/', 5)" title="Mark as Read"></td>
+                	</tr>
+                	<tr id="line_index_6" style="">
+                		<td class="no_border"><span><img id="favicon_index_6" class="favicon" src="http://developer.mozilla.org/favicon.ico"></span></td><td nowrap="nowrap" class="item_link_td"><span id="title_span_index_6" onclick="mark_as_read_auto('https://developer.mozilla.org/en-US/docs/CSS/Using_CSS_flexible_boxes')"><a href="https://developer.mozilla.org/en-US/docs/CSS/Using_CSS_flexible_boxes" target="_blank" title="Using CSS flexible boxes - CSS | MDN">Using CSS flexible boxes - CSS | MDN</a></span></td><td class="no_border table_img_mark_as_read" id="list_img_index_6" onclick="mark_as_read('https://developer.mozilla.org/en-US/docs/CSS/Using_CSS_flexible_boxes', 6)" title="Mark as Read"></td>
+                	</tr>
+            	</tbody>
             </table>
         </div>	    
 	</div>
