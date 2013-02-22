@@ -1,30 +1,32 @@
 {
-  "name": "IwillriL - Unnoficial Read It Later Client",
+  "name": "IwillriL - Unnoficial Pocket Client",
   "version": "2.2.3",
   "description": "Unnoficial Read It Later Client Extension for Google Chrome",
-  "background_page": "background.html",
-  "options_page": "options.html", 
+  "options_page": "html/options.html", 
   "browser_action": {
-    "default_icon": "bookmark.png",
-     "default_popup": "popup.html"
+    "default_icon": "images/bookmark.png",
+     "default_popup": "html/popup.html"
   },
   "permissions": [
     "https://readitlaterlist.com/", 
     "http://readitlaterlist.com/",
+    "https://getpocket.com/v3/",
     "tabs",
     "contextMenus"
   ],  
   
+   "manifest_version": 2,
+
    "icons": {
-    "16": "bookmark.png",
-    "48": "bookmark48.png",
-    "128": "bookmark128.png"
+    "16": "images/bookmark.png",
+    "48": "images/bookmark48.png",
+    "128": "images/bookmark128.png"
   },
   
   "content_scripts": [
    {
       "matches":  ["<all_urls>"],
-      "js": ["myscript.js"]
+      "js": ["js/myscript.js"]
    }
    ]
 }
