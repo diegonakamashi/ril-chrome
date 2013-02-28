@@ -14,7 +14,9 @@
     "tabs",
     "contextMenus"
   ],  
-  
+   "background": {
+    "scripts": ["js/tabFunction.js"]
+  },
    "manifest_version": 2,
 
    "icons": {

@@ -2,11 +2,11 @@ window.addEventListener("load", init);
 
 //Refactoring
 function init(){
-  Header.initFunctions()
-  if(Auth.isAuthenticate()){
-    TabFunction.init();
+  Header.initFunctions();
+  var bgPage = chrome.extension.getBackgroundPage();
+  bgPage.TabFunction.init();
+  if(Auth.isAuthenticate())
     window.setTimeout(function(){buildPage();}, 1);
-  }
   else
     Auth.authenticate();
 }

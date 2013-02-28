@@ -7,6 +7,7 @@ TabFunction.init = function(){
 }
 
 TabFunction.manageSelectedTab = function(tabid, obj){
+  console.log("background");
   chrome.contextMenus.removeAll();
   chrome.tabs.get(tabid, function (tab){
     var list = RilList.getItemsArray(); 
@@ -28,13 +29,23 @@ TabFunction.markAsRead = function(info, tab){
   chrome.tabs.getSelected(null, function(tab) {
     var url = tab.url;
     var title = tab.title;
-    Request.send(iwillril_callback, [url]);
+    Request.send(refreshList, [url]);
   });
 }
 
-TabFunction.iWillRil = function(info, tab){     
-  if(info && info.linkUrl && info.linkUrl.length > 0)
-    Request.add(iwillril_callback, info.linkUrl,info.linkUrl);
+TabFunction.iWillRil = function(info, tab){
+  var title, url;
+
+  if(info.linkUrl){
+    url = info.linkUrl;
+    title = info.linkUrl;
+  }else{
+    url = info.pageUrl;
+    title = tab.title || info.pageUrl;
+  }
+
+  if(url)
+    Request.add(refreshList, url, title);
 }
 
 TabFunction.onExtensionRequest = function(request, sender, sendResponse){
