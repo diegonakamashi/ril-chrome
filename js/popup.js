@@ -3,12 +3,25 @@ window.addEventListener("load", init);
 //Refactoring
 function init(){
   Header.initFunctions();
-  var bgPage = chrome.extension.getBackgroundPage();
-  bgPage.TabFunction.init();
-  if(Auth.isAuthenticate())
+  if(Auth.isAuthenticate()){
+    addListeners();
     window.setTimeout(function(){buildPage();}, 1);
-  else
+  }
+  else{
     Auth.authenticate();
+  }
+}
+
+function addListeners = function(){
+  var bgPage = chrome.extension.getBackgroundPage();
+  if(!chrome.tabs.onSelectionChanged.hasListeners())
+    chrome.tabs.onSelectionChanged.addListener(bgPage.Background.manageSelectedTab);
+  
+  if(!chrome.tabs.onUpdated.hasListeners())
+    chrome.tabs.onUpdated.addListener(bgPage.Background.manageSelectedTab);
+
+  if(!chrome.extension.onRequest.hasListeners())
+    chrome.extension.onRequest.addListener(onRequestListener);
 }
 
 function buildPage(){
@@ -46,7 +59,7 @@ function getCallback(resp){
       Auth.authenticate();
   }
   else{
-    localStorage['lastResponse'] = resp.response;    
+    localStorage['lastResponse'] = resp.response;
     updatePage();
   }
 }

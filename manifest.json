@@ -15,7 +15,7 @@
     "contextMenus"
   ],  
    "background": {
-    "scripts": ["js/tabFunction.js"]
+    "scripts": ["js/background.js", "js/request.js", "js/rilList.js", "js/auth.js"]
   },
    "manifest_version": 2,
 

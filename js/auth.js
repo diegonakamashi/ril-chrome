@@ -2,7 +2,7 @@ function Auth(){}
 CONSUMER_KEY="11758-a73b85ac41814ed5b483f3a3";
 Auth.isAuthenticate = function()
 {
-  return localStorage['access_token'];
+  return localStorage['access_token'] && localStorage['access_token'] != "null";
 }
 
 Auth.authenticate = function(){
@@ -18,7 +18,7 @@ Auth.authenticate = function(){
   xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
   xhr.setRequestHeader("X-Accept", "application/json");
   xhr.onreadystatechange = function(){
-    if(xhr.status = 200){
+    if(xhr.readyState == 4 && xhr.status == 200){
       var resp = JSON.parse(xhr.response);
       var code = resp.code;
       localStorage['request_code'] = code;
@@ -47,7 +47,7 @@ Auth.getConsumerKey = function(){
   xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
   xhr.setRequestHeader("X-Accept", "application/json");
   xhr.onreadystatechange = function(){
-    if(xhr.status = 200){
+    if(xhr.readyState == 4 && xhr.status == 200){
       var resp = JSON.parse(xhr.response);
       localStorage['access_token'] = resp.access_token;
       localStorage['username'] = resp.username;

@@ -11,3 +11,4 @@ ExtensionIcon.setUncountLabel = function(size){
   txt.text=size.toString();
   chrome.browserAction.setBadgeText(txt);
 }
+

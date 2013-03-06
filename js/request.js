@@ -5,7 +5,7 @@ Request._post = function(url, params, callback){
   xhr.open("post", url, true);   
   xhr.setRequestHeader("Content-type", "application/json");
   xhr.onreadystatechange = function(){
-    if(xhr.readyState == 4)
+    if(xhr.readyState == 4 && callback)
       callback(xhr);     
   }
   xhr.send(JSON.stringify(params)); 
