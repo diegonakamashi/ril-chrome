@@ -1,9 +1,22 @@
 
 function Background(){}
 
+Background.init = function(){
+  if(!chrome.tabs.onSelectionChanged.hasListeners())
+    chrome.tabs.onSelectionChanged.addListener(Background.manageSelectedTab);
+  
+  if(!chrome.tabs.onUpdated.hasListeners())
+    chrome.tabs.onUpdated.addListener(Background.manageSelectedTab);
+
+  if(!chrome.extension.onRequest.hasListeners())
+    chrome.extension.onRequest.addListener(Background.onExtensionRequest);
+}
+
 
 Background.manageSelectedTab = function(tabid, obj){
   chrome.contextMenus.removeAll();
+  if(localStorage['remove_context_menu_iwillril'] &&  localStorage['remove_context_menu_iwillril'] == 'true') 
+    return;
   chrome.tabs.get(tabid, function (tab){
     var list = RilList.getItemsArray(); 
 
@@ -19,14 +32,16 @@ Background.manageSelectedTab = function(tabid, obj){
 }
 
 Background.markAsRead = function(info, tab){
+  ExtensionIcon.loading();
   chrome.tabs.getSelected(null, function(tab) {
     var url = tab.url;
     var itemId = RilList.getItemId(url);
-    Request.archieve(refreshList, itemId);
+    Request.archieve(Background._updateContent, itemId);
   });
 }
 
 Background.iWillRil = function(info, tab){
+  ExtensionIcon.loading();
   var title, url;
 
   if(info.linkUrl){
@@ -38,15 +53,18 @@ Background.iWillRil = function(info, tab){
   }
 
   if(url)
-    Request.add(refreshList, url, title);
+    Request.add(Background._updateContent, url, title);
 }
 
 Background._updateContent = function(){
+  ExtensionIcon.loaded();
   Request.get(function(resp){
     if(resp.status == 403 || resp.status == 401)
       localStorage['lastResponse'] = '';
-    else
+    else{
       localStorage['lastResponse'] = resp.response;
+      ExtensionIcon.setUncountLabel(RilList.getItemsArray().length);
+    }
   }, 0);
 }
 

@@ -13,7 +13,6 @@
     input{
       font-family: Oswald, 'Helvetica', serif;
       font-size: 12px;
-      border-radius: 10;
       text-align:center;
     }
 
@@ -30,9 +29,7 @@
     }
 
     fieldset{
-      width: 350px;
-      border-radius: 5;
-      background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#DDDDDD));
+      border: 1px solid;
     }
   
     .option_item_minor{
@@ -40,53 +37,22 @@
     }
 
   </style>
-
-  <script type="text/javascript" src="../js/popup.js"></script>
-  <script type="text/javascript" language="javascript" charset="utf-8">
-  function save_options(){
-    var button_shortcut = document.getElementById('ril_btn_shortcut').value;
-    localStorage['rilBtnShortCut'] = button_shortcut;
-    localStorage["mark_auto_iwillril"] = document.getElementById("mark_as_read_check").checked ? "true" : "false";
-    localStorage['rilUpdateInterval'] = document.getElementById('ril_slc_updateinterval').value;  
-    build_page();
-
-    if(localStorage['ril_updateloopfunc']){
-      clearInterval(localStorage['ril_updateloopfunc']);
-      localStorage['ril_updateloopfunc'] = '';
-      chrome.extension.getBackgroundPage().update_loop();
-    }
-    
-    alert("Saved!!!!");
-  }   
-
-  function try_to_fill(){
-    if(localStorage['rilBtnShortCut'])
-      document.getElementById('ril_btn_shortcut').value = localStorage['rilBtnShortCut'];
-
-    if(localStorage['rilUpdateInterval'])
-      document.getElementById('ril_slc_updateinterval').value = localStorage['rilUpdateInterval'];
-    else
-      document.getElementById('ril_slc_updateinterval').value = 2;
-
-
-    if(localStorage["mark_auto_iwillril"])
-      document.getElementById("mark_as_read_check").checked = localStorage["mark_auto_iwillril"] == "true" ? true : false;      
-  }
-
-
-  </script>
+  <script type="text/javascript" src="../3rdparty/jquery-1.7.1.min.js"></script>
+  <script type="text/javascript" src="../js/options.js"></script>
   </head>
-  <body onload="try_to_fill();">
+  <body>
     <fieldset>  
       <legend>Read it Later Login</legend>
-      <p>Keyboard Shortcut: Ctrl + Alt + <input id='ril_btn_shortcut' type="text" size='1' maxlength='1'></p>
+      <p>Keyboard Shortcut: Ctrl + Alt + <input id='ril_btn_shortcut' class='span2' type="text" size='1' maxlength='1'></p>
       <p>Update Interval: <select id='ril_slc_updateinterval'> 
         <option value=0>30 minutes</option>
         <option value=1>1 hour</option>
         <option value=2>2 hours</option>
       </select>
       <p><input id="mark_as_read_check" type="checkbox"/><label class="option_item_minor">Mark items as read when you click on them</label><br></p>
-      <p><input type="button" value="Save" onclick="save_options();" id="opt_save_btn" class="btn"/></p>
+      <p><input id="remove_context_menu_check" type="checkbox"/><label class="option_item_minor">Remove Context Menu</label><br></p>
+
+      <p><input type="button" value="Save" id="opt_save_btn" class="btn"/></p>
     </fieldset>
   </body>
   </html>

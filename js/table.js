@@ -15,14 +15,14 @@ Table.render = function(list){
 }
 
 Table.getItemHtml = function(item){
-  var title = item.resolved_title ? item.resolved_title : item.given_title;
+  var title = Table.getItemTitle(item);
   var item =  "<tr id=\"line_index_"+item.index+"\" >"+
     "<td class=\"no_border\">"+
     "<span><img src=\""+Table.getFaviconUrl(item)+"\" id=\"favicon_index_"+item.index+"\" class=\"favicon\"></img></span>"+
     "</td>"+
     "<td nowrap='nowrap' class=\"item_link_td\">"+
     "<span id=\"title_span_index_"+item.index+"\" onclick=\"markAsRead()\">"+
-    "<a href=\""+item.resolved_url+"\" target=\"_blank\" title=\""+title+"\">"+title+"</a>"+
+    "<a href=\""+Table.getItemUrl(item)+"\" target=\"_blank\" title=\""+title+"\">"+title+"</a>"+
     "</span>"+
     "</td>"+
     "<td class=\"no_border table_img_mark_as_read\" id=\"list_img_index_"+item.index+"\" item_id=\""+item.item_id+"\" index=\""+item.index+"\" title=\"Mark as Read\">"
@@ -32,10 +32,28 @@ Table.getItemHtml = function(item){
 }
 
 Table.getFaviconUrl = function(item){
-  return Table.getDomain(item.resolved_url)+"/favicon.ico";
+  var url = Table.getItemUrl(item);
+  return Table.getDomain(url)+"/favicon.ico";
+}
+
+Table.getItemTitle = function(item){
+  if(item.resolved_title)
+    return item.resolved_title;
+  else if(item.given_url)
+    return item.given_url;
+  else
+    return getItemUrl(item);
+}
+
+Table.getItemUrl = function(item){
+  if(item.resolved_url)
+    return item.resolved_url;
+  return item.given_url;
 }
 
 Table.getDomain = function(url){
+  if(!url)
+    return "";
   url = url.replace(/https?/,"");
   url = url.replace("://", "");
   var index = url.indexOf("/");
