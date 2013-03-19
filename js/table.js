@@ -17,7 +17,7 @@ Table.render = function(list){
 Table.getItemHtml = function(item){
   var title = Table.getItemTitle(item);
   var item =  "<tr id=\"line_index_"+item.index+"\" >"+
-    "<td class=\"no_border\">"+
+    "<td class=\"no_border favicon\">"+
     "<span><img src=\""+Table.getFaviconUrl(item)+"\" id=\"favicon_index_"+item.index+"\" class=\"favicon\"></img></span>"+
     "</td>"+
     "<td nowrap='nowrap' class=\"item_link_td\">"+
@@ -33,7 +33,8 @@ Table.getItemHtml = function(item){
 
 Table.getFaviconUrl = function(item){
   var url = Table.getItemUrl(item);
-  return Table.getDomain(url)+"/favicon.ico";
+  // return Table.getDomain(url)+"/favicon.ico";
+  return "http://www.google.com/s2/favicons?domain_url="+ encodeURIComponent(url);
 }
 
 Table.getItemTitle = function(item){
