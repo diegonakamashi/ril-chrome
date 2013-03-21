@@ -8,7 +8,7 @@ Header.initFunctions = function(){
 }
 
 Header.openOptions = function(){
-  var optionsUrl = chrome.extension.getURL('options.html');
+  var optionsUrl = chrome.extension.getURL('html/options.html');
   chrome.tabs.create({url: optionsUrl});
 }
 

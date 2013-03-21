@@ -1,233 +1,24 @@
 <html>
 <head>
-
-  <style>
-  select {	  
-    font-size: 10px;
-  }
-
-  body {
-   font-family: Helvetica, Arial, sans-serif;
-   font-size: 8px;			
-   margin: 0px;			
- }
-
- #list_div{
-  max-height: 500px;
-  min-height: 100px;
-  width: 100%;
-  top: 5px;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-#page_body{
-  width: 340px;
-  max-height: 550px;
-}
-
-#add_button{
-  cursor:pointer;			
-}	 
-
-#sync_button{
-  cursor:pointer;
-}
-
-.table_img_mark_as_read{
-  background: url('../images/check.png') no-repeat;
-  background-position: center center;
-  cursor:pointer;
-  width: 8px;
-}			
-
-.table_img_mark_as_read:hover{		
-  background: url('../images/uncheck.png') no-repeat;
-  background-position: center center;
-}
-
-#load_div{
-  background: #222;
-  opacity: 0.2;
-  width: 320px;
-  height: 200px;
-  position:absolute;
-  top: 0px;
-}
-
-.real_link{
-  color: blue;
-  cursor:pointer;
-}
-
-td{
-  font-size:12px;
-}
-
-a{
-  color: black;
-  text-decoration:none; 
-}
-
-#ext_title{
-  font-family: Fontdiner Swanky, serif;
-  font-size: 15px;
-  position: relative;
-  left: 10px;
-  color: white;
-}
-
-.list_msg{
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 20;
-}
-
-header{
-  position: relative;
-  height: 22px;
-}
-
-#status_img{
-  top: 10px;	
-  position: relative;
-  left: 90px;
-  visibility: hidden;
-}
-
-.url_domain{
-  font-size: 12px;
-  color: #EEE;
-}
-
-.favicon{
- height: 16px;
- width: 16px;
-}
-
-table{
-  border-collapse: collapse;
-  left: 10px;
-  position:relative;
-}
-
-#loading{
- font-family: Helvetica, Arial, sans-serif;
- font-size:15px;
-}
-
-.no_border{
-  border: none;
-}
-
-#select_text{
-  font-family:'Helvetica', serif;
-  font-size:15px;
-}
-
-#add_button{
-  right: 110px;
-  position:absolute;
-  top:4px;
-}
-
-.font_header{
- font-size: 11px;
-}
-
-#sync_button{
-  right: 90px;
-  position:absolute;		
-  top:4px;	
-}
-
-#order_select_div{
-  top: 3px;
-  position: absolute;
-  right: 5px;
-  font-size: 10px;
-  z-index:99;
-}
-
-
-#option_footer{
- position: absolute;
- top: 4px;
- right: 70px;
-}		
-
-.item_link_td{
- max-width: 280px;
- text-overflow: ellipsis;
- overflow: hidden;
-}	
-
-::-webkit-scrollbar {
-  width: 8px;
-  height: 5px;
-}    
-
-::-webkit-scrollbar-button:start:decrement,
-::-webkit-scrollbar-button:end:increment  {
-  height: 10px;
-  display: block;
-}
-
-::-webkit-scrollbar-track-piece  {
-  -webkit-border-radius: 6px;
-}
-
-::-webkit-scrollbar-thumb:vertical {
-  height: 5px;
-  background-color: #EEE;
-  border: 1px solid #F5F5F5;
-  -webkit-border-radius: 6px;
-}
-#iwillril_search{
-  border: solid 1px;
-  background-image:url(../images/search.png);  
-  background-repeat:no-repeat;
-  margin-left: 10px;
-  width: 200px;
-  padding-left: 15px;
-  background-color:#EEE;
-}
-
-#iwillril_search:focus{
-  background-color: white;	
-}
-
-#table_list tr:hover{
-  cursor:pointer;
-  background-color: #EEE;
-  font-weight: bold;
-}
-
-.favicon{
-  padding: 0px;
-}
-
-</style>
-
-
-<script type="text/javascript" src="../3rdparty/jquery-1.7.1.min.js"></script>
-<script type="text/javascript" src="../3rdparty/ejs_production.js"></script>
-<script type="text/javascript" src="../3rdparty/jquery.quicksearch.js"></script>
-<script type="text/javascript" src="../js/auth.js"></script>
-<script type="text/javascript" src="../js/header.js"></script>
-<script type="text/javascript" src="../js/extensionIcon.js"></script>
-<script type="text/javascript" src="../js/table.js"></script>
-<script type="text/javascript" src="../js/rilList.js"></script>      
-<script type="text/javascript" src="../js/request.js"></script>
-<script type="text/javascript" src="../js/popup.js"></script>
-
+  <link rel="stylesheet" type="text/css" href="../stylesheet/popup.css">
+  <script type="text/javascript" src="../3rdparty/jquery-1.7.1.min.js"></script>
+  <script type="text/javascript" src="../3rdparty/ejs_production.js"></script>
+  <script type="text/javascript" src="../3rdparty/jquery.quicksearch.js"></script>
+  <script type="text/javascript" src="../js/auth.js"></script>
+  <script type="text/javascript" src="../js/header.js"></script>
+  <script type="text/javascript" src="../js/extensionIcon.js"></script>
+  <script type="text/javascript" src="../js/table.js"></script>
+  <script type="text/javascript" src="../js/rilList.js"></script>      
+  <script type="text/javascript" src="../js/request.js"></script>
+  <script type="text/javascript" src="../js/popup.js"></script>
 </head>
-<body>	  
+<body>
   <div id="page_body">	
    <header style="position: relative;">
      <input id='iwillril_search' type='text' size=25>
-     <span id="add_button" class="font_header" title="Add"><img src='../images/bookmark.png'/></span>
-     <span id="sync_button" class="font_header" title="Sync"><img src='../images/refresh.png'/></span>
-     <span id="option_footer" class='real_link' title="Settings"><img src="../images/settings.png"/></span>
+     <span id="add_button" class="font_header icon" title="Add"><img src='../images/bookmark.png'/></span>
+     <span id="sync_button" class="font_header icon" title="Sync"><img src='../images/refresh.png'/></span>
+     <span id="option_footer" class='real_link icon' title="Settings"><img src="../images/settings.png"/></span>
      <div id="order_select_div">
       <select id="order_select" onchange="order_by()">
         <option value="old">Oldest</option>

@@ -18,12 +18,6 @@ function buildPage(){
     updatePage();	
 }
 
-function markAsRead(){
-  var item_id = $(this).attr('item_id');
-  var id = $(this).attr('index');
-  Table.changeElemStyle(id);
-  Request.archieve(refreshList, parseInt(item_id));
-}
 
 function showLoadScreen(){
   if(document.getElementById("list_div"))

@@ -11,17 +11,33 @@ Table.render = function(list){
   }
 
   $("#table_list").html(list_content);
-  $(".table_img_mark_as_read").click(markAsRead);
+  $(".table_img_mark_as_read").click(Table.markAsRead);
+  $(".item_link_td").click(Table.tryToMarkAsRead);
+}
+
+Table.markAsRead = function(){
+  var item_id = $(this).attr('item_id');
+  var id = $(this).attr('index');
+  Table.changeElemStyle(id);
+  Request.archieve(refreshList, parseInt(item_id));
+}
+
+Table.tryToMarkAsRead = function(){
+  if(localStorage["mark_auto_iwillril"] == "true"){
+    var bg = chrome.extension.getBackgroundPage();
+    var item_id = $(this).attr('item_id');
+    Request.archieve(bg.Background.updateContent, parseInt(item_id));
+  }
 }
 
 Table.getItemHtml = function(item){
   var title = Table.getItemTitle(item);
-  var item =  "<tr id=\"line_index_"+item.index+"\" >"+
+  var item =  "<tr class=\"table_row\" id=\"line_index_"+item.index+"\" >"+
     "<td class=\"no_border favicon\">"+
-    "<span><img src=\""+Table.getFaviconUrl(item)+"\" id=\"favicon_index_"+item.index+"\" class=\"favicon\"></img></span>"+
+    "<span><img src=\""+Table.getFaviconUrl(item)+"\" id=\"favicon_index_"+item.index+"\" class=\"favicon_img\"></img></span>"+
     "</td>"+
-    "<td nowrap='nowrap' class=\"item_link_td\">"+
-    "<span id=\"title_span_index_"+item.index+"\" onclick=\"markAsRead()\">"+
+    "<td nowrap='nowrap' class=\"item_link_td\" item_id=\""+item.item_id+"\">"+
+    "<span id=\"title_span_index_"+item.index+"\">"+
     "<a href=\""+Table.getItemUrl(item)+"\" target=\"_blank\" title=\""+title+"\">"+title+"</a>"+
     "</span>"+
     "</td>"+

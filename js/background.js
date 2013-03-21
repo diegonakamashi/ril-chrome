@@ -36,7 +36,7 @@ Background.markAsRead = function(info, tab){
   chrome.tabs.getSelected(null, function(tab) {
     var url = tab.url;
     var itemId = RilList.getItemId(url);
-    Request.archieve(Background._updateContent, itemId);
+    Request.archieve(Background.updateContent, itemId);
   });
 }
 
@@ -48,15 +48,15 @@ Background.iWillRil = function(info, tab){
     url = info.linkUrl;
     title = info.linkUrl;
   }else{
-    url = info.pageUrl;
+    url = info.pageUrl || tab.url;
     title = tab.title || info.pageUrl;
   }
 
   if(url)
-    Request.add(Background._updateContent, url, title);
+    Request.add(Background.updateContent, url, title);
 }
 
-Background._updateContent = function(){
+Background.updateContent = function(){
   ExtensionIcon.loaded();
   Request.get(function(resp){
     if(resp.status == 403 || resp.status == 401)
@@ -83,6 +83,11 @@ Background.keyboardShortcutManager = function(request){
   var charKey = String.fromCharCode(request.keyCode);
 
   if(shortCut.toLowerCase() == charKey.toLowerCase())
-    Background.iWillRil();
+    chrome.tabs.getSelected(null, function(tab){
+      if(RilList.getItemId(tab.url))
+        Background.markAsRead({}, tab)
+      else
+        Background.iWillRil({}, tab);
+    })
 }
 Background.init();
