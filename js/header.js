@@ -3,13 +3,18 @@ function Header(){}
 Header.initFunctions = function(){
   $("#add_button").click(Header.add);
   $("#option_footer").click(Header.openOptions);
-  $("#sync_button").click(refreshList);
+  $("#sync_button").click(Header.refreshList);
   $("#order_select").change(Header.orderBy);
 }
 
 Header.openOptions = function(){
   var optionsUrl = chrome.extension.getURL('html/options.html');
   chrome.tabs.create({url: optionsUrl});
+}
+
+Header.refreshList = function(){
+  showLoadScreen();
+  refreshList();
 }
 
 Header.add = function(){

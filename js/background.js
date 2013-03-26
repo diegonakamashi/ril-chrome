@@ -2,6 +2,7 @@
 function Background(){}
 
 Background.init = function(){
+  Background.sync();
   if(!chrome.tabs.onSelectionChanged.hasListeners())
     chrome.tabs.onSelectionChanged.addListener(Background.manageSelectedTab);
   
@@ -12,6 +13,27 @@ Background.init = function(){
     chrome.extension.onRequest.addListener(Background.onExtensionRequest);
 }
 
+
+Background.sync = function(){
+  Background.updateContent();
+  var interval = localStorage['rilUpdateInterval'];
+
+  switch(interval){
+    case '0': 
+      timeout = 1000 * 60 * 30;
+      break;
+    case '1':
+      timeout = 1000 * 60 * 60;
+      break;
+    case '2':
+      timeout = 1000 * 60 * 60 * 2;
+      break;
+    default:
+      timeout = 1000 * 60 * 60 * 2;
+  }
+
+  window.setTimeout(Background.sync, timeout);
+}
 
 Background.manageSelectedTab = function(tabid, obj){
   chrome.contextMenus.removeAll();

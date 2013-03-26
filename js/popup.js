@@ -30,7 +30,6 @@ function hideLoadScreen(){
 }
 
 function refreshList(){
-  showLoadScreen();
   Request.get(getCallback, 0);
 }
 
