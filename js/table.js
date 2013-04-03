@@ -49,8 +49,9 @@ Table.getItemHtml = function(item){
 
 Table.getFaviconUrl = function(item){
   var url = Table.getItemUrl(item);
+  return "http://g.etfv.co/"+ encodeURIComponent(url);
   // return Table.getDomain(url)+"/favicon.ico";
-  return "http://www.google.com/s2/favicons?domain_url="+ encodeURIComponent(url);
+  // return "http://www.google.com/s2/favicons?domain_url="+ encodeURIComponent(url);
 }
 
 Table.getItemTitle = function(item){

@@ -105,7 +105,9 @@ header{
 }
 
 .favicon_img{
-  border-radius: 10
+  border-radius: 10;
+  height: 16px;
+  width: 16px;
 }
 
 table{
