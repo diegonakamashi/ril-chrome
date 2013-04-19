@@ -1,6 +1,8 @@
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="../stylesheet/popup.css">
+  <link rel="stylesheet" type="text/css" href="../stylesheet/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="../stylesheet/font-awesome.min.css">
   <script type="text/javascript" src="../3rdparty/jquery-1.7.1.min.js"></script>
   <script type="text/javascript" src="../3rdparty/ejs_production.js"></script>
   <script type="text/javascript" src="../3rdparty/jquery.quicksearch.js"></script>
@@ -16,9 +18,9 @@
   <div id="page_body">	
    <header style="position: relative;">
      <input id='iwillril_search' type='text' size=25>
-     <span id="add_button" class="font_header icon" title="Add"><img src='../images/bookmark.png'/></span>
-     <span id="sync_button" class="font_header icon" title="Sync"><img src='../images/refresh.png'/></span>
-     <span id="option_footer" class='real_link icon' title="Settings"><img src="../images/settings.png"/></span>
+     <span id="add_button" class="icon_header icon icon-bookmark" title="Add"></span>
+     <span id="sync_button" class="icon_header icon icon-refresh" title="Sync"></span>
+     <span id="option_footer" class='icon_header icon icon-wrench' title="Settings"></span>
      <div id="order_select_div">
       <select id="order_select" onchange="order_by()">
         <option value="old">Oldest</option>

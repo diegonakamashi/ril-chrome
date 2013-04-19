@@ -41,7 +41,7 @@ Table.getItemHtml = function(item){
     "<a href=\""+Table.getItemUrl(item)+"\" target=\"_blank\" title=\""+title+"\">"+title+"</a>"+
     "</span>"+
     "</td>"+
-    "<td class=\"no_border table_img_mark_as_read\" id=\"list_img_index_"+item.index+"\" item_id=\""+item.item_id+"\" index=\""+item.index+"\" title=\"Mark as Read\">"
+    "<td class=\"no_border table_img_mark_as_read icon-ok\" id=\"list_img_index_"+item.index+"\" item_id=\""+item.item_id+"\" index=\""+item.index+"\" title=\"Mark as Read\">"
     "</td>" +
     "</tr>";
     return item;

@@ -40,16 +40,25 @@
   <body>
     <fieldset>  
       <legend>I Will Read it Later</legend>
-      <p>Keyboard Shortcut: Ctrl + Alt + <input id='ril_btn_shortcut' class='span2' type="text" size='1' maxlength='1'></p>
-      <p>Update Interval: <select id='ril_slc_updateinterval'> 
-        <option value=0>30 minutes</option>
-        <option value=1>1 hour</option>
-        <option value=2>2 hours</option>
-      </select>
-      <p><input id="mark_as_read_check" type="checkbox"/><label class="option_item_minor">Mark items as read when you click on them</label><br></p>
-      <p><input id="remove_context_menu_check" type="checkbox"/><label class="option_item_minor">Remove Context Menu</label><br></p>
-
-      <p><input type="button" value="Save" id="opt_save_btn" class="btn"/></p>
+      <p>
+        Keyboard Shortcut: Ctrl + Alt + <input id='ril_btn_shortcut' class='span2' type="text" size='1' maxlength='1'>
+      </p>
+      <p>Update Interval: 
+        <select id='ril_slc_updateinterval'> 
+          <option value=0>30 minutes</option>
+          <option value=1>1 hour</option>
+          <option value=2>2 hours</option>
+        </select>
+      </p>
+      <p>
+        <input id="mark_as_read_check" type="checkbox"/><label class="option_item_minor">Mark items as read when you click on them</label>
+      </p>
+      <p>
+        <input id="remove_context_menu_check" type="checkbox"/><label class="option_item_minor">Remove Context Menu</label>
+      </p>
+      <p>
+        <input type="button" value="Save" id="opt_save_btn" class="btn"/>
+      </p>
     </fieldset>
   </body>
   </html>
