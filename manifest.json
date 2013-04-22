@@ -1,7 +1,7 @@
 {
   "name": "IwillriL - Unnoficial Pocket Client",
   "version": "2.4",
-  "description": "Unnoficial Read It Later Client Extension for Google Chrome",
+  "description": "Unnoficial Pocket Client Extension for Google Chrome",
   "options_page": "html/options.html", 
   "browser_action": {
     "default_icon": "images/bookmark.png",
