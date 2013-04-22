@@ -64,6 +64,10 @@ td{
   border-bottom: 1px solid #eee;
 }
 
+.icon-ok{
+  font-size: 9px;
+}
+
 a{
   color: #2e2e2e;
   text-decoration:none; 
