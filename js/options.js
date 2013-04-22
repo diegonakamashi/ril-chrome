@@ -12,12 +12,12 @@ function save_options(){
       localStorage['ril_updateloopfunc'] = '';
       // chrome.extension.getBackgroundPage().update_loop();
     }
-    
-    alert("Saved!!!!");
   }   
 
   function init(){
-    $("#opt_save_btn").click(save_options);
+    $("input").change(save_options);
+    $("select").change(save_options);
+    
     if(localStorage['rilBtnShortCut'])
       $('#ril_btn_shortcut').val(localStorage['rilBtnShortCut']);
 
