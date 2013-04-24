@@ -57,8 +57,8 @@ Table.getFaviconUrl = function(item){
 Table.getItemTitle = function(item){
   if(item.resolved_title)
     return item.resolved_title;
-  else if(item.given_url)
-    return item.given_url;
+  else if(item.given_title)
+    return item.given_title;
   else
     return getItemUrl(item);
 }
