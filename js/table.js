@@ -55,12 +55,15 @@ Table.getFaviconUrl = function(item){
 }
 
 Table.getItemTitle = function(item){
+  var title = '';
   if(item.resolved_title)
-    return item.resolved_title;
+    title = item.resolved_title;
   else if(item.given_title)
-    return item.given_title;
+    title =  item.given_title;
   else
-    return getItemUrl(item);
+    title = getItemUrl(item);
+  
+  return title.replace(/</g, '&lt;').replace(/>/g, '&gt;'); 
 }
 
 Table.getItemUrl = function(item){
