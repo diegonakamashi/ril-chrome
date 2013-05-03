@@ -61,7 +61,7 @@ Table.getItemTitle = function(item){
   else if(item.given_title)
     title =  item.given_title;
   else
-    title = getItemUrl(item);
+    title = Table.getItemUrl(item);
   
   return title.replace(/</g, '&lt;').replace(/>/g, '&gt;'); 
 }
