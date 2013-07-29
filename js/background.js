@@ -78,6 +78,10 @@ Background.iWillRil = function(info, tab){
     Request.add(Background.updateContent, url, title);
 }
 
+Background.updateUncountLabel = function(){
+    ExtensionIcon.setUncountLabel(RilList.getItemsArray().length);
+}
+
 Background.updateContent = function(){
   ExtensionIcon.loaded();
   Request.get(function(resp){

@@ -8,7 +8,10 @@ ExtensionIcon.set = function(icon){
 
 ExtensionIcon.setUncountLabel = function(size){
   var txt = new Object();
-  txt.text=size.toString();
+  if(localStorage['removeUncountLabel'] == 'true')
+    txt.text = '';
+  else
+    txt.text=size.toString();
   chrome.browserAction.setBadgeText(txt);
 }
 
