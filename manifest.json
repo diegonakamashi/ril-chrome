@@ -17,7 +17,7 @@
    "background": {
     "scripts": ["js/request.js", "js/rilList.js", "js/auth.js", "js/extensionIcon.js", "js/background.js"]
   },
-   "manifest_version": 2,
+    "manifest_version": 2,
 
    "icons": {
     "16": "images/bookmark.png",

@@ -1,5 +1,5 @@
 function Auth(){}
-CONSUMER_KEY="11758-a73b85ac41814ed5b483f3a3";
+CONSUMER_KEY="";
 Auth.isAuthenticate = function()
 {
   return localStorage['access_token'] && localStorage['access_token'] != "null";
