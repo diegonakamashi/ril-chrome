@@ -31,4 +31,9 @@
       "js": ["js/myscript.js"]
    }
    ]
+
+   ,
+  "web_accessible_resources": [
+  "html/auth.html"
+  ]
 }
