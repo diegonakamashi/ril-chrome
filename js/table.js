@@ -49,9 +49,9 @@ Table.getItemHtml = function(item){
 
 Table.getFaviconUrl = function(item){
   var url = Table.getItemUrl(item);
-  return "http://g.etfv.co/"+ encodeURIComponent(url);
+  //return "http://g.etfv.co/"+ encodeURIComponent(url);
   // return Table.getDomain(url)+"/favicon.ico";
-  // return "http://www.google.com/s2/favicons?domain_url="+ encodeURIComponent(url);
+   return "http://www.google.com/s2/favicons?domain_url="+ encodeURIComponent(url);
 }
 
 Table.getItemTitle = function(item){
@@ -62,8 +62,8 @@ Table.getItemTitle = function(item){
     title =  item.given_title;
   else
     title = Table.getItemUrl(item);
-  
-  return title.replace(/</g, '&lt;').replace(/>/g, '&gt;'); 
+
+  return title.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 Table.getItemUrl = function(item){
@@ -84,7 +84,7 @@ Table.getDomain = function(url){
   return url;
 }
 
-Table.changeElemStyle = function(id){  
+Table.changeElemStyle = function(id){
   if(document.getElementById("list_img_index_"+id))
   {
     document.getElementById("list_img_index_"+id).style.backgroundImage="url('images/uncheck.png')";
