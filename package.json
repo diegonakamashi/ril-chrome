@@ -1,0 +1,19 @@
+{
+  "name": "ril-chrome",
+  "version": "2.4.2",
+  "description": "Unnoficial Pocket Client",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diegonakamashi/ril-chrome.git"
+  },
+  "author": "Diego Nakamashi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/diegonakamashi/ril-chrome/issues"
+  },
+  "homepage": "https://github.com/diegonakamashi/ril-chrome#readme"
+}
