@@ -15,7 +15,7 @@ function buildPage(){
   if(!localStorage["lastResponse"])
     refreshList();
   else
-    updatePage();	
+    updatePage();
 }
 
 
@@ -35,7 +35,7 @@ function refreshList(){
 
 function getCallback(resp){
   if(resp.status == 403 || resp.status == 401){
-      localStorage['lastResponse'] = '';    
+      localStorage['lastResponse'] = '';
       Auth.authenticate();
   }
   else{
@@ -45,8 +45,8 @@ function getCallback(resp){
 }
 
 function updatePage(){
-  var list = RilList.getItemsArray(); 
-  
+  var list = RilList.getItemsArray();
+
   if($("#table_list"))
   {
     hideLoadScreen();

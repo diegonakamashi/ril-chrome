@@ -1,11 +1,11 @@
-select {    
+select {
   font-size: 10px;
 }
 
 body {
   font-family: Helvetica, Arial, sans-serif;
-  font-size: 8px;      
-  margin: 0px;     
+  font-size: 8px;
+  margin: 0px;
 }
 
 .icon:hover{
@@ -13,7 +13,7 @@ body {
 }
 
 #list_div{
-  max-height: 500px;
+  max-height: 300px;
   min-height: 100px;
   width: 100%;
   top: 5px;
@@ -23,12 +23,12 @@ body {
 
 #page_body{
   width: 340px;
-  max-height: 550px;
+  height: 322px;
 }
 
 #add_button{
-  cursor:pointer;     
-}  
+  cursor:pointer;
+}
 
 #sync_button{
   cursor:pointer;
@@ -38,9 +38,9 @@ body {
   background-position: center center;
   cursor:pointer;
   width: 8px;
-}     
+}
 
-.table_img_mark_as_read:hover{    
+.table_img_mark_as_read:hover{
   opacity: 0.2;
   background-position: center center;
 }
@@ -70,7 +70,7 @@ td{
 
 a{
   color: #2e2e2e;
-  text-decoration:none; 
+  text-decoration:none;
 }
 
 #ext_title{
@@ -92,7 +92,7 @@ header{
 }
 
 #status_img{
-  top: 10px;  
+  top: 10px;
   position: relative;
   left: 90px;
   visibility: hidden;
@@ -146,14 +146,14 @@ table{
 
 #sync_button{
   right: 90px;
-  position:absolute;    
-  top:4px;  
+  position:absolute;
+  top:4px;
 }
 
 #order_select_div{
   top: 3px;
   position: absolute;
-  right: 5px; 
+  right: 5px;
   font-size: 10px;
   z-index:99;
 }
@@ -162,18 +162,18 @@ table{
   position: absolute;
   top: 4px;
   right: 70px;
-}   
+}
 
 .item_link_td{
  max-width: 277px;
  text-overflow: ellipsis;
  overflow: hidden;
-} 
+}
 
 ::-webkit-scrollbar {
   width: 8px;
   height: 5px;
-}    
+}
 
 ::-webkit-scrollbar-button:start:decrement,
 ::-webkit-scrollbar-button:end:increment  {
@@ -194,7 +194,7 @@ table{
 
 #iwillril_search{
   border: solid 1px gray;
-  background-image:url(../images/search.png);  
+  background-image:url(../images/search.png);
   background-repeat:no-repeat;
   margin-left: 10px;
   width: 200px;
@@ -203,7 +203,7 @@ table{
 }
 
 #iwillril_search:focus{
-  background-color: white; 
+  background-color: white;
   border: solid 1px gray;
 }
 
