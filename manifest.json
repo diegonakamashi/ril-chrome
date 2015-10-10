@@ -1,19 +1,19 @@
 {
   "name": "IwillriL - Unnoficial Pocket Client",
-  "version": "2.4.2",
+  "version": "2.4.4",
   "description": "Unnoficial Pocket Client Extension for Google Chrome",
-  "options_page": "html/options.html", 
+  "options_page": "html/options.html",
   "browser_action": {
     "default_icon": "images/bookmark.png",
      "default_popup": "html/popup.html"
   },
   "permissions": [
-    "https://readitlaterlist.com/", 
+    "https://readitlaterlist.com/",
     "http://readitlaterlist.com/",
     "https://getpocket.com/v3/",
     "tabs",
     "contextMenus"
-  ],  
+  ],
    "background": {
     "scripts": ["js/request.js", "js/rilList.js", "js/auth.js", "js/extensionIcon.js", "js/background.js"]
   },
@@ -24,7 +24,7 @@
     "48": "images/bookmark48.png",
     "128": "images/bookmark128.png"
   },
-  
+
   "content_scripts": [
    {
       "matches":  ["<all_urls>"],
