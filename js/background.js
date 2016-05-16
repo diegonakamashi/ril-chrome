@@ -5,7 +5,7 @@ Background.init = function(){
   Background.sync();
   if(!chrome.tabs.onSelectionChanged.hasListeners())
     chrome.tabs.onSelectionChanged.addListener(Background.manageSelectedTab);
-  
+
   if(!chrome.tabs.onUpdated.hasListeners())
     chrome.tabs.onUpdated.addListener(Background.manageSelectedTab);
 
@@ -19,7 +19,7 @@ Background.sync = function(){
   var interval = localStorage['rilUpdateInterval'];
 
   switch(interval){
-    case '0': 
+    case '0':
       timeout = 1000 * 60 * 30;
       break;
     case '1':
@@ -37,18 +37,18 @@ Background.sync = function(){
 
 Background.manageSelectedTab = function(tabid, obj){
   chrome.contextMenus.removeAll();
-  if(localStorage['remove_context_menu_iwillril'] &&  localStorage['remove_context_menu_iwillril'] == 'true') 
+  if(localStorage['remove_context_menu_iwillril'] &&  localStorage['remove_context_menu_iwillril'] == 'true')
     return;
   chrome.tabs.get(tabid, function (tab){
-    var list = RilList.getItemsArray(); 
+    var list = RilList.getItemsArray();
 
     for(var i = 0; i < list.length; i++){
       var obj = list[i];
       if(tab.url == obj.resolved_url || tab.url == obj.given_url){
-        chrome.contextMenus.create({"title": "Mark as Read ", "onclick": Background.markAsRead,"contexts":["page"]});      
+        chrome.contextMenus.create({"title": "Mark as Read ", "onclick": Background.markAsRead,"contexts":["page"]});
         return;
       }
-    } 
+    }
     chrome.contextMenus.create({"title": "I'll Read it Later ", "onclick": Background.iWillRil,"contexts":["page", "link"]});
   });
 }

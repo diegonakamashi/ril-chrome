@@ -19,7 +19,12 @@ Table.markAsRead = function(){
   var item_id = $(this).attr('item_id');
   var id = $(this).attr('index');
   Table.changeElemStyle(id);
-  Request.archieve(refreshList, parseInt(item_id));
+  if(localStorage['deleteItensOption'] === 'true'){
+    Request.delete(refreshList, parseInt(item_id));
+
+  }else{
+    Request.archieve(refreshList, parseInt(item_id));
+  }
 }
 
 Table.tryToMarkAsRead = function(){
@@ -32,20 +37,27 @@ Table.tryToMarkAsRead = function(){
 
 Table.getItemHtml = function(item){
   var title = Table.getItemTitle(item);
-  var item =  "<tr class=\"table_row\" id=\"line_index_"+item.index+"\" >"+
-    "<td class=\"no_border favicon\">"+
-    "<span><img src=\""+Table.getFaviconUrl(item)+"\" id=\"favicon_index_"+item.index+"\" class=\"favicon_img\"></img></span>"+
-    "</td>"+
-    "<td nowrap='nowrap' class=\"item_link_td\" item_id=\""+item.item_id+"\">"+
-    "<span id=\"title_span_index_"+item.index+"\">"+
-    "<a href=\""+Table.getItemUrl(item)+"\" target=\"_blank\" title=\""+title+"\">"+title+"</a>"+
-    "</span>"+
-    "</td>"+
-    "<td class=\"no_border table_img_mark_as_read icon-ok\" id=\"list_img_index_"+item.index+"\" item_id=\""+item.item_id+"\" index=\""+item.index+"\" title=\"Mark as Read\">"
-    "</td>" +
-    "</tr>";
-    return item;
-}
+
+  var actionIcon = 'icon-ok';
+  if(localStorage['deleteItensOption'] === 'true'){
+    actionIcon = 'icon-remove';
+  }
+  return `
+    <tr class="table_row" id="line_index_${item.index}">
+      <td class="no_border favicon">
+      <span>
+        <img src="${Table.getFaviconUrl(item)}" id="favicon_index_${item.index}" class="favicon_img" />
+      </span>
+      </td>
+      <td nowrap='nowrap' class="item_link_td" item_id="${item.item_id}">
+      <span id="title_span_index_${item.index}">
+        <a href="${Table.getItemUrl(item)}" target="_blank" title="${title}">${title}</a>
+      </span>
+      </td>
+      <td class="no_border table_img_mark_as_read ${actionIcon}" id="list_img_index_${item.index}" item_id="${item.item_id}" index="${item.index}" title="Mark as Read">
+      </td>
+    </tr>`;
+};
 
 Table.getFaviconUrl = function(item){
   var url = Table.getItemUrl(item);

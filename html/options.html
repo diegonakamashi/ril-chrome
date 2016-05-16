@@ -1,7 +1,7 @@
   <html>
   <head>
   <style>
-    
+
     body{
       font-family: 'Open Sans', Helvetica, Arial, serif;
       font-size: 15px;
@@ -34,7 +34,7 @@
     fieldset{
       border: 1px solid;
     }
-  
+
     .option_item_minor{
       font-size: 12px;
     }
@@ -46,13 +46,13 @@
 
   </head>
   <body>
-    <fieldset>  
+    <fieldset>
       <legend>I Will Read it Later</legend>
       <p>
         Keyboard Shortcut: Ctrl + Alt + <input id='ril_btn_shortcut' class='span2' type="text" size='1' maxlength='1'>
       </p>
-      <p>Update Interval: 
-        <select id='ril_slc_updateinterval'> 
+      <p>Update Interval:
+        <select id='ril_slc_updateinterval'>
           <option value=0>30 minutes</option>
           <option value=1>1 hour</option>
           <option value=2>2 hours</option>
@@ -66,6 +66,9 @@
       </p>
       <p>
         <input id="remove_uncount_label_check" type="checkbox"/><label class="option_item_minor">Remove Uncount Label</label>
+      </p>
+      <p>
+        <input id="delete_itens_options_check" type="checkbox"/><label class="option_item_minor">Delete the itens instead of archive</label>
       </p>
     </fieldset>
   </body>

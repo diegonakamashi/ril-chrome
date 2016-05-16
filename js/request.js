@@ -2,13 +2,13 @@ Request = {}
 
 Request._post = function(url, params, callback){
   var xhr = new XMLHttpRequest();
-  xhr.open("post", url, true);   
+  xhr.open("post", url, true);
   xhr.setRequestHeader("Content-type", "application/json");
   xhr.onreadystatechange = function(){
     if(xhr.readyState == 4 && callback)
-      callback(xhr);     
+      callback(xhr);
   }
-  xhr.send(JSON.stringify(params)); 
+  xhr.send(JSON.stringify(params));
 }
 
 Request.add = function(callback, addurl, title){
@@ -21,7 +21,7 @@ Request.add = function(callback, addurl, title){
     "access_token": localStorage['access_token']
   }
 
-  Request._post(url, params, callback);		
+  Request._post(url, params, callback);
 }
 
 Request.get = function(callback, time){
@@ -32,7 +32,7 @@ Request.get = function(callback, time){
     "access_token": localStorage['access_token']
   }
 
-  Request._post(url, params, callback);		
+  Request._post(url, params, callback);
 }
 
 Request.archieve = function(callback, item_id){
@@ -50,6 +50,23 @@ Request.archieve = function(callback, item_id){
     "actions": actions
   }
 
-  Request._post(url, params, callback); 
+  Request._post(url, params, callback);
 }
 
+Request.delete = function(callback, item_id){
+  var url = "https://getpocket.com/v3/send";
+  var actions = [
+    {
+      "action": "delete",
+      "item_id": item_id
+    }
+  ];
+
+  var params = {
+    "consumer_key": CONSUMER_KEY,
+    "access_token": localStorage['access_token'],
+    "actions": actions
+  }
+
+  Request._post(url, params, callback);
+}

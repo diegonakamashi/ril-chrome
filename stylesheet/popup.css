@@ -38,6 +38,8 @@ body {
   background-position: center center;
   cursor:pointer;
   width: 8px;
+  top: 8px;
+  position: relative;
 }
 
 .table_img_mark_as_read:hover{
