@@ -10,14 +10,20 @@ Table.render = function(list){
     list_content += html;
   }
 
-  $("#table_list").html(list_content);
-  $(".table_img_mark_as_read").click(Table.markAsRead);
-  $(".item_link_td").click(Table.tryToMarkAsRead);
+  document.querySelector('#table_list').innerHTML = list_content;
+  document.querySelectorAll('.table_img_mark_as_read').forEach(function (elem) {
+    elem.removeEventListener('click', Table.markAsRead.bind(elem));
+    elem.addEventListener('click', Table.markAsRead.bind(elem));
+  })
+  document.querySelectorAll('.item_link_td').forEach(function (elem) {
+    elem.removeEventListener('click', Table.tryToMarkAsRead.bind(elem));
+    elem.addEventListener('click', Table.tryToMarkAsRead.bind(elem));
+  })
 }
 
 Table.markAsRead = function(){
-  var item_id = $(this).attr('item_id');
-  var id = $(this).attr('index');
+  var item_id = this.getAttribute('item_id');
+  var id = this.getAttribute('index');
   Table.changeElemStyle(id);
   if(localStorage['deleteItensOption'] === 'true'){
     Request.delete(refreshList, parseInt(item_id));
@@ -30,7 +36,7 @@ Table.markAsRead = function(){
 Table.tryToMarkAsRead = function(){
   if(localStorage["mark_auto_iwillril"] == "true"){
     var bg = chrome.extension.getBackgroundPage();
-    var item_id = $(this).attr('item_id');
+    var item_id = this.getAttribute('item_id');
     Request.archieve(bg.Background.updateContent, parseInt(item_id));
   }
 }

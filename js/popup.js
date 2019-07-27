@@ -44,11 +44,10 @@ function getCallback(resp){
   }
 }
 
-function updatePage(){
-  var list = RilList.getItemsArray();
+function updatePage(term = null){
+  var list = RilList.getItemsArray(term);
 
-  if($("#table_list"))
-  {
+  if(document.querySelector("#table_list")){
     hideLoadScreen();
     ExtensionIcon.loaded();
     Table.render(list);
