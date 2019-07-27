@@ -1,10 +1,18 @@
 function Header(){}
 
+Header._searchTimeout = null
+
 Header.initFunctions = function(){
-  $("#add_button").click(Header.add);
-  $("#option_footer").click(Header.openOptions);
-  $("#sync_button").click(Header.refreshList);
-  $("#order_select").change(Header.orderBy);
+  document.querySelector("#add_button").addEventListener('click', Header.add);
+  document.querySelector("#option_footer").addEventListener('click', Header.openOptions);
+  document.querySelector("#sync_button").addEventListener('click', Header.refreshList);
+  document.querySelector("#order_select").addEventListener('click', Header.orderBy);
+  document.querySelector("#iwillril_search").addEventListener('keyup', function(ev) {
+    clearTimeout(Header._searchTimeout)
+    Header._searchTimeout = setTimeout(() => {
+      updatePage(ev.target.value)
+    }, 200)
+  });
 }
 
 Header.openOptions = function(){
@@ -22,12 +30,12 @@ Header.add = function(){
   chrome.tabs.getSelected(null, function(tab) {
     var url = tab.url;
     var title = tab.title;
-    Request.add(refreshList, url, title); 
+    Request.add(refreshList, url, title);
   });
 }
 
 Header.updateOrderBy = function(){
-  $("#order_select").val(localStorage['iwillril_order_by'])
+  document.querySelector('#order_select').value = localStorage['iwillril_order_by']
 }
 
 Header.orderBy = function(){
@@ -38,5 +46,4 @@ Header.orderBy = function(){
 
 Header.refresh = function(){
   Header.updateOrderBy();
-  $('input#iwillril_search').quicksearch('table#iwillril_table tbody tr');
 }

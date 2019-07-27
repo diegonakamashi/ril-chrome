@@ -5,7 +5,7 @@
   "options_page": "html/options.html",
   "browser_action": {
     "default_icon": "images/bookmark.png",
-     "default_popup": "html/popup.html"
+     "default_popup": "html/index.html"
   },
   "permissions": [
     "https://readitlaterlist.com/",
@@ -17,9 +17,9 @@
    "background": {
     "scripts": ["js/request.js", "js/rilList.js", "js/auth.js", "js/extensionIcon.js", "js/background.js"]
   },
-    "manifest_version": 2,
+  "manifest_version": 2,
 
-   "icons": {
+ "icons": {
     "16": "images/bookmark.png",
     "48": "images/bookmark48.png",
     "128": "images/bookmark128.png"
@@ -35,6 +35,6 @@
    ,
   "web_accessible_resources": [
   "html/auth.html",
-  "html/popup.html"
+  "html/index.html"
   ]
 }
