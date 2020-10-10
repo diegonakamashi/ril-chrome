@@ -43,7 +43,7 @@ class List extends Component {
 
   render() {
     return (
-      <div id="list_div">
+      <div className="iwillril-table-container">
         <table id='iwillril_table' cellpadding="5" width='95%' >
           <tbody id="table_list">
             {this._sortItems().map(this._renderItem)}

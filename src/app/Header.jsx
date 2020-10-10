@@ -21,9 +21,10 @@ class Header extends Component {
 
   render() {
     return (
-      <header style="position: relative;">
+      <header className='extension-header'>
         <input
           type='text'
+          placeholder='Find'
           onKeyUp={this._handleKeyUp}
           size='25'>
           </input>
@@ -31,13 +32,12 @@ class Header extends Component {
           <span className="btn" title="Add" onClick={this._handleAdd}>Add</span>
           <span className="btn" title="Sync" onClick={this._handleSync}>Sync</span>
           <span className='btn' title="Settings">Set</span>
-        </div>
-        <div id="order_select_div">
           <select id="order_select" onChange={this._handleOrderBy} value={this.props.settings.orderBy}>
             <option value="old">Oldest</option>
             <option value="new">Newest</option>
           </select>
         </div>
+
       </header>
     )
   }

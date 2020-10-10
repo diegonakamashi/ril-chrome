@@ -18,6 +18,23 @@
   font-weight: 700;
 }
 
+.extension-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.iwillril-table-container {
+  width: 500px;
+}
+
+.item-tr-favicon {
+  width: 20px;
+}
+
+.item-tr-title {
+  width: 440px;
+}
+
 .mark-as-read-btn {
   cursor: pointer;
 }
