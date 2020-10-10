@@ -8,14 +8,16 @@ ExtensionIcon.set = function(icon){
 
 ExtensionIcon.setUncountLabel = function(size){
   var txt = new Object();
-  if(localStorage['removeUncountLabel'] == 'true')
-    txt.text = '';
-  else
-    txt.text=size.toString();
+  txt.text=size.toString();
   chrome.browserAction.setBadgeText(txt);
 }
 
-ExtensionIcon.loaded = function(){    
+ExtensionIcon.removeUncountLabel = function(){
+  var txt = new Object();
+  txt.text = '';
+  chrome.browserAction.setBadgeText(txt);
+}
+ExtensionIcon.loaded = function(){
     ExtensionIcon.set('images/bookmark.png');
 }
 
@@ -23,3 +25,4 @@ ExtensionIcon.loading = function(){
   ExtensionIcon.set('images/loader_table.gif');
 }
 
+export default ExtensionIcon

@@ -1,0 +1,44 @@
+
+.btn {
+  display: inline-block;
+  padding: 0.35em 1.2em;
+  border: 0.5px solid black;
+  margin: 0 0.3em 0.3em 0;
+  border-radius: 0.12em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-weight: 300;
+  color: black;
+  text-align: center;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.btn:hover {
+  font-weight: 700;
+}
+
+.mark-as-read-btn {
+  cursor: pointer;
+}
+
+.mark-as-read-btn:hover {
+  font-weight: 700;
+}
+
+.item-tr:hover > .item-tr-title {
+    font-weight: 700;
+}
+
+.item-link {
+  text-decoration: none;
+  color: #000;
+  font-size: 14px;
+}
+
+.item-link-loading {
+  text-decoration: none;
+  color: #ccc;
+  font-size: 14px;
+}
+

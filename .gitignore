@@ -6,3 +6,5 @@ background.html~
 popup.html~
 options.html~
 layout_test.html
+node_modules/
+dist/

@@ -15,5 +15,20 @@
   "bugs": {
     "url": "https://github.com/diegonakamashi/ril-chrome/issues"
   },
-  "homepage": "https://github.com/diegonakamashi/ril-chrome#readme"
+  "homepage": "https://github.com/diegonakamashi/ril-chrome#readme",
+  "devDependencies": {
+    "@babel/core": "^7.6.2",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-transform-react-jsx": "^7.3.0",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
+    "babel-loader": "^8.0.6",
+    "webpack": "^4.41.0",
+    "webpack-cli": "^3.3.9"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.6.2",
+    "eventemitter3": "^4.0.0",
+    "preact": "^10.0.0"
+  }
 }

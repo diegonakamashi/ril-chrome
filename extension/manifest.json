@@ -15,7 +15,7 @@
     "contextMenus"
   ],
    "background": {
-    "scripts": ["js/request.js", "js/rilList.js", "js/auth.js", "js/extensionIcon.js", "js/background.js"]
+    "scripts": ["dist/background.js"]
   },
   "manifest_version": 2,
 
@@ -28,7 +28,7 @@
   "content_scripts": [
    {
       "matches":  ["<all_urls>"],
-      "js": ["js/myscript.js"]
+      "js": ["dist/myscript.js"]
    }
    ]
 
