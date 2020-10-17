@@ -1,8 +1,7 @@
 window.addEventListener("load", init);
 
 function saveOptions(){
-  var button_shortcut = document.getElementById('ril_btn_shortcut').value;
-  localStorage['rilBtnShortCut'] = button_shortcut;
+  localStorage['rilBtnShortCut'] = document.getElementById('ril_btn_shortcut').value;
   localStorage["mark_auto_iwillril"] = document.getElementById("mark_as_read_check").checked ? "true" : "false";
   localStorage["remove_context_menu_iwillril"] = document.getElementById("remove_context_menu_check").checked ? "true" : "false";
   localStorage['rilUpdateInterval'] = document.getElementById('ril_slc_updateinterval').value;
@@ -18,7 +17,7 @@ function saveOptions(){
   chrome.extension.getBackgroundPage().Background.updateUncountLabel();
 }
 
-function init(){
+function addEventListeners() {
   document.querySelector('#ril_btn_shortcut').addEventListener('keyup', saveOptions)
   document.querySelectorAll('input').forEach(function(elem) {
     elem.addEventListener('change', saveOptions )
@@ -26,28 +25,38 @@ function init(){
   document.querySelectorAll('select').forEach(function(elem) {
     elem.addEventListener('change', saveOptions )
   })
+}
 
+function fillFields() {
   if(localStorage['rilBtnShortCut']){
     document.querySelector('#ril_btn_shortcut').value = localStorage['rilBtnShortCut']
   }
 
   if(localStorage['rilUpdateInterval']){
     document.querySelector('#ril_slc_updateinterval').value = localStorage['rilUpdateInterval']
-  }
-  else{
+  } else {
     document.querySelector('#ril_slc_updateinterval').value = 2
   }
 
-  if(localStorage["mark_auto_iwillril"])
+  if(localStorage["mark_auto_iwillril"]) {
     document.getElementById("mark_as_read_check").checked = localStorage["mark_auto_iwillril"] == "true" ? true : false;
+  }
 
-  if(localStorage["remove_context_menu_iwillril"])
+  if(localStorage["remove_context_menu_iwillril"]) {
     document.getElementById("remove_context_menu_check").checked = localStorage["remove_context_menu_iwillril"] == "true" ? true : false;
+  }
 
-  if(localStorage['removeUncountLabel'])
+  if(localStorage['removeUncountLabel']) {
     document.getElementById('remove_uncount_label_check').checked = localStorage["removeUncountLabel"] == "true" ? true : false;
+  }
 
-  if(localStorage['deleteItensOption'])
+  if(localStorage['deleteItensOption']) {
     document.getElementById('delete_itens_options_check').checked = localStorage["deleteItensOption"] == "true" ? true : false;
+  }
 
+}
+
+function init(){
+  addEventListeners();
+  fillFields();
 }
