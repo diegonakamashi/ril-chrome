@@ -86,6 +86,10 @@ Background._startListeners = function () {
           })
         return true
       }
+      if (request.msg === events.UPDATE_UNCOUNT_LABEL) {
+        updateUncountLabel();
+        return true;
+      }
     }
   );
 }

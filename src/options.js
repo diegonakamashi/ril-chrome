@@ -1,3 +1,4 @@
+import events from './events'
 window.addEventListener("load", init);
 
 function saveOptions(){
@@ -14,7 +15,8 @@ function saveOptions(){
     // chrome.extension.getBackgroundPage().update_loop();
   }
 
-  chrome.extension.getBackgroundPage().Background.updateUncountLabel();
+  const message = { msg: events.UPDATE_UNCOUNT_LABEL }
+  chrome.runtime.sendMessage(message, (_) => {});
 }
 
 function addEventListeners() {
