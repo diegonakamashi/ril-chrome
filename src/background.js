@@ -199,28 +199,27 @@ async function addItemInPocket(info, tab) {
 
 async function getItemsFromCache(params) {
   const items = await fetchItemsFromCache(params)
-  const totalItems = await fetchItemsFromCache()
-  if (items && items.length > 0) {
-    await setUncountLabel(totalItems.length);
-  }
+  await updateUncountLabel();
   return items
 }
 
 async function refreshItems() {
   ExtensionIcon.loading();
   const items = await fetchItems();
-  await setUncountLabel(items.length);
+  await updateUncountLabel();
   ExtensionIcon.loaded();
   return items;
 }
 
-async function setUncountLabel(size) {
+async function updateUncountLabel() {
   const settings = await getSettings();
   if (!settings.removeUncountLabel) {
-    ExtensionIcon.setUncountLabel(size)
+    const totalItems = await fetchItemsFromCache() || [];
+    ExtensionIcon.setUncountLabel(totalItems.length)
   } else {
     ExtensionIcon.removeUncountLabel()
   }
+  return Promise.resolve();
 }
 
 Background.init();
