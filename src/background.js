@@ -199,8 +199,9 @@ async function addItemInPocket(info, tab) {
 
 async function getItemsFromCache(params) {
   const items = await fetchItemsFromCache(params)
+  const totalItems = await fetchItemsFromCache()
   if (items && items.length > 0) {
-    await setUncountLabel(items.length);
+    await setUncountLabel(totalItems.length);
   }
   return items
 }

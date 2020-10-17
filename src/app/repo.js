@@ -6,8 +6,6 @@ export function fetchItemsFromCache(params = {}) {
   } = params
   if (localStorage['ITEMS']) {
     try {
-
-      console.log('SEARCHING asdasd', searchWord)
       const items = JSON.parse(localStorage['ITEMS'])
       if(!searchWord) {
         return Promise.resolve(items)
