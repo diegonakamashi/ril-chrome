@@ -28,11 +28,7 @@ export function fetchItemsFromCache(params = {}) {
   return Promise.resolve(null)
 }
 
-export function fetchItems(params = {}) {
-  const {
-    searchWord
-  } = params
-
+export function fetchItems() {
   return new Promise(async (resolve, reject) => {
     try {
       const response = await Api.getList()
