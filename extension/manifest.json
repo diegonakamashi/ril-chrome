@@ -12,7 +12,8 @@
     "http://readitlaterlist.com/",
     "https://getpocket.com/v3/",
     "tabs",
-    "contextMenus"
+    "contextMenus",
+    "alarms"
   ],
    "background": {
     "scripts": ["dist/background.js"]

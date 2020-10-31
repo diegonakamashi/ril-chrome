@@ -77,8 +77,27 @@ export function getSettings() {
     orderBy,
     removeContextMenu,
     removeUncountLabel,
-    autoMarkItemAsRead
+    autoMarkItemAsRead,
+    updateIntervalInMinutes: getUpdateIntervalInMinutes()
   })
+}
+
+function getUpdateIntervalInMinutes() {
+  const interval = localStorage['rilUpdateInterval'] || '2';
+
+  if(interval == '0') {
+    return 30;
+  }
+
+  if(interval == '1') {
+    return 60;
+  }
+
+  if(interval == '2') {
+    return 120;
+  }
+
+  return 120;
 }
 
 export function updateSettings(key, value) {

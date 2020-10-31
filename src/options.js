@@ -9,14 +9,8 @@ function saveOptions(){
   localStorage['removeUncountLabel'] = document.getElementById('remove_uncount_label_check').checked ? "true" : "false";
   localStorage['deleteItensOption'] = document.getElementById('delete_itens_options_check').checked ? "true" : "false";
 
-  if(localStorage['ril_updateloopfunc']){
-    clearInterval(localStorage['ril_updateloopfunc']);
-    localStorage['ril_updateloopfunc'] = '';
-    // chrome.extension.getBackgroundPage().update_loop();
-  }
-
-  const message = { msg: events.UPDATE_UNCOUNT_LABEL }
-  chrome.runtime.sendMessage(message, (_) => {});
+  chrome.runtime.sendMessage({ msg: events.UPDATE_UNCOUNT_LABEL }, (_) => {});
+  chrome.runtime.sendMessage({ msg: events.UPDATE_ALARM_TIME }, (_) => {});
 }
 
 function addEventListeners() {

@@ -8,10 +8,20 @@ import {
   findItemByUrl
 } from './app/repo'
 import events from './events'
+
+const I_WILL_RIL_ALARM = 'iwillril_alarm'
+
 function Background() { }
 
 Background.init = function () {
-  Background.sync();
+  Background.updateAlarmTime();
+
+  chrome.alarms.onAlarm.addListener(async function(alarm) {
+    if(alarm.name == I_WILL_RIL_ALARM) {
+      await refreshItems()
+    }
+  })
+
   if (!chrome.tabs.onSelectionChanged.hasListeners()) {
     chrome.tabs.onSelectionChanged.addListener(Background.manageSelectedTab);
   }
@@ -90,30 +100,22 @@ Background._startListeners = function () {
         updateUncountLabel();
         return true;
       }
+      if (request.msg === events.UPDATE_ALARM_TIME) {
+        Background.updateAlarmTime();
+        return true;
+      }
     }
   );
 }
 
-Background.sync = function () {
-  //Background.updateContent();
-  var interval = localStorage['rilUpdateInterval'];
-
-  let timeout = 1000 * 60 * 30;
-  switch (interval) {
-    case '0':
-      timeout = 1000 * 60 * 30;
-      break;
-    case '1':
-      timeout = 1000 * 60 * 60;
-      break;
-    case '2':
-      timeout = 1000 * 60 * 60 * 2;
-      break;
-    default:
-      timeout = 1000 * 60 * 60 * 2;
-  }
-
-  window.setTimeout(Background.sync, timeout);
+Background.updateAlarmTime = async function () {
+  const settings = await getSettings();
+  console.log('UPDATE ALARM TIMRE', settings.updateIntervalInMinutes)
+  chrome.alarms.clear(I_WILL_RIL_ALARM, function() {
+    chrome.alarms.create(I_WILL_RIL_ALARM, {
+      periodInMinutes: settings.updateIntervalInMinutes
+    })
+  })
 }
 
 Background.manageSelectedTab = async function (tabid, obj) {
