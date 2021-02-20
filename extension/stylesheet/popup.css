@@ -14,6 +14,32 @@
   cursor: pointer;
 }
 
+.search-input {
+  width: 60%;
+  margin-left: 5px;
+}
+
+.header-btn {
+  cursor: pointer;
+  margin-right: 10px;
+
+}
+
+.header-btn img {
+  height: 20px;
+}
+
+.header-btn img:hover {
+  opacity: 0.5;
+}
+
+.header-btn-container {
+  display: flex;
+}
+
+.add-button {
+}
+
 .btn:hover {
   font-weight: 700;
 }
@@ -25,6 +51,7 @@
 
 .iwillril-table-container {
   width: 500px;
+  margin-top: 15px;
 }
 
 .item-tr-favicon {
@@ -38,9 +65,12 @@
 .mark-as-read-btn {
   cursor: pointer;
 }
+.mark-as-read-img {
+  height: 20px;
+}
 
-.mark-as-read-btn:hover {
-  font-weight: 700;
+.mark-as-read-img:hover {
+  opacity: 0.5;
 }
 
 .item-tr:hover > .item-tr-title {

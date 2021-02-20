@@ -77,7 +77,7 @@ class ListItem extends Component {
         className="mark-as-read-btn"
         title="Mark as Read "
         onClick={this._handleMarkAsRead}>
-        ✓
+        <img className='mark-as-read-img' src="../images/check.svg" alt="" />
       </span>
     )
   }
