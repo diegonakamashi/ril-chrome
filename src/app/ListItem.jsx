@@ -4,7 +4,7 @@ class ListItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false
+      loading: false,
     }
   }
 
@@ -20,7 +20,6 @@ class ListItem extends Component {
     var url = this._itemUrl();
     return "http://www.google.com/s2/favicons?domain_url=" + encodeURIComponent(url);
   }
-
 
   _itemTitle() {
     const { item } = this.props

@@ -110,7 +110,6 @@ Background._startListeners = function () {
 
 Background.updateAlarmTime = async function () {
   const settings = await getSettings();
-  console.log('UPDATE ALARM TIMRE', settings.updateIntervalInMinutes)
   chrome.alarms.clear(I_WILL_RIL_ALARM, function() {
     chrome.alarms.create(I_WILL_RIL_ALARM, {
       periodInMinutes: settings.updateIntervalInMinutes
@@ -132,9 +131,10 @@ Background.manageSelectedTab = async function (tabid, obj) {
       var obj = list[i];
       if (tab.url == obj.resolved_url || tab.url == obj.given_url) {
         chrome.contextMenus.create({
-          title: "Mark as Read",
+          title: "Mark as Read - New",
           onclick: async (info, tab) => {
-            markAsRead(obj.item_id);
+            await markAsRead(obj.item_id);
+            Background.manageSelectedTab(tabid, obj)
           },
           contexts: ["page"]
         });
@@ -142,9 +142,10 @@ Background.manageSelectedTab = async function (tabid, obj) {
       }
     }
     chrome.contextMenus.create({
-      title: "I'll Read it Later",
+      title: "I'll Read it Later - New",
       onclick: async (info, tab) => {
-        addItemInPocket(info, tab)
+        await addItemInPocket(info, tab)
+        Background.manageSelectedTab(tabid, obj)
       },
       contexts: ["page", "link"]
     });

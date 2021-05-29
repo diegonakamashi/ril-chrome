@@ -8,3 +8,4 @@ options.html~
 layout_test.html
 node_modules/
 dist/
+.idea
