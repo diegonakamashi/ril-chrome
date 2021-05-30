@@ -101,7 +101,7 @@ class App extends Component {
           self.setState({ items: response.payload })
         }
       });
-    }, 300)
+    }, 100)
   }
 
   render() {

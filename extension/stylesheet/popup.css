@@ -73,9 +73,17 @@
   opacity: 0.5;
 }
 
-.item-tr:hover > .item-tr-title {
-    font-weight: 700;
+.item-tr {
+  cursor: pointer
 }
+.item-tr:hover {
+    background-color: #eeeeee;
+}
+
+#iwillril_table {
+  border-collapse: collapse;
+}
+
 
 .item-link {
   text-decoration: none;
