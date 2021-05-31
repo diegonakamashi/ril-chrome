@@ -11,6 +11,7 @@ Api._postRequest = async function (url, params) {
     },
     body: JSON.stringify(params)
   });
+
   if (rawResponse.ok) {
     const content = await rawResponse.json();
     return content

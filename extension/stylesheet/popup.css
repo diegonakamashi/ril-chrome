@@ -1,4 +1,3 @@
-
 .btn {
   display: inline-block;
   padding: 0.35em 1.2em;
@@ -22,7 +21,6 @@
 .header-btn {
   cursor: pointer;
   margin-right: 10px;
-
 }
 
 .header-btn img {
@@ -35,9 +33,6 @@
 
 .header-btn-container {
   display: flex;
-}
-
-.add-button {
 }
 
 .btn:hover {
@@ -77,13 +72,12 @@
   cursor: pointer
 }
 .item-tr:hover {
-    background-color: #eeeeee;
+  background-color: #eeeeee;
 }
 
 #iwillril_table {
   border-collapse: collapse;
 }
-
 
 .item-link {
   text-decoration: none;

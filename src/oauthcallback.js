@@ -5,7 +5,6 @@ function endAuthentication(){
   getConsumerKey();
 }
 
-
 function getConsumerKey(){
   var url = "https://getpocket.com/v3/oauth/authorize"
   var params = {
