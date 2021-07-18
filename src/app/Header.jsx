@@ -31,7 +31,7 @@ class Header extends Component {
       <header className='extension-header'>
         <input
           type='text'
-          placeholder='Find'
+          placeholder='Search'
           className='search-input'
           onKeyUp={this._handleKeyUp}
           size='25'>

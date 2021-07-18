@@ -23,11 +23,11 @@ Background.init = function () {
   })
 
   if (!chrome.tabs.onSelectionChanged.hasListeners()) {
-    chrome.tabs.onSelectionChanged.addListener(Background.manageSelectedTab);
+    chrome.tabs.onSelectionChanged.addListener(Background.manageOnTabSelectionChanged);
   }
 
   if (!chrome.tabs.onUpdated.hasListeners()) {
-    chrome.tabs.onUpdated.addListener(Background.manageSelectedTab);
+    chrome.tabs.onUpdated.addListener(Background.manageOnTabUpdated);
   }
 
   if (!chrome.extension.onRequest.hasListeners()) {
@@ -117,6 +117,24 @@ Background.updateAlarmTime = async function () {
   })
 }
 
+Background.manageOnTabSelectionChanged = async function(tabid, obj) {
+  await Background.manageSelectedTab(tabid, obj);
+}
+
+Background.manageOnTabUpdated = async function(tabid, obj) {
+  let queryOptions = { active: true, currentWindow: true };
+  chrome.tabs.query(queryOptions, async function(tabs) {
+    if(tabs && tabs.length > 0) {
+      const tab = tabs[0]
+      if(tab.id == tabid) {
+        await Background.manageSelectedTab(tabid, obj);
+      }
+    }
+
+  });
+
+}
+
 Background.manageSelectedTab = async function (tabid, obj) {
   chrome.contextMenus.removeAll();
   const settings = await getSettings();
@@ -125,6 +143,9 @@ Background.manageSelectedTab = async function (tabid, obj) {
   }
 
   chrome.tabs.get(tabid, async function (tab) {
+    if(!tab) {
+      return
+    }
     const list = await fetchItemsFromCache() || [];
 
     for (var i = 0; i < list.length; i++) {
