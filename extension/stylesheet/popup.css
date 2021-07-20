@@ -43,6 +43,10 @@
 .extension-header {
   display: flex;
   justify-content: space-between;
+  position: sticky;
+  background: white;
+  top: 0px;
+  padding: 5px 0px 10px 0px;
 }
 
 .iwillril-table-container {
