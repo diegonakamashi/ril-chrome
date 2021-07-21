@@ -1,3 +1,6 @@
+body {
+  margin: 0;
+}
 .btn {
   display: inline-block;
   padding: 0.35em 1.2em;
@@ -13,10 +16,20 @@
   cursor: pointer;
 }
 
+#order_select {
+  border: 1px solid black;
+  border-radius: 3px;
+  background: white;
+  height: 24px;
+}
+
 .search-input {
   width: 100%;
   margin-right: 10px;
   margin-left: 5px;
+  padding: 2px;
+  border: 1px solid black;
+  border-radius: 3px;
 }
 
 .header-btn {
@@ -25,7 +38,7 @@
 }
 
 .header-btn img {
-  height: 20px;
+  height: 24px;
 }
 
 .header-btn img:hover {
@@ -47,11 +60,13 @@
   background: white;
   top: 0px;
   padding: 5px 0px 10px 0px;
+  padding: 8px;
+  border-bottom: 1px solid #ccc;
 }
 
 .iwillril-table-container {
   width: 500px;
-  margin-top: 15px;
+  padding: 8px;
 }
 
 .item-tr-favicon {

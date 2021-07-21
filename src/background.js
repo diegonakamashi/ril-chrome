@@ -118,20 +118,25 @@ Background.updateAlarmTime = async function () {
 }
 
 Background.manageOnTabSelectionChanged = async function(tabid, obj) {
-  await Background.manageSelectedTab(tabid, obj);
+  setTimeout(async () => {
+    await Background.manageSelectedTab(tabid, obj);
+  }, 100)
 }
 
 Background.manageOnTabUpdated = async function(tabid, obj) {
-  let queryOptions = { active: true, currentWindow: true };
-  chrome.tabs.query(queryOptions, async function(tabs) {
-    if(tabs && tabs.length > 0) {
-      const tab = tabs[0]
-      if(tab.id == tabid) {
-        await Background.manageSelectedTab(tabid, obj);
+  setTimeout(async () => {
+    let queryOptions = { active: true, currentWindow: true };
+    chrome.tabs.query(queryOptions, async function(tabs) {
+      if(tabs && tabs.length > 0) {
+        const tab = tabs[0]
+        if(tab.id == tabid) {
+          await Background.manageSelectedTab(tabid, obj);
+        }
       }
-    }
 
-  });
+    });
+  })
+
 
 }
 
