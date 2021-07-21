@@ -31,14 +31,21 @@ class Header extends Component {
       <header className='extension-header'>
         <input
           type='text'
-          placeholder='Find'
+          placeholder='Search'
+          className='search-input'
           onKeyUp={this._handleKeyUp}
           size='25'>
           </input>
-        <div>
-          <span className="btn" title="Add" onClick={this._handleAdd}>Add</span>
-          <span className="btn" title="Sync" onClick={this._handleSync}>Sync</span>
-          <span className='btn' title="Settings" onClick={this._handleSettings}>Set</span>
+        <div className='header-btn-container'>
+          <span className="header-btn" title="Add" onClick={this._handleAdd}>
+            <img className='add-button' src="../images/plus.svg" alt="" />
+          </span>
+          <span className="header-btn" title="Sync" onClick={this._handleSync}>
+            <img src="../images/refresh.svg" alt="" />
+          </span>
+          <span className='header-btn' title="Settings" onClick={this._handleSettings}>
+            <img src="../images/settings.svg" alt="" />
+          </span>
           <select id="order_select" onChange={this._handleOrderBy} value={this.props.settings.orderBy}>
             <option value="old">Oldest</option>
             <option value="new">Newest</option>

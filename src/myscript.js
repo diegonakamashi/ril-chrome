@@ -1,7 +1,6 @@
 window.addEventListener('keyup', keyboardShortCut, false);//Keyboard ShortCut
 
 function keyboardShortCut(e){
-  console.log('keyu')
 	if(e.altKey && e.ctrlKey){
     chrome.extension.sendRequest({
       name : 'keyShortCut',
