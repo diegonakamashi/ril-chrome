@@ -168,7 +168,7 @@ Background.manageSelectedTab = async function (tabid, obj) {
       }
     }
     chrome.contextMenus.create({
-      title: "I'll Read it Later - New",
+      title: "I'll Read it Later",
       onclick: async (info, tab) => {
         await addItemInPocket(info, tab)
         Background.manageSelectedTab(tabid, obj)

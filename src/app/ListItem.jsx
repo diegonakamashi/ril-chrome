@@ -89,7 +89,7 @@ class ListItem extends Component {
             <img src={this._faviconUrl()} className="favicon_img" />
           </span>
         </td>
-        <td nowrap='nowrap' className='item-tr-title'>
+        <td className='item-tr-title'>
           {this._renderItemLink()}
         </td>
         <td>
