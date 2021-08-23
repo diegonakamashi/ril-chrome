@@ -36,6 +36,7 @@ Api.addItem = function (addurl, title) {
   return Api._postRequest(url, params);
 }
 
+
 Api.getList = function () {
   var url = "https://getpocket.com/v3/get";
   var params = {
@@ -65,7 +66,7 @@ Api.archieve = function (item_id) {
   return Api._postRequest(url, params);
 }
 
-Api.delete = function (callback, item_id) {
+Api.delete = function (item_id) {
   var url = "https://getpocket.com/v3/send";
   var actions = [
     {
@@ -80,7 +81,7 @@ Api.delete = function (callback, item_id) {
     "actions": actions
   }
 
-  Api._post(url, params, callback);
+  return Api._postRequest(url, params);
 }
 
 export default Api

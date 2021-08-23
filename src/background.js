@@ -5,7 +5,8 @@ import {
   addItem,
   archiveItem,
   fetchItems,
-  findItemByUrl
+  findItemByUrl,
+  deleteItem
 } from './app/repo'
 import events from './events'
 
@@ -96,6 +97,20 @@ Background._startListeners = function () {
           })
         return true
       }
+      if (request.msg === events.DELETE) {
+        const payload = request.payload
+        deleteItemOnPocket(payload.itemId)
+          .then((items) => {
+            sendResponse({
+              success: true,
+              payload: items
+            })
+          })
+          .catch(() => {
+            sendResponse({ success: false })
+          })
+        return true
+      }
       if (request.msg === events.UPDATE_UNCOUNT_LABEL) {
         updateUncountLabel();
         return true;
@@ -157,9 +172,14 @@ Background.manageSelectedTab = async function (tabid, obj) {
       var obj = list[i];
       if (tab.url == obj.resolved_url || tab.url == obj.given_url) {
         chrome.contextMenus.create({
-          title: "Mark as Read - New",
+          title: "Mark as Read",
           onclick: async (info, tab) => {
-            await markAsRead(obj.item_id);
+            const settings = await getSettings();
+            if(settings.deleteInsteadArchive) {
+              await deleteItemOnPocket(obj.item_id);
+            }else {
+              await markAsRead(obj.item_id);
+            }
             Background.manageSelectedTab(tabid, obj)
           },
           contexts: ["page"]
@@ -209,6 +229,13 @@ Background.keyboardShortcutManager = function (request) {
 async function markAsRead(itemId) {
   ExtensionIcon.loading();
   await archiveItem(itemId);
+  const items = await refreshItems();
+  return items;
+}
+
+async function deleteItemOnPocket(itemId) {
+  ExtensionIcon.loading();
+  await deleteItem(itemId);
   const items = await refreshItems();
   return items;
 }

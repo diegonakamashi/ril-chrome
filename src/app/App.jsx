@@ -75,7 +75,8 @@ class App extends Component {
 
   _handleMarkItemAsRead = (item) => {
     const self = this;
-    const message = { msg: events.ARCHIVE, payload: { itemId: item.item_id } }
+    const msg = this.state.settings.deleteInsteadArchive ? events.DELETE : events.ARCHIVE;
+    const message = { msg: msg, payload: { itemId: item.item_id } }
     chrome.runtime.sendMessage(message, (response) => {
       if (response.success) {
         self.setState({ items: response.payload, loading: false })

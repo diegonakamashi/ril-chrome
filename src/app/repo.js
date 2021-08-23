@@ -55,6 +55,17 @@ export function archiveItem(itemId) {
   })
 }
 
+export function deleteItem(itemId) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await Api.delete(itemId);
+      resolve({})
+    } catch {
+      reject(null)
+    }
+  })
+}
+
 
 export function addItem(url, title) {
   return new Promise(async (resolve, reject) => {
@@ -72,12 +83,14 @@ export function getSettings() {
   const removeContextMenu = localStorage['remove_context_menu_iwillril'] && localStorage['remove_context_menu_iwillril'] == 'true';
   const removeUncountLabel = localStorage['removeUncountLabel'] == 'true';
   const autoMarkItemAsRead = localStorage["mark_auto_iwillril"] == "true";
+  const deleteInsteadArchive = localStorage['deleteItensOption'] == 'true';
 
   return Promise.resolve({
     orderBy,
     removeContextMenu,
     removeUncountLabel,
     autoMarkItemAsRead,
+    deleteInsteadArchive,
     updateIntervalInMinutes: getUpdateIntervalInMinutes()
   })
 }
