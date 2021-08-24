@@ -103,11 +103,21 @@ body {
   text-decoration: none;
   color: #000;
   font-size: 14px;
+  width: 430px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: block;
 }
 
 .item-link-loading {
   text-decoration: none;
   color: #ccc;
   font-size: 14px;
+  width: 430px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: block;
 }
 
