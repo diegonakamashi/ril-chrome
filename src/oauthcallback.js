@@ -22,6 +22,11 @@ function getConsumerKey(){
       var resp = JSON.parse(xhr.response);
       localStorage['access_token'] = resp.access_token;
       localStorage['username'] = resp.username;
+
+      //REFRESH ITEMS
+      chrome.runtime.sendMessage({msg: 'REFRESH_ITEMS'}, function (response){
+        console.log(response)
+      });
     }
   }
   xhr.send(JSON.stringify(params));
