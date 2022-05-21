@@ -1,11 +1,11 @@
 window.addEventListener("load", endAuthentication);
-const CONSUMER_KEY="11758-a73b85ac41814ed5b483f3a3";
+const CONSUMER_KEY = process.env.CONSUMER_KEY;
 
-function endAuthentication(){
+function endAuthentication() {
   getConsumerKey();
 }
 
-function getConsumerKey(){
+function getConsumerKey() {
   var url = "https://getpocket.com/v3/oauth/authorize"
   var params = {
     consumer_key: CONSUMER_KEY,
@@ -16,15 +16,15 @@ function getConsumerKey(){
   xhr.open("post", url, true);
   xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
   xhr.setRequestHeader("X-Accept", "application/json");
-  xhr.onreadystatechange = function(){
+  xhr.onreadystatechange = function () {
     console.log(xhr)
-    if(xhr.readyState == 4 && xhr.status == 200){
+    if (xhr.readyState == 4 && xhr.status == 200) {
       var resp = JSON.parse(xhr.response);
       localStorage['access_token'] = resp.access_token;
       localStorage['username'] = resp.username;
 
       //REFRESH ITEMS
-      chrome.runtime.sendMessage({msg: 'REFRESH_ITEMS'}, function (response){
+      chrome.runtime.sendMessage({ msg: 'REFRESH_ITEMS' }, function (response) {
         console.log(response)
       });
     }

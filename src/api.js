@@ -1,6 +1,6 @@
 import { UnauthorizedError } from './errors';
 const Api = {}
-const CONSUMER_KEY = "11758-a73b85ac41814ed5b483f3a3";
+const CONSUMER_KEY = process.env.CONSUMER_KEY;
 
 Api._postRequest = async function (url, params) {
   const rawResponse = await fetch(url, {

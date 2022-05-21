@@ -1,4 +1,5 @@
 const path = require('path');
+const Dotenv = require("dotenv-webpack");
 
 module.exports = {
   entry: {
@@ -9,6 +10,9 @@ module.exports = {
     oauthcallback: './src/oauthcallback.js',
     myscript: './src/myscript.js'
   },
+  plugins: [
+    new Dotenv()
+  ],
   devtool: 'inline-source-map',
   module: {
     rules: [
@@ -20,7 +24,7 @@ module.exports = {
           options: {
             presets: ['@babel/preset-env'],
             plugins: [
-              ["@babel/plugin-transform-react-jsx", { "pragma":"h" }]
+              ["@babel/plugin-transform-react-jsx", { "pragma": "h" }]
             ]
           }
         }
