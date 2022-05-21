@@ -17,8 +17,8 @@ function Background() { }
 Background.init = function () {
   Background.updateAlarmTime();
 
-  chrome.alarms.onAlarm.addListener(async function(alarm) {
-    if(alarm.name == I_WILL_RIL_ALARM) {
+  chrome.alarms.onAlarm.addListener(async function (alarm) {
+    if (alarm.name == I_WILL_RIL_ALARM) {
       await refreshItems()
     }
   })
@@ -125,34 +125,32 @@ Background._startListeners = function () {
 
 Background.updateAlarmTime = async function () {
   const settings = await getSettings();
-  chrome.alarms.clear(I_WILL_RIL_ALARM, function() {
+  chrome.alarms.clear(I_WILL_RIL_ALARM, function () {
     chrome.alarms.create(I_WILL_RIL_ALARM, {
       periodInMinutes: settings.updateIntervalInMinutes
     })
   })
 }
 
-Background.manageOnTabSelectionChanged = async function(tabid, obj) {
+Background.manageOnTabSelectionChanged = async function (tabid, obj) {
   setTimeout(async () => {
     await Background.manageSelectedTab(tabid, obj);
   }, 100)
 }
 
-Background.manageOnTabUpdated = async function(tabid, obj) {
+Background.manageOnTabUpdated = async function (tabid, obj) {
   setTimeout(async () => {
     let queryOptions = { active: true, currentWindow: true };
-    chrome.tabs.query(queryOptions, async function(tabs) {
-      if(tabs && tabs.length > 0) {
+    chrome.tabs.query(queryOptions, async function (tabs) {
+      if (tabs && tabs.length > 0) {
         const tab = tabs[0]
-        if(tab.id == tabid) {
+        if (tab.id == tabid) {
           await Background.manageSelectedTab(tabid, obj);
         }
       }
 
     });
   })
-
-
 }
 
 Background.manageSelectedTab = async function (tabid, obj) {
@@ -163,7 +161,7 @@ Background.manageSelectedTab = async function (tabid, obj) {
   }
 
   chrome.tabs.get(tabid, async function (tab) {
-    if(!tab) {
+    if (!tab) {
       return
     }
     const list = await fetchItemsFromCache() || [];
@@ -175,9 +173,9 @@ Background.manageSelectedTab = async function (tabid, obj) {
           title: "Mark as Read",
           onclick: async (info, tab) => {
             const settings = await getSettings();
-            if(settings.deleteInsteadArchive) {
+            if (settings.deleteInsteadArchive) {
               await deleteItemOnPocket(obj.item_id);
-            }else {
+            } else {
               await markAsRead(obj.item_id);
             }
             Background.manageSelectedTab(tabid, obj)

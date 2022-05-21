@@ -30,7 +30,8 @@ class App extends Component {
       this.setState({ settings })
       const message = { msg: events.FETCH_ITEMS_FROM_CACHE }
       chrome.runtime.sendMessage(message, (response) => {
-        if (response.success && response.payload && response.payload.length > 0) {
+        const areThereAnyItemsInCache = response.success && response.payload && response.payload.length > 0;
+        if (areThereAnyItemsInCache) {
           self.setState({ items: response.payload, loading: false })
         } else {
           self._handleSyncItems()
@@ -109,7 +110,7 @@ class App extends Component {
   }
 
   _renderListBody() {
-    if(this.state.loading) {
+    if (this.state.loading) {
       return (
         <div className="iwillril-table-container">
           <div class='loading-container'>Loading ...</div>
@@ -117,13 +118,13 @@ class App extends Component {
       )
 
     }
-   return (
-     <List
-       items={this.state.items || []}
-       settings={this.state.settings}
-       handleMarkItemAsRead={this._handleMarkItemAsRead}
-     ></List>
-   )
+    return (
+      <List
+        items={this.state.items || []}
+        settings={this.state.settings}
+        handleMarkItemAsRead={this._handleMarkItemAsRead}
+      ></List>
+    )
   }
 
   render() {
