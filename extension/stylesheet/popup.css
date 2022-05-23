@@ -1,6 +1,7 @@
 body {
   margin: 0;
 }
+
 .btn {
   display: inline-block;
   padding: 0.35em 1.2em;
@@ -80,6 +81,7 @@ body {
 .mark-as-read-btn {
   cursor: pointer;
 }
+
 .mark-as-read-img {
   height: 20px;
 }
@@ -89,8 +91,9 @@ body {
 }
 
 .item-tr {
-  cursor: pointer
+  cursor: pointer;
 }
+
 .item-tr:hover {
   background-color: #eeeeee;
 }
@@ -120,4 +123,3 @@ body {
   overflow: hidden;
   display: block;
 }
-
