@@ -2,6 +2,7 @@
 *json~
 *js~
 *.swp
+*.DS_Store
 background.html~
 popup.html~
 options.html~
