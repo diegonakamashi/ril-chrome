@@ -27,12 +27,4 @@ jobs:
           filename: 'new_extension_version.zip'
           directory: 'extension'
         
-      
-      - name: Upload Release
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: 'extension/new_extension_version.zip'
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-
 
