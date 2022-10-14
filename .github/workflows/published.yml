@@ -7,7 +7,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      
+
       - name: Setup node
         uses: actions/setup-node@v3
         with:
@@ -15,16 +15,24 @@ jobs:
           cache: npm
 
       - name: Install
-        run: npm ci     
-      
+        run: npm ci
+
       - name: Build
-        run: npm run build   
+        run: npm run build
 
       - name: Archive Release
         uses: thedoctor0/zip-release@main
         with:
-          type: 'zip'
-          filename: 'new_extension_version.zip'
-          directory: 'extension'
-        
+          type: "zip"
+          filename: "new_extension_version.zip"
+          directory: "extension"
 
+      - name: Upload Extension
+        uses: Klemensas/chrome-extension-upload-action@$VERSION
+        with:
+          refresh-token: ${{ secrets.REFRESH_TOKEN }}
+          client-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+          file-name: "new_extension_version.zip"
+          app-id: ${{ secrets.EXTENSION_ID }}
+          publish: false
