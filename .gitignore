@@ -10,4 +10,5 @@ layout_test.html
 node_modules/
 dist/
 .idea
+.vscode
 .env
