@@ -2,7 +2,7 @@ name: Publish chrome extension
 run-name: Publishing 🚀
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
+  Publishing-New-Version:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
