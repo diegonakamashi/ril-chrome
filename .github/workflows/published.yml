@@ -1,5 +1,5 @@
 name: Publish chrome extension
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+run-name: Publishing 🚀
 on: [push]
 jobs:
   Explore-GitHub-Actions:
@@ -30,9 +30,9 @@ jobs:
       - name: Upload to Chrome Web Store
         uses: mobilefirstllc/cws-publish@latest
         with:
-          action: 'upload' 
+          action: "upload"
           client_id: ${{ secrets.CLIENT_ID }}
           client_secret: ${{ secrets.CLIENT_SECRET }}
           refresh_token: ${{ secrets.REFRESH_TOKEN }}
           extension_id: ${{ secrets.EXTENSION_ID }}
-          zip_file: 'extension/new_extension_version.zip'
+          zip_file: "extension/new_extension_version.zip"
