@@ -1,6 +1,6 @@
 {
   "name": "IwillriL - Unnoficial Pocket Client",
-  "version": "2.6.3",
+  "version": "2.6.4",
   "description": "Unnoficial Pocket Client Extension for Google Chrome",
   "options_page": "html/options.html",
   "browser_action": {
