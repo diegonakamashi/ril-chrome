@@ -10,9 +10,9 @@ module.exports = {
     oauthcallback: './src/oauthcallback.js',
     myscript: './src/myscript.js'
   },
-  plugins: [
+  plugins: process.env.NODE_ENV === 'development' ?  [
     new Dotenv()
-  ],
+  ] : [],
   devtool: 'inline-source-map',
   module: {
     rules: [
