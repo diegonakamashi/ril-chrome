@@ -28,7 +28,7 @@ jobs:
           directory: "extension"
 
       - name: Upload to Chrome Web Store
-        uses: Klemensas/chrome-extension-upload-action@v1.4.1
+        uses: Passiverecords/chrome-extension-upload-action@v1.4.1
         with:
           refresh-token: ${{ secrets.REFRESH_TOKEN }}
           client-id: ${{ secrets.CLIENT_ID }}
