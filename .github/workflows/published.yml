@@ -19,6 +19,8 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          CONSUMER_KEY: ${{ secrets.POCKET_CONSUMER_KEY }}
 
       - name: Archive Release
         uses: thedoctor0/zip-release@main
@@ -33,6 +35,6 @@ jobs:
           refresh-token: ${{ secrets.REFRESH_TOKEN }}
           client-id: ${{ secrets.CLIENT_ID }}
           client-secret: ${{ secrets.CLIENT_SECRET }}
-          file-name: "./extension/new_extension_version.zip"
+          file-name: "new_extension_version.zip"
           app-id: ${{ secrets.EXTENSION_ID }}
           publish: false
