@@ -28,11 +28,11 @@ jobs:
           directory: "extension"
 
       - name: Upload to Chrome Web Store
-        uses: mobilefirstllc/cws-publish@latest
+        uses: Klemensas/chrome-extension-upload-action@$VERSION
         with:
-          action: "upload"
-          client_id: ${{ secrets.CLIENT_ID }}
-          client_secret: ${{ secrets.CLIENT_SECRET }}
-          refresh_token: ${{ secrets.REFRESH_TOKEN }}
-          extension_id: ${{ secrets.EXTENSION_ID }}
-          zip_file: "extension/new_extension_version.zip"
+          refresh-token: ${{ secrets.REFRESH_TOKEN }}
+          client-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+          file-name: "./extension/new_extension_version.zip"
+          app-id: ${{ secrets.EXTENSION_ID }}
+          publish: false
