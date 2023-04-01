@@ -35,6 +35,6 @@ jobs:
           refresh-token: ${{ secrets.REFRESH_TOKEN }}
           client-id: ${{ secrets.CLIENT_ID }}
           client-secret: ${{ secrets.CLIENT_SECRET }}
-          file-name: "new_extension_version.zip"
+          file-name: "./extension/new_extension_version.zip"
           app-id: ${{ secrets.EXTENSION_ID }}
           publish: false
