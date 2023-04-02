@@ -12,7 +12,11 @@ module.exports = {
   },
   plugins: process.env.NODE_ENV === 'development' ?  [
     new Dotenv()
-  ] : [],
+  ] : [
+    new webpack.DefinePlugin({
+      'process.env.CONSUMER_KEY': JSON.stringify(process.env.CONSUMER_KEY),
+    }),
+  ],
   devtool: 'inline-source-map',
   module: {
     rules: [
