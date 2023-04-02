@@ -1,6 +1,8 @@
 name: Publish chrome extension
 run-name: Publishing 🚀
-on: [push]
+on:
+  release:
+    types: [published]
 jobs:
   Publishing-New-Version:
     runs-on: ubuntu-latest
