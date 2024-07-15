@@ -37,12 +37,19 @@ Api.addItem = function (addurl, title) {
 }
 
 
-Api.getList = function () {
+Api.getList = function (params) {
+  var state = params.state || "unread";
+  var count = params.count || 30;
+  var offset = params.offset || 0;
+
   var url = "https://getpocket.com/v3/get";
   var params = {
     "consumer_key": CONSUMER_KEY,
     "access_token": localStorage['access_token'],
-    "sort": "newest"
+    "state": state,
+    "sort": "newest",
+    "count": count,
+    "offset": offset
   }
 
   return Api._postRequest(url, params);

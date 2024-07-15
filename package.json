@@ -1,6 +1,6 @@
 {
   "name": "ril-chrome",
-  "version": "2.6.6",
+  "version": "2.6.9",
   "description": "Unnoficial Pocket Client",
   "main": "index.js",
   "scripts": {

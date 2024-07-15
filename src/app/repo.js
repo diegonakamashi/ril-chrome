@@ -31,17 +31,28 @@ export function fetchItemsFromCache(params = {}) {
 export function fetchItems() {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await Api.getList()
-      const items = []
-      for (var key in response.list) {
-        items.push(response.list[key]);
-      }
+      const items = await _fetchAllItemsWithOffset();
       localStorage['ITEMS'] = JSON.stringify(items);
       resolve(items)
     } catch (e) {
       reject(e)
     }
   })
+}
+
+async function _fetchAllItemsWithOffset() {
+  let items = []
+  let offset = 0
+  let count = 30
+  let response = null
+  do {
+    response = await Api.getList({ offset, count })
+    for (var key in response.list) {
+      items.push(response.list[key]);
+    }
+    offset = items.length
+  } while (Object.keys(response.list).length == count && offset < 500)
+  return items
 }
 
 export function archiveItem(itemId) {
